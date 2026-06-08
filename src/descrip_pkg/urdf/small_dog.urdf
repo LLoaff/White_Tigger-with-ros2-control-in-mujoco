@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot
+  name="small_dog">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0202825648779209 0.00066399148366843 2.08163842322154E-05"
+        rpy="0 0 0" />
+      <mass
+        value="2.11560755195777" />
+      <inertia
+        ixx="0.00283348196517692"
+        ixy="-3.63304992055239E-08"
+        ixz="-3.77252578412089E-06"
+        iyy="0.00400837898156451"
+        iyz="1.97892098761945E-08"
+        izz="0.00555662908484962" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/base_link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.36078431372549 0.968627450980392 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.02"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.22 0.16 0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="fr_hip_Link">
+    <inertial>
+      <origin
+        xyz="0.0513844005518793 0.000260067781262613 4.15397224372283E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.34043723566789" />
+      <inertia
+        ixx="0.000103445352227602"
+        ixy="-1.13857930204677E-05"
+        ixz="-7.32952869851593E-08"
+        iyy="0.000171201826046318"
+        iyz="3.21816930032332E-08"
+        izz="0.000127555055243353" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fr_hip_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.454901960784314 0.490196078431373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.01 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.03 0.04 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_hip_joint"
+    type="revolute">
+    <origin
+      xyz="0.1253 -0.039269 -0.004"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="fr_hip_Link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="fr_thigh_Link">
+    <inertial>
+      <origin
+        xyz="-0.00013781 -0.033735 -0.0050592"
+        rpy="0 0 0" />
+      <mass
+        value="0.33864" />
+      <inertia
+        ixx="0.00014987"
+        ixy="-3.5914E-07"
+        ixz="-4.6444E-06"
+        iyy="0.00020094"
+        iyz="9.6502E-08"
+        izz="8.7105E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fr_thigh_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.80392 0.73725 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fr_thigh_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="0.059 -0.0265 0"
+      rpy="0 0 0" />
+    <parent
+      link="fr_hip_Link" />
+    <child
+      link="fr_thigh_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="fr_calf_Link">
+    <inertial>
+      <origin
+        xyz="0.00855914102627567 3.23080667899434E-06 -0.0746260107039505"
+        rpy="0 0 0" />
+      <mass
+        value="0.0301718861700051" />
+      <inertia
+        ixx="6.61532600121639E-05"
+        ixy="6.02399349934326E-10"
+        ixz="3.62478539107652E-06"
+        iyy="6.72679989979563E-05"
+        iyz="-4.15452693777879E-09"
+        izz="1.75951421998646E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fr_calf_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.588235294117647 0.874509803921569 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fr_calf_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_calf_joint"
+    type="revolute">
+    <origin
+      xyz="0 -0.06105 -0.12"
+      rpy="0 0 0" />
+    <parent
+      link="fr_thigh_Link" />
+    <child
+      link="fr_calf_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="fr_foot_Link">
+    <inertial>
+      <origin
+        xyz="0.0084359 5.3743E-06 0.050364"
+        rpy="0 0 0" />
+      <mass
+        value="0.017747" />
+      <inertia
+        ixx="3.6811E-05"
+        ixy="6.3792E-10"
+        ixz="8.6927E-07"
+        iyy="3.7317E-05"
+        iyz="-4.1534E-09"
+        izz="1.1318E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fr_foot_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.58824 0.87451 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fr_foot_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_foot_joint"
+    type="fixed">
+    <origin
+      xyz="-3.0082E-05 0 -0.1358"
+      rpy="0 0 0" />
+    <parent
+      link="fr_calf_Link" />
+    <child
+      link="fr_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="fl_hip_Link">
+    <inertial>
+      <origin
+        xyz="0.051352 -0.00026007 4.1551E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.34044" />
+      <inertia
+        ixx="0.00010345"
+        ixy="1.1352E-05"
+        ixz="7.3295E-08"
+        iyy="0.0001712"
+        iyz="-3.2236E-08"
+        izz="0.00012756" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fl_hip_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.4549 0.4902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.01 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.03 0.04 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_hip_joint"
+    type="revolute">
+    <origin
+      xyz="0.1253 0.040731 -0.004"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="fl_hip_Link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="fl_thigh_Link">
+    <inertial>
+      <origin
+        xyz="-8.81412925022862E-05 0.0337408644279992 -0.00509346390564031"
+        rpy="0 0 0" />
+      <mass
+        value="0.338706678550711" />
+      <inertia
+        ixx="0.000150008491773502"
+        ixy="2.99586061567117E-07"
+        ixz="-4.63931045317407E-06"
+        iyy="0.000201035844409253"
+        iyz="-5.63137103135073E-08"
+        izz="8.70706110756132E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fl_thigh_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.498039215686275 0.498039215686275 0.498039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fl_thigh_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="0.059 0.0265 0"
+      rpy="0 0 0" />
+    <parent
+      link="fl_hip_Link" />
+    <child
+      link="fl_thigh_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="fl_calf_Link">
+    <inertial>
+      <origin
+        xyz="0.00857683573887588 3.23080817010712E-06 -0.074625157737458"
+        rpy="0 0 0" />
+      <mass
+        value="0.0301718861768012" />
+      <inertia
+        ixx="6.61532600146691E-05"
+        ixy="6.02395629764789E-10"
+        ixz="3.6247853934596E-06"
+        iyy="6.72679990027094E-05"
+        iyz="-4.15452449674563E-09"
+        izz="1.75951422125567E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fl_calf_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.588235294117647 0.874509803921569 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fl_calf_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_calf_joint"
+    type="revolute">
+    <origin
+      xyz="0 0.06105 -0.12"
+      rpy="0 0 0" />
+    <parent
+      link="fl_thigh_Link" />
+    <child
+      link="fl_calf_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="fl_foot_Link">
+    <inertial>
+      <origin
+        xyz="0.00846598914018792 5.37428501143355E-06 0.0503656566276244"
+        rpy="0 0 0" />
+      <mass
+        value="0.0177473871104084" />
+      <inertia
+        ixx="3.68111747036232E-05"
+        ixy="6.37914098788171E-10"
+        ixz="8.69269355653562E-07"
+        iyy="3.73168749580359E-05"
+        iyz="-4.15339373800246E-09"
+        izz="1.13184028995917E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fl_foot_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.588235294117647 0.874509803921569 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/fl_foot_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_foot_joint"
+    type="fixed">
+    <origin
+      xyz="-3.0082E-05 0 -0.1358"
+      rpy="0 0 0" />
+    <parent
+      link="fl_calf_Link" />
+    <child
+      link="fl_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="br_hip_Link">
+    <inertial>
+      <origin
+        xyz="-0.05141 0.00025902 1.5824E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.34044" />
+      <inertia
+        ixx="0.00010359"
+        ixy="1.1335E-05"
+        ixz="7.2564E-08"
+        iyy="0.0001712"
+        iyz="-1.6739E-08"
+        izz="0.00012741" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/br_hip_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.17647 0.2549 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.01 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.03 0.04 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="br_hip_joint"
+    type="revolute">
+    <origin
+      xyz="-0.1251 -0.039269 -0.004"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="br_hip_Link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="br_thigh_Link">
+    <inertial>
+      <origin
+        xyz="-0.000175864490293248 -0.0337353132715568 -0.00510917637994259"
+        rpy="0 0 0" />
+      <mass
+        value="0.338643644412202" />
+      <inertia
+        ixx="0.00014982589936667"
+        ixy="-3.4883769553751E-07"
+        ixz="-4.44001267804291E-06"
+        iyy="0.00020093723029609"
+        iyz="4.6846647473264E-08"
+        izz="8.71520914798543E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/br_thigh_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.498039215686275 0.498039215686275 0.498039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/br_thigh_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="br_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="-0.059 -0.0265 0"
+      rpy="0 0 0" />
+    <parent
+      link="br_hip_Link" />
+    <child
+      link="br_thigh_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="br_calf_Link">
+    <inertial>
+      <origin
+        xyz="0.0085892 3.2308E-06 -0.074625"
+        rpy="0 0 0" />
+      <mass
+        value="0.030172" />
+      <inertia
+        ixx="6.6153E-05"
+        ixy="6.024E-10"
+        ixz="3.6248E-06"
+        iyy="6.7268E-05"
+        iyz="-4.1545E-09"
+        izz="1.7595E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/br_calf_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.58824 0.87451 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/br_calf_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="br_calf_joint"
+    type="revolute">
+    <origin
+      xyz="-3.0082E-05 -0.06105 -0.12"
+      rpy="0 0 0" />
+    <parent
+      link="br_thigh_Link" />
+    <child
+      link="br_calf_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="br_foot_Link">
+    <inertial>
+      <origin
+        xyz="0.00843590682609976 5.37428027966302E-06 0.0503642065089495"
+        rpy="0 0 0" />
+      <mass
+        value="0.0177473871185457" />
+      <inertia
+        ixx="3.68111747069174E-05"
+        ixy="6.37916731717983E-10"
+        ixz="8.69269359716783E-07"
+        iyy="3.73168749655741E-05"
+        iyz="-4.15339581014455E-09"
+        izz="1.13184029195447E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/br_foot_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.588235294117647 0.874509803921569 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/br_foot_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="br_foot_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.135801667314578"
+      rpy="0 0 0" />
+    <parent
+      link="br_calf_Link" />
+    <child
+      link="br_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="bl_hip_Link">
+    <inertial>
+      <origin
+        xyz="-0.05141 -0.00025986 -1.6754E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.34044" />
+      <inertia
+        ixx="0.00010359"
+        ixy="-1.1336E-05"
+        ixz="-7.3958E-08"
+        iyy="0.0001712"
+        iyz="-1.6739E-08"
+        izz="0.00012741" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/bl_hip_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.17647 0.2549 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.01 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.03 0.04 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="bl_hip_joint"
+    type="revolute">
+    <origin
+      xyz="-0.1251 0.040731 -0.004"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="bl_hip_Link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="bl_thigh_Link">
+    <inertial>
+      <origin
+        xyz="-0.000174633961940202 0.0337408657110319 -0.00510805007191862"
+        rpy="0 0 0" />
+      <mass
+        value="0.338706692675785" />
+      <inertia
+        ixx="0.000149930848741881"
+        ixy="3.54613691237965E-07"
+        ixz="-4.67094547779951E-06"
+        iyy="0.000201035770090342"
+        iyz="-1.01429766023653E-07"
+        izz="8.71481801927137E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/bl_thigh_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.498039215686275 0.498039215686275 0.498039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/bl_thigh_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="bl_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="-0.059 0.0265 0"
+      rpy="0 0 0" />
+    <parent
+      link="bl_hip_Link" />
+    <child
+      link="bl_thigh_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="bl_calf_Link">
+    <inertial>
+      <origin
+        xyz="0.00858922335951964 3.23080411332444E-06 -0.0746245605958555"
+        rpy="0 0 0" />
+      <mass
+        value="0.0301718861787431" />
+      <inertia
+        ixx="6.61532600153436E-05"
+        ixy="6.02395922679604E-10"
+        ixz="3.62478539391261E-06"
+        iyy="6.72679990037208E-05"
+        iyz="-4.15452626966429E-09"
+        izz="1.75951422152838E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/bl_calf_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.588235294117647 0.874509803921569 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/bl_calf_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="bl_calf_joint"
+    type="revolute">
+    <origin
+      xyz="-3.0082E-05 0.06105 -0.12"
+      rpy="0 0 0" />
+    <parent
+      link="bl_thigh_Link" />
+    <child
+      link="bl_calf_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="20"
+      velocity="10" />
+    <dynamics
+      damping="0.1"
+      friction="0.7" />
+  </joint>
+  <link
+    name="bl_foot_Link">
+    <inertial>
+      <origin
+        xyz="0.00843590681448789 5.37428048441591E-06 0.050364206510565"
+        rpy="0 0 0" />
+      <mass
+        value="0.0177473871123503" />
+      <inertia
+        ixx="3.68111747042977E-05"
+        ixy="6.37914327322693E-10"
+        ixz="8.69269356106555E-07"
+        iyy="3.73168749590473E-05"
+        iyz="-4.15339480919244E-09"
+        izz="1.13184029023188E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/bl_foot_Link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.588235294117647 0.874509803921569 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/loaf/White_Tigger_ws/src/descrip_pkg/urdf/meshes/bl_foot_Link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="bl_foot_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.135801667308367"
+      rpy="0 0 0" />
+    <parent
+      link="bl_calf_Link" />
+    <child
+      link="bl_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

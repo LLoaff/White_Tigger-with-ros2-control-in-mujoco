@@ -1,0 +1,12 @@
+<library path = "unitree_hardware_interface">
+    <class name="unitree_hardware/UnitreeHardwareInterface"
+           type="unitree_hardware::UnitreeHardwareInterface"
+           base_class_type="hardware_interface::SystemInterface">
+        <description>
+            loaf
+        </description>
+
+    </class>
+
+
+</library>

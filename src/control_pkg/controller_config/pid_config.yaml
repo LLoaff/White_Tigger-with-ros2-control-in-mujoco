@@ -1,0 +1,121 @@
+/**:
+  ros__parameters:
+    pid_gains:
+      position:
+        fr_hip_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        fr_thigh_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        fr_calf_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+
+        fl_hip_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        fl_thigh_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        fl_calf_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+
+        br_hip_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        br_thigh_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        br_calf_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 300.0
+          u_clamp_min: -300.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+
+        bl_hip_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        bl_thigh_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 200.0
+          u_clamp_min: -200.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+        bl_calf_joint:
+          p: 300.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 300.0
+          u_clamp_min: -300.0
+          i_clamp_max: 300.0
+          i_clamp_min: -300.0
+
+      # velocity:
+      #   joint1:
+      #     p: 30.0
+      #     i: 0.1
+      #     d: 1.0
+      #     u_clamp_max: 100.0
+      #     u_clamp_min: -100.0
+      #     i_clamp_max: 10.0
+      #     i_clamp_min: -10.0
+      #   joint2:
+      #     p: 30.0
+      #     i: 0.1
+      #     d: 1.0
+      #     u_clamp_max: 100.0
+      #     u_clamp_min: -100.0
+      #     i_clamp_max: 10.0
+      #     i_clamp_min: -10.0

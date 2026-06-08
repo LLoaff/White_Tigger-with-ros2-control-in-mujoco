@@ -1,0 +1,12 @@
+<library path = "unitree_controller">
+    <class name="unitree_controller/MitControllers"
+           type="unitree_controller::MitControllers"
+           base_class_type="controller_interface::ControllerInterface">
+        <description>
+            loaf
+        </description>
+
+    </class>
+
+
+</library>
