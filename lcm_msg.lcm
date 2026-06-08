@@ -1,0 +1,11 @@
+package lcm_msg;
+
+struct lcm_vel_cmd
+{
+    int64_t state;
+    int64_t turn;
+    float vx;
+    float vy;
+    float vz;
+    float vw;
+}
