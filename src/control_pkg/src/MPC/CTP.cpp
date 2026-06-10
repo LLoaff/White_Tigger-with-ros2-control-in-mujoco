@@ -1,9 +1,8 @@
-#include "CTP.h"
+#include "MPC/CTP.h"
 
-CTP::CTP(Estimator* _est,Eigen::Matrix<double, 3, 4>& footpos, double& dt, float& _user_vx_B, float& _user_vy_B, float& _user_vz_B):
-_est(_est), _footPosGlobal(footpos),_dt(dt), _user_vx_B(_user_vx_B), _user_vy_B(_user_vy_B), _user_vz_B(_user_vz_B),_imu(&_est->getLowState()->_imu){
+CTP::CTP(Estimator* _est,Eigen::Matrix<double, 3, 4>& footpos, float& _user_vx_B, float& _user_vy_B, float& _user_vz_B):
+_est(_est), _footPosGlobal(footpos),_dt(MPC_T), _user_vx_B(_user_vx_B), _user_vy_B(_user_vy_B), _user_vz_B(_user_vz_B),_imu(&_est->getLowState()->_imu){
     w = 0.5;
-    _d_high = 0.22;
     W = Eigen::MatrixXd(4,3);
     Z = Eigen::VectorXd(4);
     A = Eigen::VectorXd(3);
@@ -42,7 +41,7 @@ void CTP::update(){
 
         if(i==0){
             _d_yaw = _imu->getYaw(); // 第一次以当前yaw为期望角
-            tfz = rotz(_d_yaw).cast<double>();
+            tfz = rotz(_d_yaw);
 
             _d_wz_O = _d_wz_B;
             _d_Wcom_O << 0,0,_d_wz_O;       // 期望偏航角速度更新
@@ -87,7 +86,7 @@ void CTP::update(){
             desirex[i]<< _d_roll,_d_pitch,_d_yaw,_Pcom_O,_imu->GetRotMat().cast<double>()*_d_Wcom_O,_d_Vcom_O,-9.81;
         }
         _d_yaw = _d_yaw + _d_wz_O * _dt; // 期望yaw更新
-        tfz = rotz(_d_yaw).cast<double>();
+        tfz = rotz(_d_yaw);
         _d_Vcom_O = tfz * _d_Vcom_B;    // 期望质心速度更新
         // std::cout<<"_d_Vcom_O: \n"<<_d_Vcom_O<<std::endl;
         _d_Pcom_O = _d_Pcom_O + _d_Vcom_O * _dt; // 期望质心位置更新
@@ -99,13 +98,14 @@ void CTP::update(){
         _d_pitch = std::asin(Tao(1));
         _d_roll = std::atan(Tao(0)/Tao(2));
 
-        desirex[i+1]<< _d_roll,_d_pitch,_d_yaw,_Pcom_O,_imu->GetRotMat().cast<double>()*_d_Wcom_O,_d_Vcom_O,-9.81;
+        desirex[i+1]<< _d_roll,_d_pitch,_d_yaw,_d_Pcom_O,_imu->GetRotMat().cast<double>()*_d_Wcom_O,_d_Vcom_O,-9.81;
     }
     for(int i(0);i<_mpc_steps; ++i){
         D.block(13*i,0,13,1) = desirex[i+1];
         //  std::cout<<"desirex: i \n"<<i+1<<" \n "<<desirex[i+1]<<std::endl;
 
     }
+    // std::cout<<"desirex: \n"<<desirex[1]<<std::endl;
 }
 
 Eigen::VectorXd * CTP::getA_addr(){

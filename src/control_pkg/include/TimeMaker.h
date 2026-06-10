@@ -21,8 +21,8 @@ inline double getTimeSecond(){
 inline void absoluteWait(IORos * ros,long long startTime, long long waitTime){
     long long currentTimeUs = static_cast<long long>(ros->get_simulation_time() * 1000000.0);
     if(currentTimeUs - startTime > waitTime){
-        // std::cout << "[WARNING] The waitTime=" << waitTime << " of function absoluteWait is not enough!" << std::endl
-        // << "The program has already cost " << currentTimeUs - startTime << "us." << std::endl;
+        std::cout << "[WARNING] The waitTime=" << waitTime << " of function absoluteWait is not enough!" << std::endl
+        << "The program has already cost " << currentTimeUs - startTime << "us." << std::endl;
     }
     while(static_cast<long long>(ros->get_simulation_time() * 1000000.0) - startTime < waitTime){
         usleep(50);

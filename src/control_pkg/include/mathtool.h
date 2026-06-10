@@ -5,12 +5,14 @@
 #include "eigen3/Eigen/Dense"
 #include <iostream>
 
-#define _labad_   0.08785
-#define _lhip_    0.12
-#define _lknee_   0.1358 
+#define _labad_   0.08785 // l1
+#define _lhip_    0.12    // l2
+#define _lknee_   0.1358  // l3
 
-#define _length_  0.1842
-#define _weigh_   0.04
+#define _length_  0.1842  // hx
+#define _weigh_   0.04    // hy
+
+#define MPC_T   0.01
 #define _mpc_steps    20
 
 /*反归一化*/
@@ -21,37 +23,37 @@ inline T1 invNormalize(const T0 value, const T1 min, const T2 max, const float m
 
 
 /*roll 转旋转矩阵*/
-inline Eigen::Matrix<float, 3, 3> rotx(const float &theta) {
+inline Eigen::Matrix<double, 3, 3> rotx(const float &theta) {
     float s = std::sin(theta);
     float c = std::cos(theta);
 
-    Eigen::Matrix<float, 3, 3> R;
+    Eigen::Matrix<double, 3, 3> R;
     R << 1, 0, 0, 0, c, -s, 0, s, c;
     return R;
 }
 
 /*yaw 转旋转矩阵*/
-inline Eigen::Matrix<float, 3, 3> rotz(const float &theta) {
+inline Eigen::Matrix<double, 3, 3> rotz(const float &theta) {
     float s = std::sin(theta);
     float c = std::cos(theta);
 
-    Eigen::Matrix<float, 3, 3> R;
+    Eigen::Matrix<double, 3, 3> R;
     R << c, -s, 0, s, c, 0, 0, 0, 1;
     return R;
 }
 
 /*pitch 转旋转矩阵*/
-inline Eigen::Matrix<float, 3, 3> roty(const float &theta) {
+inline Eigen::Matrix<double, 3, 3> roty(const float &theta) {
     float s = std::sin(theta);
     float c = std::cos(theta);
 
-    Eigen::Matrix<float, 3, 3> R;
+    Eigen::Matrix<double, 3, 3> R;
     R << c, 0, s, 0, 1, 0, -s, 0, c;
     return R;
 }
 /* 欧拉角转3x3旋转矩阵 */
-inline Eigen::Matrix<float, 3, 3> Rpy2RotMat(const float& row, const float& pitch, const float& yaw) {
-    Eigen::Matrix<float, 3, 3> m = rotz(yaw) * roty(pitch) * rotx(row);
+inline Eigen::Matrix<double, 3, 3> Rpy2RotMat(const float& row, const float& pitch, const float& yaw) {
+    Eigen::Matrix<double, 3, 3> m = rotz(yaw) * roty(pitch) * rotx(row);
     return m;
 }
 /* 旋转矩阵转欧拉角 */
@@ -136,10 +138,10 @@ inline Eigen::Matrix<float,3,1> Quat2Euler(Eigen::Matrix<float, 4, 1> q){
     return euler;
 }
 /*平衡所用旋转矩阵*/
-inline Eigen::Matrix<float, 3, 3> BalanceRPY(Eigen::Matrix<float, 4, 1> q){
-    Eigen::Matrix<float,3,1> rpy;
-    Eigen::Matrix<float, 3, 3> rotmat;
-    rpy=Quat2Euler(q);
+inline Eigen::Matrix<double, 3, 3> BalanceRPY(Eigen::Matrix<float, 4, 1> q){
+    Eigen::Matrix<double,3,1> rpy;
+    Eigen::Matrix<double, 3, 3> rotmat;
+    rpy=Quat2Euler(q).cast<double>();
     rotmat = roty(-rpy(1)) * rotx(-rpy(0));
     return rotmat;
 }

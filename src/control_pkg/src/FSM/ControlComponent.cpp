@@ -19,7 +19,11 @@ ControlComponent::ControlComponent(){
     _estimator = new Estimator(&_ioros->_state, _contact,_phase,dt);
 
     user_cmd = new UserCmd();
-    _ctp = new CTP(_estimator,waveGen->_FootPos, dt, user_cmd->_vx, user_cmd->_vy, user_cmd->_wz);
+    _ctp = new CTP(_estimator,waveGen->_FootPos, user_cmd->_vx, user_cmd->_vy, user_cmd->_wz);
+
+    _feetendcal = new FeetEndCal(_estimator,&_ioros->_state,waveGen,_ctp,*_contact);
+    _mpc = new mpc(_ctp,_estimator,waveGen,*_contact,_is_wbc_run);
+    _wbc = new wbc(_estimator,&_ioros->_state,_feetendcal,_ctp,_mpc,*_contact,_ioros,_is_wbc_run);
 
     executor.add_node(_ioros);
     spin_thread = std::thread([this]() {

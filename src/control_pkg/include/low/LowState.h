@@ -38,6 +38,8 @@ class LowState
 public:
   
     LowState();
+    Eigen::Matrix<double,12,1> getJointpos();
+    Eigen::Matrix<double,12,1> getJointvel();
 
     damiao::Motor   _motor_data[12];// 接受电机原始数据
     struct Angle_Initialization Angle_Initialization_Variable;

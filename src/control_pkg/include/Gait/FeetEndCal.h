@@ -1,16 +1,22 @@
 #ifndef FEETENDCAL_H
 #define FEETENDCAL_H
 
-#include "FSM/ControlComponent.h"
+// #include "FSM/ControlComponent.h"
 #include "low/LowState.h"
 #include "mathTypes.h"
 #include "Robot.h"
+#include "Estimator.h"
+#include "low/LowState.h"
+#include "Gait/WaveGenerator.h"
+#include "MPC/CTP.h"
 
 /*计算落脚点*/
 class FeetEndCal{
 public:
-    FeetEndCal(ControlComponent *ctrlComp);
+    FeetEndCal(Estimator* est,LowState* lowstate,WaveGenerator* wave,CTP* ctp,Eigen::Matrix<int,4,1>& contact);
     void cal(Eigen::Matrix<double,3,4>& FootdesirePos,Eigen::Matrix<double,3,4>& FootdesireVelocity,Eigen::Vector3d _dvO,double _dwz);
+
+    Eigen::Matrix<double,3,4> _FootdesirePos,_FootdesireVelocity;
 private:
     LowState *_lowState;
     Estimator *_est;

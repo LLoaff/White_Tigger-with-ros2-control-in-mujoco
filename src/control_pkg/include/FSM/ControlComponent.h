@@ -8,7 +8,10 @@
 #include <thread>
 #include "low/LowCmd.h"
 #include "IOPort/IORos.h"
-#include "CTP.h"
+#include "MPC/CTP.h"
+#include "MPC/mpc.h"
+#include "MPC/wbc.h"
+#include "Gait/FeetEndCal.h"
 
 // #include "low/servo.h"
 class ControlComponent
@@ -22,11 +25,18 @@ public:
     void setAllSwing();
     void setStartWave();
     void Estimator_Init();
-    
+    void MPCLoop();
+    void WBCLoop();
+
     UserCmd  *  user_cmd; // 获取单一实例
     Estimator * _estimator;
     QuadrupedRobot *robotModel;
-    CTP*            _ctp;       
+
+    CTP*            _ctp;
+    wbc*            _wbc;
+    mpc*            _mpc;
+    FeetEndCal *    _feetendcal;
+
     double dt;
     double _period;
     double _stancePhaseRatio;
@@ -36,11 +46,15 @@ public:
 
     // LowCmd * _ioros;
     std::shared_ptr<IORos>  _ioros;
+    
+    bool                    _is_wbc_run=false;
 
     // Servo * _servo;
 private:
     WaveStatus _waveStatus = WaveStatus::SWING_ALL;
     std::thread             spin_thread;
+    pthread_t               _wbc_thread;
+
     rclcpp::executors::MultiThreadedExecutor executor;
 
 };

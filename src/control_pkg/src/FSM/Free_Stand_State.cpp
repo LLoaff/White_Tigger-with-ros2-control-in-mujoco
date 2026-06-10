@@ -73,7 +73,7 @@ Eigen::Matrix<float,3,4> Free_Stand_State::Cal_PosinB(float roll,float pitch,flo
    // printf("roll:%.3f pitch:%.3f yaw:%.3f h:%3f\n",roll,pitch,yaw,height);
     Eigen::Matrix<float,3,1> p1b = -_pb1_pos_b;
     p1b(2)+=height;
-    Eigen::Matrix<float,3,3>rot = Rpy2RotMat(roll,pitch,yaw);
+    Eigen::Matrix<float,3,3>rot = Rpy2RotMat(roll,pitch,yaw).cast<float>();
 
     Eigen::Matrix<float, 4, 4> Tsb = homoMatrix(p1b,rot);
     Eigen::Matrix<float, 4, 4> Tbs = homoMatrixInverse(Tsb);

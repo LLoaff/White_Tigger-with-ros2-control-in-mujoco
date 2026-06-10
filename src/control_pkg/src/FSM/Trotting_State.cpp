@@ -1,8 +1,9 @@
 #include "FSM/Trotting_State.h"
 
 Trotting_State::Trotting_State(ControlComponent * ctrlComp):FSMState(ctrlComp,FSMStateName::TROTTING,"trotting"),
-_est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact),_lowstate(&ctrlComp->_ioros->_state){    
-    _feetCal = new FeetEndCal(ctrlComp);
+_est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact),_lowstate(&ctrlComp->_ioros->_state)
+,_feetCal(ctrlComp->_feetendcal){    
+    // _feetCal = new FeetEndCal(ctrlComp);
     _vxLim << -0.5, 0.5;
     _vyLim << -0.5, 0.5;
     _wyawLim << -1.0, 1.0;
@@ -24,12 +25,12 @@ void Trotting_State::enter(){
     _vCmdBody.setZero();
     _wCmdGlobal.setZero();
 
-    // _gait->restart();
     _fstate_ctrl->waveGen->reset(
         0.5,        
         0.5,        
         Vec4(0, 0.5, 0.5, 0)  
     );
+    _fstate_ctrl->_is_wbc_run = true;
     std::cout<<"trotting"<<std::endl;
 }
 
@@ -59,6 +60,7 @@ void Trotting_State::run(){
     getUserCmd(); // 计算 期望速度
     calcCmd();    // 计算位移、转动角度，获取全局速度
     _feetCal->cal(_posFeetGlobalGoal,_velFeetGlobalGoal,_vCmdGlobal,_wCmdGlobal(2));
+    // _mpc->update();
     // sendPlot((float)_posFeetGlobalGoal(0,0),(float)_posFeetGlobalGoal(1,0),(float)_posFeetGlobalGoal(2,0));
     //         //      全局 v                      全局角速度        抬腿高度
     // _gait->setGait(_vCmdGlobal.segment(0,2), _wCmdGlobal(2), _gaitHeight);
@@ -69,7 +71,7 @@ void Trotting_State::run(){
 
     // std::cout<<"next_pos:\n"<< _posFeet2BGoal<<std::endl;
     // calcTau();
-    calcQQd(); // 计算机身坐标系下 足端坐标、速度
+    // calcQQd(); // 计算机身坐标系下 足端坐标、速度
     
     // std::cout<<"_dq:\n"<< _qdGoal<< "\n"<<std::endl;
     if(checkStepOrNot()){
@@ -238,4 +240,6 @@ FSMStateName Trotting_State::CheckChange(){
 
 Trotting_State::~Trotting_State(){
     // delete _gait;
+    delete _mpc;
+    // delete _feetCal;
 }

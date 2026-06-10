@@ -1,15 +1,12 @@
 #ifndef TROTTING_STATE_H
 #define TROTTING_STATE_H
 
-#include "ControlComponent.h"
 #include "FSMState.h"
 #include "EnumClassList.h"
-// #include "Gait/GaitGenerator.h"
 #include "Reversal_solution.h"
 #include "Gait/FeetEndCal.h"
 
-#include <lcm/lcm-cpp.hpp>
-#include "plot.hpp"
+#include "lcm_msg_cpp/plot.hpp"
 
 class Trotting_State : public FSMState{
 public:
@@ -62,5 +59,6 @@ private:
     lcm::LCM *          _lcm;
     float               x,y,z;
     plot_msg_cpp::plot  _msg;
+    mpc*                _mpc;
 };
 #endif

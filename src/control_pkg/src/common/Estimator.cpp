@@ -116,7 +116,10 @@ void Estimator::run(){
     FliPbv = _feetVel2Body.segment(3,3);
     RriPbv = _feetVel2Body.segment(6,3);
     RliPbv = _feetVel2Body.segment(9,3);
-
+    iPb.col(0) = Fripb;
+    iPb.col(1) = Flipb;
+    iPb.col(2) = Rripb;
+    iPb.col(3) = Rlipb;
     _rotMatB2G = _lowstate->_imu.GetRotMat().cast<double>();
     Z << -_rotMatB2G* Fripb, - _rotMatB2G*Flipb, - _rotMatB2G*Rripb, - _rotMatB2G*Rlipb,
         -_rotMatB2G * FriPbv, -_rotMatB2G * FliPbv, -_rotMatB2G * RriPbv, -_rotMatB2G * RliPbv,

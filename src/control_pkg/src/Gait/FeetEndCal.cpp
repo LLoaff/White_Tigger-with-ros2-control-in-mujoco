@@ -1,15 +1,15 @@
 #include "Gait/FeetEndCal.h"
 
-FeetEndCal::FeetEndCal(ControlComponent *ctrlComp)
-: _est(ctrlComp->_estimator), _lowState(&ctrlComp->_ioros->_state)
-,_tsw(ctrlComp->waveGen->getTsw()),_contact(*ctrlComp->_contact)
-,A(ctrlComp->_ctp->getA_addr()),_footpos_Global(ctrlComp->waveGen->_FootPos)
+FeetEndCal::FeetEndCal(Estimator* est,LowState* lowstate,WaveGenerator* wave,CTP* ctp,Eigen::Matrix<int,4,1>& contact)
+: _est(est), _lowState(lowstate)
+,_tsw(wave->getTsw()),_footpos_Global(wave->_FootPos)
+,A(ctp->getA_addr()),_contact(contact)
 ,dfooth(0.04){
-    _Tstance  = ctrlComp->waveGen->getTstance();
-    _Tswing   = ctrlComp->waveGen->getTswing();
+    _Tstance  = wave->getTstance();
+    _Tswing   = wave->getTswing();
 
     kp = 0.15;
-    off_set = -0.02;
+    off_set = -0.01;
     SymPb1 << _length_ + off_set,-_weigh_-_labad_,0;
     SymPb2 << _length_ + off_set, _weigh_+_labad_,0;
     SymPb3 << -_length_ + off_set,-_weigh_-_labad_,0;
@@ -73,7 +73,9 @@ void FeetEndCal::cal(Eigen::Matrix<double,3,4>& FootdesirePos,Eigen::Matrix<doub
         else{
             FootdesireVelocity.col(i).setZero();
         }
+        
     }
-
+    _FootdesirePos = FootdesirePos;
+    _FootdesireVelocity = FootdesireVelocity;
     // std::cout<<"_footPos:\n"<< _footPos<<std::endl;
 }

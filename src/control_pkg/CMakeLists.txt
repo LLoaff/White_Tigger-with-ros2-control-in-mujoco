@@ -27,15 +27,17 @@ find_package(motor_control_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
 add_executable(start src/start.cpp 
-src/common/BalanceCtrl.cpp src/common/Estimator.cpp src/common/Imu.cpp src/common/LowPassFilter.cpp src/common/Robot.cpp  
+src/common/Estimator.cpp src/common/Imu.cpp src/common/LowPassFilter.cpp src/common/Robot.cpp  
 src/FSM/ControlComponent.cpp src/FSM/Free_Stand_State.cpp src/FSM/Free_State.cpp src/FSM/FSM.cpp src/FSM/FSMState.cpp
 src/FSM/Passive_State.cpp src/FSM/Stand_State.cpp src/FSM/Trotting_State.cpp src/FSM/UserCmd.cpp src/FSM/Sit_Down_State.cpp
-src/Gait/FeetEndCal.cpp src/Gait/GaitGenerator.cpp src/Gait/WaveGenerator.cpp
+src/Gait/FeetEndCal.cpp  src/Gait/WaveGenerator.cpp # src/Gait/GaitGenerator.cpp
 src/low/LowCmd.cpp src/low/LowState.cpp
 src/math/Kenimatics_normal_solution.cpp src/math/Reversal_solution.cpp
 src/damiao_SDK/damiao.cpp
 src/IOPort/IORos.cpp
-src/common/CTP.cpp
+src/MPC/CTP.cpp
+src/MPC/mpc.cpp
+src/MPC/wbc.cpp
 )
 
 include_directories(
@@ -43,6 +45,7 @@ include_directories(
     /usr/local/include/CSerialPort
     /usr/include/glib-2.0
     /usr/lib/x86_64-linux-gnu/glib-2.0/include
+    /usr/include/qpOASES
 )
 
 ament_target_dependencies(start
@@ -57,6 +60,7 @@ ament_target_dependencies(start
 target_link_libraries(
 start
 quadprog
+qpOASES
 pthread
 /usr/local/lib/libcserialport.so
 /usr/lib/x86_64-linux-gnu/liblcm.so

@@ -23,6 +23,7 @@ public:
     Eigen::Vector3d getPcom();
     Eigen::Vector3d getVcom();
 
+    Eigen::Matrix<double,3,4>   iPb;
 private:
 
     Eigen::Matrix<double,18,18> A;
@@ -49,7 +50,6 @@ private:
 
     Eigen::Vector3d Flipb, Fripb, Rlipb, Rripb;
     Eigen::Vector3d FliPbv, FriPbv, RliPbv, RriPbv;
-
     Eigen::Vector3d _pcom;
     Eigen::Vector3d _vcom;
 

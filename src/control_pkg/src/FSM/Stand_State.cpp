@@ -57,7 +57,7 @@ void Stand_State::enter()
     // _target_angle = Reversal_GetQ(_target_xyz.cast<double>(),FrameType::BODY).cast<float>();
     _start_xyz =vec34ToVec12(GetFeetPos2BODY(_fstate_ctrl->_ioros->_state,FrameType::HIP).cast<float>());
     _fstate_ctrl->setAllStance();
-
+    _fstate_ctrl->_is_wbc_run = false;
    std::cout<<"stand"<<std::endl;     
 
 }
@@ -78,7 +78,7 @@ void Stand_State::run(){
     pos= (1-_percent)*_start_xyz + _percent*_target_xyz;
     target_q = (1-_percent)*_start_angle + _percent*_target_angle;
     
-    tau =CalTaus(q,w,_KP,_KD,_target_xyz,_target_speed,FrameType::HIP);
+    // tau =CalTaus(q,w,_KP,_KD,_target_xyz,_target_speed,FrameType::HIP);
     // std::cout<<"q: \n"<< _fstate_ctrl->_ioros->getQ12() <<std::endl;
     
     // if(_percent != 1){
@@ -87,6 +87,7 @@ void Stand_State::run(){
     // std::cout<< "target_q\n"<< target_q <<std::endl;
     
     _fstate_ctrl->_ioros->SetQ(target_q);
+    // std::cout<<"h: "<<_fstate_ctrl->_estimator->getPcom()(2)<<std::endl;
     // _fstate_ctrl->_ioros->SetTau(tau);
     // std::cout<< "tau:\n"<< tau <<"---"<<std::endl;
     // std::cout<< "stand"<<std::endl;
