@@ -8,10 +8,7 @@
 #include <thread>
 #include "low/LowCmd.h"
 #include "IOPort/IORos.h"
-#include "MPC/CTP.h"
-#include "MPC/mpc.h"
-#include "MPC/wbc.h"
-#include "Gait/FeetEndCal.h"
+#include "BalanceCtrl.h"
 
 // #include "low/servo.h"
 class ControlComponent
@@ -25,17 +22,13 @@ public:
     void setAllSwing();
     void setStartWave();
     void Estimator_Init();
-    void MPCLoop();
-    void WBCLoop();
 
     UserCmd  *  user_cmd; // 获取单一实例
     Estimator * _estimator;
     QuadrupedRobot *robotModel;
 
-    CTP*            _ctp;
-    wbc*            _wbc;
-    mpc*            _mpc;
-    FeetEndCal *    _feetendcal;
+    // FeetEndCal *    _feetendcal;
+    BalanceCtrl *_balCtrl;
 
     double dt;
     double _period;

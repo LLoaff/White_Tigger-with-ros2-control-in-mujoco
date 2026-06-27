@@ -86,6 +86,7 @@ void Estimator::init(){
 void Estimator::run(){
     _feetPosBodyKine = GetFeetPos2BODY(*_lowstate,FrameType::BODY);
     _feetVelGlobalKine = GetFeetSpeed2BODY(*_lowstate,FrameType::GLOBAL);
+    _rotMatB2G = _lowstate->_imu.GetRotMat().cast<double>();
     U<<0,0,-9.81;
     // std::cout<<"U: \n"<<U<<std::endl;
 
@@ -105,7 +106,7 @@ void Estimator::run(){
             R.block(12+3*i, 12+3*i, 3, 3) = iden3;
             R.block(24+i, 24+i, 1, 1) = Onemat;
         }
-        _feetPos2Body.segment(3*i,3) = _feetPosBodyKine.col(i);
+        _feetPos2Body.segment(3*i,3) = _rotMatB2G * _feetPosBodyKine.col(i);
         _feetVel2Body.segment(3*i,3) = _feetVelGlobalKine.col(i);
     }
     Fripb = _feetPos2Body.segment(0,3);
@@ -120,9 +121,8 @@ void Estimator::run(){
     iPb.col(1) = Flipb;
     iPb.col(2) = Rripb;
     iPb.col(3) = Rlipb;
-    _rotMatB2G = _lowstate->_imu.GetRotMat().cast<double>();
-    Z << -_rotMatB2G* Fripb, - _rotMatB2G*Flipb, - _rotMatB2G*Rripb, - _rotMatB2G*Rlipb,
-        -_rotMatB2G * FriPbv, -_rotMatB2G * FliPbv, -_rotMatB2G * RriPbv, -_rotMatB2G * RliPbv,
+    Z << - Fripb, - Flipb, - Rripb, - Rlipb,
+        -  FriPbv, -  FliPbv, -  RriPbv, -  RliPbv,
         0, 0, 0, 0;
    
     _X = A * X + B * U;
@@ -155,17 +155,17 @@ Eigen::Matrix<double, 3, 1>  Estimator::getVelocity(){
     // return v;
 }
 Eigen::Matrix<double, 3, 1>  Estimator::getFootPos(int i){
-    return getPosition() + _lowstate->_imu.GetRotMat().cast<double>() * GetFeetPos2BODY(*_lowstate, i, FrameType::BODY);
+    return  getPosition() + _lowstate->_imu.GetRotMat().cast<double>() * GetFeetPos2BODY(*_lowstate, i, FrameType::BODY);
 }
 Eigen::Matrix<double, 3, 4> Estimator::getFeetPos(){
     Eigen::Matrix<double, 3, 4> feetPos;
-    // for(int i(0); i < 4; ++i){
-    //     feetPos.col(i) = getFootPos(i);
-    // }
-    feetPos.block(0,0,3,1) = X.block(6, 0, 3, 1);
-    feetPos.block(0,1,3,1) = X.block(9, 0, 3, 1);
-    feetPos.block(0,2,3,1) = X.block(12, 0, 3, 1);
-    feetPos.block(0,3,3,1) = X.block(15, 0, 3, 1);
+    for(int i(0); i < 4; ++i){
+        feetPos.col(i) = getFootPos(i);
+    }
+    // feetPos.block(0,0,3,1) = X.block(6, 0, 3, 1);
+    // feetPos.block(0,1,3,1) = X.block(9, 0, 3, 1);
+    // feetPos.block(0,2,3,1) = X.block(12, 0, 3, 1);
+    // feetPos.block(0,3,3,1) = X.block(15, 0, 3, 1);
     return feetPos;
 }
 Eigen::Matrix<double, 3, 4> Estimator::getFeetVel(){

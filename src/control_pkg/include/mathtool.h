@@ -12,9 +12,6 @@
 #define _length_  0.1842  // hx
 #define _weigh_   0.04    // hy
 
-#define MPC_T   0.01
-#define _mpc_steps    20
-
 /*反归一化*/
 template<typename T0, typename T1, typename T2>
 inline T1 invNormalize(const T0 value, const T1 min, const T2 max, const float minLim = -1, const float maxLim = 1){

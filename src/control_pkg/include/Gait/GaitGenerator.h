@@ -11,7 +11,7 @@
 class GaitGenerator{
 public:
     GaitGenerator(ControlComponent *ctrlComp);
-    void setGait(Vec2 vxyGoalGlobal, float dYawGoal, float gaitHeight);
+    void setGait(Vec2 vxyGoalBody, float dYawGoal, float gaitHeight,RotMat G2B);
     void run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio,FSMStateName state_name);
     Vec3 getFootPos(int i);
     Vec3 getFootVel(int i);

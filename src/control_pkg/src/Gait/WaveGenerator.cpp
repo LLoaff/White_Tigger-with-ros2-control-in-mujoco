@@ -47,21 +47,10 @@ void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias) {
     _statusPast = WaveStatus::SWING_ALL;
     _switchStatus.setZero();
 }
-// 步态切换控制器 
-void WaveGenerator::calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status,Eigen::Matrix<double,3,4> footPos){
-    calcWave(_phase, _contact, status);
 
-    // 如果处于支撑相，就刷新该腿位置 
-    for(int i(0);i<4;++i){
-        if(_contact(i)==1){
-            _FootPos.col(i) = footPos.col(i);
-            _tsw[i] = 0;
-        }
-        else if(_contact(i)==0){
-            _tsw[i] = _phase[i];
-        }
-        // std::cout<<"_tsw: "<< i <<" : "<<_tsw[i]<<std::endl;
-    }
+// 步态切换控制器 
+void WaveGenerator::calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status){
+    calcWave(_phase, _contact, status);
 
     if (status != _statusPast)
     {

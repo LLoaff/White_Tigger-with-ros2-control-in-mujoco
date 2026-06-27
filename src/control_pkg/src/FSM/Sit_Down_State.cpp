@@ -11,8 +11,8 @@ void Sit_Down_State::enter()
     dq<< 0, 0, 0;
     tau<< 0 , 0 ,0;
 
-    kp<< 3.1 , 3.5 , 3.7;
-    kd<< 0.3 , 0.3 , 0.3;
+    kp<< 31 , 35 , 37;
+    kd<< 5 , 5 , 5;
 
     _target_angle(0) = _fstate_ctrl->_ioros->_state.Angle_Initialization_Variable.fr_hip_joint;
     _target_angle(1) = _fstate_ctrl->_ioros->_state.Angle_Initialization_Variable.fr_thigh_joint;

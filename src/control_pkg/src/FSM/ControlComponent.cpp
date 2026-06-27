@@ -6,10 +6,10 @@ ControlComponent::ControlComponent(){
     *_contact = Eigen::Matrix<int,4,1>(0,0,0,0);
     *_phase = Eigen::Matrix<double,4,1>(0.5,0.5,0.5,0.5);
     robotModel = new QuadrupedRobot();     
-
+    _balCtrl = new BalanceCtrl();
     // _servo = new Servo(18);
     // _ioros = new LowCmd();
-    dt = 0.003;    
+    dt = 0.001;    
     _period = 0.5;
     _stancePhaseRatio = 0.5;
 
@@ -19,11 +19,6 @@ ControlComponent::ControlComponent(){
     _estimator = new Estimator(&_ioros->_state, _contact,_phase,dt);
 
     user_cmd = new UserCmd();
-    _ctp = new CTP(_estimator,waveGen->_FootPos, user_cmd->_vx, user_cmd->_vy, user_cmd->_wz);
-
-    _feetendcal = new FeetEndCal(_estimator,&_ioros->_state,waveGen,_ctp,*_contact);
-    _mpc = new mpc(_ctp,_estimator,waveGen,*_contact,_is_wbc_run);
-    _wbc = new wbc(_estimator,&_ioros->_state,_feetendcal,_ctp,_mpc,*_contact,_ioros,_is_wbc_run);
 
     executor.add_node(_ioros);
     spin_thread = std::thread([this]() {
@@ -33,11 +28,8 @@ ControlComponent::ControlComponent(){
 }
 
 void ControlComponent::runWaveGen(){
-    // Eigen::Matrix<double,3,4> footPos = GetFeetPos2BODY(this->_ioros->_state,FrameType::BODY);
-    Eigen::Matrix<double,3,4> footPos = this->_estimator->getFeetPos(); // 获取足端位置 global
 
-    waveGen->calcContactPhase(*_phase, *_contact, _waveStatus, footPos);
-    _ctp->update();
+    waveGen->calcContactPhase(*_phase, *_contact, _waveStatus);
 }
 
 void ControlComponent::setAllStance(){
@@ -69,4 +61,5 @@ ControlComponent::~ControlComponent(){
     // delete _servo;
     // delete _ioros;
     delete user_cmd;
+    delete _balCtrl;
 }

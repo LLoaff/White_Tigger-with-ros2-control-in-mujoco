@@ -24,12 +24,12 @@ void Free_State::run()
 {
 
     //std::cout<<"q: \n"<< _fstate_ctrl->_ioros->getQ12() <<std::endl;
-    Eigen::Matrix<float,12,1> q = _fstate_ctrl->_ioros->getQ12();
-    for(int i=0;i<4;i++){
-        std::cout<<"leg"<<i<<": \n"<<GetPos_B(i,q(3*i+0),q(3*i+1),q(3*i+2))<<std::endl;
-        // std::cout<<"q: \n"<<q<<std::endl;
+    // Eigen::Matrix<float,12,1> q = _fstate_ctrl->_ioros->getQ12();
+    // for(int i=0;i<4;i++){
+    //     std::cout<<"leg"<<i<<": \n"<<GetPos_B(i,q(3*i+0),q(3*i+1),q(3*i+2))<<std::endl;
+    //     // std::cout<<"q: \n"<<q<<std::endl;
 
-    }
+    // }
 }
 
 void Free_State::exit()

@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/opt/ros/humble/include/**"
+                "/opt/ros/humble/include/**",
+                "/home/loaf/White_Tigger_ws/src/control_pkg/include/**",
+                "${workspaceFolder}/build/motor_control_msgs/rosidl_generator_cpp"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

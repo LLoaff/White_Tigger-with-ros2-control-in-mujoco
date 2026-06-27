@@ -145,8 +145,9 @@ Eigen::Matrix<double,3,4> GetFeetSpeed2BODY(LowState &lowstate , FrameType frame
                                lowstate._motor_state[3*i+0].dq,lowstate._motor_state[3*i+1].dq,lowstate._motor_state[3*i+2].dq).cast<double>();
     }
     if(frame == FrameType::GLOBAL){
-        Eigen::Matrix<double,3,4>  pos = GetFeetPos2BODY(lowstate,FrameType::GLOBAL);
-        vel += skew(lowstate._imu.GetGyro().cast<double>()) * pos;     // skew是反对称矩阵，实现叉乘  速度 = 线速度+绕轴旋转角速度
+        Eigen::Matrix<double,3,4> posBody = GetFeetPos2BODY(lowstate, FrameType::BODY);
+        vel += skew(lowstate._imu.GetGyro().cast<double>()) * posBody;
+        vel = lowstate._imu.GetRotMat().cast<double>() * vel;
     }
     else if((frame == FrameType::BODY) || (frame == FrameType::HIP)){
     }
@@ -264,5 +265,4 @@ Eigen::Matrix<double,12,1> getTau(const Eigen::Matrix<float,12,1> &q, const Eige
     }
     return tau;
 }
-
 

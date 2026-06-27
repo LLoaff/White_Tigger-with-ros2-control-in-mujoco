@@ -35,11 +35,11 @@ public:
     uint8_t             _srerial_data[52];
     RC_Ctl_t            R_Data;
     Imu*                 _imu;
-    int                 _state;
-    int                 _turn;
-    float               _vx;
-    float               _vy;
-    float               _wz;
+    int                 _state=0;
+    int                 _turn=0;
+    float               _vx=0;
+    float               _vy=0;
+    float               _wz=0;
 private:
     lcm::LCM *          _lcm;
     void handleMessage(const lcm::ReceiveBuffer* rbuf, const std::string& chan, const lcm_msg::lcm_vel_cmd* msg);

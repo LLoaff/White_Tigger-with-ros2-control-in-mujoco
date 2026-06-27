@@ -25,7 +25,7 @@ void Passive_State::enter()
         _fstate_ctrl->_ioros->SetZeroP();
     }
 
-    _fstate_ctrl->setAllSwing();
+    _fstate_ctrl->setAllStance();
    std::cout<<"passive"<<std::endl;     
 }
 

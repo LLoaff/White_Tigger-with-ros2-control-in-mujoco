@@ -3,12 +3,19 @@
 
 Imu::Imu()
 {
+    Imu_Initial();
 }
 void Imu::Imu_Initial(){
     this->quaternion[0] = 1;
     this->quaternion[1] = 0;
     this->quaternion[2] = 0;
     this->quaternion[3] = 0;
+    this->gyroscope[0] = 0;
+    this->gyroscope[1] = 0;
+    this->gyroscope[2] = 0;
+    this->accelerometer[0] = 0;
+    this->accelerometer[1] = 0;
+    this->accelerometer[2] = 9.81;
 }
 void Imu::Imu_Update(){
     // std::cout<<"quan 0: "<<quaternion[0]<<" quan 1: "<<quaternion[1]<<" quan 2: "<<quaternion[2]<<" quan 3: "<<quaternion[3]<<std::endl;

@@ -174,7 +174,7 @@ Vec3 calcQd(int legid,Vec3 pEe, Vec3 vEe, FrameType frame){
     if(frame == FrameType::BODY){
          q = Reversal_Update_B(legid,(float)pEe(0),(float)pEe(1),(float)pEe(2)).cast<double>();
     }
-    return -(calcJaco(legid,q.cast<float>()).inverse() * vEe);
+    return calcJaco(legid,q.cast<float>()).inverse() * vEe;
 } 
 
 Vec12 Reversal_GetQd(const Vec34 &pos, const Vec34 &vel, FrameType frame){

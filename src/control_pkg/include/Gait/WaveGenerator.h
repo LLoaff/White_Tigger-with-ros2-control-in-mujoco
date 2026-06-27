@@ -11,7 +11,7 @@
 class WaveGenerator{
 public:
     WaveGenerator(double period, double stancePhaseRatio, Vec4 bias);// period:步态周期 stancePhaseRatio：触地系数 bias：偏移时间b与p的比值
-    void calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status,Eigen::Matrix<double,3,4> footPos);//计算相位和接触状态
+    void calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status);//计算相位和接触状态
     float getTstance();// 返回触地时长
     float getTswing(); // 返回腾空时长
     float getT();      // 返回步态周期P
