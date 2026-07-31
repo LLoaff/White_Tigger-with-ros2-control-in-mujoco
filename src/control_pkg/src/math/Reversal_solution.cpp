@@ -1,20 +1,20 @@
 #include "Reversal_solution.h"
 
-inline float clamp(float val, float min_val, float max_val) {
+inline double clamp(double val, double min_val, double max_val) {
     if (val < min_val) return min_val;
     if (val > max_val) return max_val;
     return val;
 }
 
-float q1_ik(float py, float pz, float l1){
-    float q1;
-    float L = sqrt(pow(py,2)+pow(pz,2)-pow(l1,2));
+double q1_ik(double py, double pz, double l1){
+    double q1;
+    double L = sqrt(pow(py,2)+pow(pz,2)-pow(l1,2));
     q1 = atan2(pz*l1+py*L, py*l1-pz*L);
     return q1;
 }
 
-float q3_ik(float b3z, float b4z, float b){
-    float q3, temp;
+double q3_ik(double b3z, double b4z, double b){
+    double q3, temp;
     temp = (pow(b3z, 2) + pow(b4z, 2) - pow(b, 2))/(2*fabs(b3z*b4z));
     if(temp>1) temp = 1;
     if(temp<-1) temp = -1;
@@ -23,8 +23,8 @@ float q3_ik(float b3z, float b4z, float b){
     return q3;
 }
 
-float q2_ik(float q1, float q3, float px, float py, float pz, float b3z, float b4z){
-    float q2, a1, a2, m1, m2;
+double q2_ik(double q1, double q3, double px, double py, double pz, double b3z, double b4z){
+    double q2, a1, a2, m1, m2;
     
     a1 = py*sin(q1) - pz*cos(q1);
     a2 = px;
@@ -34,16 +34,16 @@ float q2_ik(float q1, float q3, float px, float py, float pz, float b3z, float b
     return q2;
 }
 
-Eigen::Matrix<float,3,1> Reversal_Solution_Update(uint8_t group , float x , float y , float z){
-    Eigen::Matrix<float,3,1> pEe2H;
+Eigen::Matrix<double,3,1> Reversal_Solution_Update(uint8_t group , double x , double y , double z){
+    Eigen::Matrix<double,3,1> pEe2H;
     pEe2H(0) = x;
     pEe2H(1) = y;
     pEe2H(2) = z;
 
-    float q1, q2, q3;
-    Eigen::Matrix<float,3,1> qResult;
-    float px, py, pz;
-    float b2y, b3z, b4z, a, b, c;
+    double q1, q2, q3;
+    Eigen::Matrix<double,3,1> qResult;
+    double px, py, pz;
+    double b2y, b3z, b4z, a, b, c;
 
     px = pEe2H(0);
     py = pEe2H(1);
@@ -68,10 +68,10 @@ Eigen::Matrix<float,3,1> Reversal_Solution_Update(uint8_t group , float x , floa
     return qResult;
 }
 
-Eigen::Matrix<float,3,1> Reversal_Update_B(uint8_t group , float x , float y , float z){
-    Eigen::Matrix<float,3,1> pEe2B;
-    float length = _length_;
-    float weigh = _weigh_;
+Eigen::Matrix<double,3,1> Reversal_Update_B(uint8_t group , double x , double y , double z){
+    Eigen::Matrix<double,3,1> pEe2B;
+    double length = _length_;
+    double weigh = _weigh_;
 
     if(group == 0){
         weigh = -weigh;
@@ -92,10 +92,10 @@ Eigen::Matrix<float,3,1> Reversal_Update_B(uint8_t group , float x , float y , f
     // std::cout<< " length: \n" << length<< std::endl;
 
     // std::cout<< " pEe2B: \n" << pEe2B<< std::endl;
-    float q1, q2, q3;
-    Eigen::Matrix<float,3,1> qResult;
-    float px, py, pz;
-    float b2y, b3z, b4z, a, b, c;
+    double q1, q2, q3;
+    Eigen::Matrix<double,3,1> qResult;
+    double px, py, pz;
+    double b2y, b3z, b4z, a, b, c;
 
     px = pEe2B(0);
     py = pEe2B(1);
@@ -122,15 +122,15 @@ Eigen::Matrix<float,3,1> Reversal_Update_B(uint8_t group , float x , float y , f
 
 Vec12 Reversal_GetQ(const Vec34 &vecP, FrameType frame){
     Vec12 q;
-    Eigen::Matrix<float,3,4> vecp = vecP.cast<float>();
+    Eigen::Matrix<double,3,4> vecp = vecP;
     if(frame == FrameType::BODY){
         for(int i(0); i < 4; ++i){
-            q.segment(3*i, 3) = Reversal_Update_B(i,vecp(0,i),vecp(1,i),vecp(2,i)).cast<double>();
+            q.segment(3*i, 3) = Reversal_Update_B(i,vecp(0,i),vecp(1,i),vecp(2,i));
         }
     }
     else if(frame == FrameType::HIP){
         for(int i(0); i < 4; ++i){
-            q.segment(3*i, 3) = Reversal_Solution_Update(i,vecp(0,i),vecp(1,i),vecp(2,i)).cast<double>();
+            q.segment(3*i, 3) = Reversal_Solution_Update(i,vecp(0,i),vecp(1,i),vecp(2,i));
         }
     }
     
@@ -172,9 +172,9 @@ Vec12 Reversal_GetQ(const Vec34 &vecP, FrameType frame){
 Vec3 calcQd(int legid,Vec3 pEe, Vec3 vEe, FrameType frame){
     Vec3 q;
     if(frame == FrameType::BODY){
-         q = Reversal_Update_B(legid,(float)pEe(0),(float)pEe(1),(float)pEe(2)).cast<double>();
+         q = Reversal_Update_B(legid,pEe(0),pEe(1),pEe(2));
     }
-    return calcJaco(legid,q.cast<float>()).inverse() * vEe;
+    return calcJaco(legid,q).inverse() * vEe;
 } 
 
 Vec12 Reversal_GetQd(const Vec34 &pos, const Vec34 &vel, FrameType frame){

@@ -5,7 +5,7 @@ Free_State::Free_State(ControlComponent * free_ctrl_comp):FSMState(free_ctrl_com
 
 void Free_State::enter()
 {
-    Eigen::Matrix<float,3,1> d;
+    Eigen::Matrix<double,3,1> d;
     d<< 0.0 , 0.0 , 0.0;
 
     for(int i=0;i<4;i++)
@@ -24,7 +24,7 @@ void Free_State::run()
 {
 
     //std::cout<<"q: \n"<< _fstate_ctrl->_ioros->getQ12() <<std::endl;
-    // Eigen::Matrix<float,12,1> q = _fstate_ctrl->_ioros->getQ12();
+    // Eigen::Matrix<double,12,1> q = _fstate_ctrl->_ioros->getQ12();
     // for(int i=0;i<4;i++){
     //     std::cout<<"leg"<<i<<": \n"<<GetPos_B(i,q(3*i+0),q(3*i+1),q(3*i+2))<<std::endl;
     //     // std::cout<<"q: \n"<<q<<std::endl;

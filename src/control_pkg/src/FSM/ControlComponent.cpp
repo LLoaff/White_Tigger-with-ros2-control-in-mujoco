@@ -7,28 +7,31 @@ ControlComponent::ControlComponent(){
     *_phase = Eigen::Matrix<double,4,1>(0.5,0.5,0.5,0.5);
     robotModel = new QuadrupedRobot();     
     _balCtrl = new BalanceCtrl();
-    // _servo = new Servo(18);
-    // _ioros = new LowCmd();
-    dt = 0.001;    
+
+    dt = 0.0025;    
     _period = 0.5;
     _stancePhaseRatio = 0.5;
 
     waveGen = new WaveGenerator(_period, _stancePhaseRatio, Vec4(0, 0.5, 0.5, 0)); // Trot
 
     _ioros = std::make_shared<IORos>();
-    _estimator = new Estimator(&_ioros->_state, _contact,_phase,dt);
 
     user_cmd = new UserCmd();
 
     executor.add_node(_ioros);
-    spin_thread = std::thread([this]() {
+    spin_thread = std::thread([this](){
+        cpu_set_t cpuset;
+        CPU_ZERO(&cpuset);
+        CPU_SET(0, &cpuset);
+        CPU_SET(1, &cpuset);
+        CPU_SET(2, &cpuset);
+        pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
         executor.spin(); // 子线程在这里阻塞
     });
     std::cout << "IOROS初始化 OK" << std::endl;
 }
 
 void ControlComponent::runWaveGen(){
-
     waveGen->calcContactPhase(*_phase, *_contact, _waveStatus);
 }
 
@@ -45,6 +48,7 @@ void ControlComponent::setStartWave(){
 }
 
 void ControlComponent::Estimator_Init(){
+    _estimator = new Estimator(&_ioros->_state, _contact,_phase,dt);
 }
 
 ControlComponent::~ControlComponent(){
@@ -58,8 +62,6 @@ ControlComponent::~ControlComponent(){
     delete _contact;
     delete _phase;
     delete robotModel;
-    // delete _servo;
-    // delete _ioros;
     delete user_cmd;
     delete _balCtrl;
 }

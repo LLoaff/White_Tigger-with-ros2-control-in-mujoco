@@ -6,7 +6,7 @@ Sit_Down_State::Sit_Down_State(ControlComponent * sit_down_ctrl_comp):FSMState(s
 
 void Sit_Down_State::enter()
 {
-    Eigen::Matrix<float,3,1> dq,kp,kd,tau,speed;
+    Eigen::Matrix<double,3,1> dq,kp,kd,tau,speed;
 
     dq<< 0, 0, 0;
     tau<< 0 , 0 ,0;
@@ -46,9 +46,9 @@ void Sit_Down_State::enter()
 }
 
 void Sit_Down_State::run(){
-    Eigen::Matrix<float,12,1> target_q;
+    Eigen::Matrix<double,12,1> target_q;
     // 线性插值算法
-    _percent += (float)1/_duration;
+    _percent += (double)1/_duration;
     _percent = _percent>1 ? 1 :  _percent;
 
     target_q = (1-_percent)*_start_angle + _percent*_target_angle;

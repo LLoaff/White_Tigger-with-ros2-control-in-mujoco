@@ -1,6 +1,5 @@
 #include"Imu.h"
 
-
 Imu::Imu()
 {
     Imu_Initial();
@@ -18,64 +17,36 @@ void Imu::Imu_Initial(){
     this->accelerometer[2] = 9.81;
 }
 void Imu::Imu_Update(){
-    // std::cout<<"quan 0: "<<quaternion[0]<<" quan 1: "<<quaternion[1]<<" quan 2: "<<quaternion[2]<<" quan 3: "<<quaternion[3]<<std::endl;
-    // if(_serial.isOpen()){
-    //     uint8_t send_data=0x0a;
-    //     _serial.writeData(&send_data,1);
-    
-    //     if(_serial.getReadBufferUsedLen()>0){
-    //         _serial.readData(data_buff,42);
-    //         if(data_buff[0]==0x0a && data_buff[41]==0x0b){
-    //             memcpy(&quaternion[0], &data_buff[1], 4);
-    //             memcpy(&quaternion[1], &data_buff[5], 4);
-    //             memcpy(&quaternion[2], &data_buff[9], 4);
-    //             memcpy(&quaternion[3], &data_buff[13], 4);
-
-    //             memcpy(&accelerometer[0], &data_buff[17], 4);
-    //             memcpy(&accelerometer[1], &data_buff[21], 4);
-    //             memcpy(&accelerometer[2], &data_buff[25], 4);
-
-    //             memcpy(&gyroscope[0], &data_buff[29], 4);
-    //             memcpy(&gyroscope[1], &data_buff[33], 4);
-    //             memcpy(&gyroscope[2], &data_buff[37], 4);
-    //             #ifdef LOWSTATE_DEBUG
-    //             syslog(LOG_INFO,"imu: q:%.3f %.3f %.3f %.3f - ac:%.3f %.3f %.3f - gy:%.3f %.3f %.3f "
-    //                 ,quaternion[0],quaternion[1],quaternion[2],quaternion[3],accelerometer[0],accelerometer[1],accelerometer[2],gyroscope[0],gyroscope[1],gyroscope[2]);
-    //             #endif
-    //         }
-    //     }
-    // }
-    
 }
 
-Eigen::Matrix<float,3,3> Imu::GetRotMat(){
-    Eigen::Matrix<float, 4, 1> quat;
-    quat << quaternion[0],quaternion[1],quaternion[2],quaternion[3];
+Eigen::Matrix<double,3,3> Imu::GetRotMat(){
+    Eigen::Matrix<double, 4, 1> quat;
+    quat << (double)quaternion[0],(double)quaternion[1],(double)quaternion[2],(double)quaternion[3];
     return Quat2RotMat(quat);
 }
 
-Eigen::Matrix<float,3,1> Imu::GetAcc(){
-    Eigen::Matrix<float,3,1> a;
-    a<< accelerometer[0],accelerometer[1],accelerometer[2];
+Eigen::Matrix<double,3,1> Imu::GetAcc(){
+    Eigen::Matrix<double,3,1> a;
+    a<< (double)accelerometer[0],(double)accelerometer[1],(double)accelerometer[2];
     return a;
 }
 
-Eigen::Matrix<float,3,1> Imu::GetGyro(){
-    Eigen::Matrix<float,3,1> gryo;
-    gryo<< gyroscope[0],gyroscope[1],gyroscope[2];
+Eigen::Matrix<double,3,1> Imu::GetGyro(){
+    Eigen::Matrix<double,3,1> gryo;
+    gryo<< (double)gyroscope[0],(double)gyroscope[1],(double)gyroscope[2];
     return gryo;
 }
 
-Eigen::Matrix<float,4,1> Imu::GetQuat(){
-    Eigen::Matrix<float,4,1> q;
-    q<< quaternion[0],quaternion[1],quaternion[2],quaternion[3];
+Eigen::Matrix<double,4,1> Imu::GetQuat(){
+    Eigen::Matrix<double,4,1> q;
+    q<< (double)quaternion[0],(double)quaternion[1],(double)quaternion[2],(double)quaternion[3];
     return q;
 }
-Eigen::Matrix<float,3,1> Imu::getAccGlobal(){
+Eigen::Matrix<double,3,1> Imu::getAccGlobal(){
         return GetRotMat() * GetAcc();
 }
 
-Eigen::Matrix<float,3,1> Imu::getGyroGlobal(){
+Eigen::Matrix<double,3,1> Imu::getGyroGlobal(){
     return GetRotMat() * GetGyro();
 }
 

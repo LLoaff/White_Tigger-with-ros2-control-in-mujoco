@@ -3,15 +3,15 @@
 BalanceCtrl::BalanceCtrl(){
     Eigen::Matrix<double, 6 , 1> s;
     Eigen::Matrix<double, 12 , 1> w,u;
-    _mass = 6.5;
 
-    // _pcb<< 0.028,0.002,0;
-    _pcb<< 0,0,0;
+    _mass = 6.8;
+
+    _pcb<< 0.003,0.0015,0;
 
     _Ib<< 0.036518,0.0,0.0,
           0.0,0.134130,0.0,
           0.0,0.0,0.157041;
-    
+    // _Ib = Vec3(0.0792, 0.2085, 0.2265).asDiagonal();
     // _Ib<<0.1051041666666,0,        0,
     //      0,              0.3271875,0,
     //      0,              0,        0.3854166666666;
@@ -22,7 +22,7 @@ BalanceCtrl::BalanceCtrl(){
     u << 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3;
     s << 20, 20, 50, 450, 450, 450;
 
-    _alpha = 0.1;
+    _alpha = 0.001;
     _beta  = 0.1;
     _fricRatio = 0.4;
     _S = s.asDiagonal();

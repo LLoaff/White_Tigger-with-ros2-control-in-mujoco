@@ -5,7 +5,7 @@ import os
 
 def generate_launch_description():
     urdf_package_path = get_package_share_directory('descrip_pkg')
-    urdf_path = os.path.join(urdf_package_path,'urdf','small_dog_copy.urdf')
+    urdf_path = os.path.join(urdf_package_path,'urdf','go2_description.urdf')
     rviz_path = os.path.join(urdf_package_path,'config','rviz.rviz')
 
     action_declare_arg_mode_path = launch.actions.DeclareLaunchArgument(

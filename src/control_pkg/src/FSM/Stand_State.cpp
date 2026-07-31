@@ -5,7 +5,7 @@ Stand_State::Stand_State(ControlComponent * stand_ctrl_comp):FSMState(stand_ctrl
 
 void Stand_State::enter()
 {
-    Eigen::Matrix<float,3,1> dq,kp,kd,tau,speed;
+    Eigen::Matrix<double,3,1> dq,kp,kd,tau,speed;
 
     dq<< 0, 0, 0;
     speed<< 0,0,0;
@@ -55,22 +55,21 @@ void Stand_State::enter()
     }
     // std::cout<< "_target_angle: \n" << _target_angle<< std::endl;
     // _target_angle = Reversal_GetQ(_target_xyz.cast<double>(),FrameType::BODY).cast<float>();
-    _start_xyz =vec34ToVec12(GetFeetPos2BODY(_fstate_ctrl->_ioros->_state,FrameType::HIP).cast<float>());
+    _start_xyz =vec34ToVec12(GetFeetPos2BODY(_fstate_ctrl->_ioros->_state,FrameType::HIP));
     _fstate_ctrl->setAllStance();
-    _fstate_ctrl->_is_wbc_run = false;
    std::cout<<"stand"<<std::endl;     
 
 }
 
 void Stand_State::run(){
-    Eigen::Matrix<float,12,1> target_q;
-    Eigen::Matrix<float,12,1> q;
-    Eigen::Matrix<float,12,1> pos;
-    Eigen::Matrix<float,12,1> tau;
-    Eigen::Matrix<float,12,1> w;
+    Eigen::Matrix<double,12,1> target_q;
+    Eigen::Matrix<double,12,1> q;
+    Eigen::Matrix<double,12,1> pos;
+    Eigen::Matrix<double,12,1> tau;
+    Eigen::Matrix<double,12,1> w;
 
     // 线性插值算法
-    _percent += (float)1/_duration;
+    _percent += (double)1/_duration;
     _percent = _percent>1 ? 1 :  _percent;
 
     w = _fstate_ctrl->_ioros->getW12();
@@ -106,5 +105,7 @@ FSMStateName Stand_State::CheckChange(){
         return FSMStateName::TROTTING;
     else if ( user == UserValue::SIT_DOWN)
         return FSMStateName::SIT_DOWN;
+    else if ( user == UserValue::BALANCE)
+        return FSMStateName::BALANCE;
     return FSMStateName::STAND;
 }

@@ -15,7 +15,7 @@ void Passive_State::enter()
     //     q(i) = _fstate_ctrl->_ioros->_init_q(i);
     // }
 
-    Eigen::Matrix<float,3,1> d;
+    Eigen::Matrix<double,3,1> d;
     d<< 0.8 , 0.8 , 0.8;
     for(int i=0;i<4;i++)
     {
@@ -48,7 +48,7 @@ FSMStateName Passive_State::CheckChange()
         return FSMStateName::FREE;
     else if(user == UserValue::SIT_DOWN)
         return FSMStateName::SIT_DOWN;
-    // else if(user == UserValue::BALANCE)
-    //     return FSMStateName::BALANCE;
+    else if(user == UserValue::BALANCE)
+        return FSMStateName::BALANCE;
     return FSMStateName::PASSIVE;
 }

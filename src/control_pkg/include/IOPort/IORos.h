@@ -28,23 +28,23 @@ public:
     void imuCallBack(const sensor_msgs::msg::Imu& rec);
     void cmdVelCallBack(const geometry_msgs::msg::Twist& rec);
 
-    Eigen::Matrix<float,3,4> getQ();
-    Eigen::Matrix<float,12,1> getQ12();
-    Eigen::Matrix<float,12,1> getW12();
+    Eigen::Matrix<double,3,4> getQ();
+    Eigen::Matrix<double,12,1> getQ12();
+    Eigen::Matrix<double,12,1> getW12();
 
-    void SetQ(Eigen::Matrix<float,12,1> q);
+    void SetQ(Eigen::Matrix<double,12,1> q);
     void SetQ(int id,float q);
-    void SetQ(int leg_id , Eigen::Matrix<float,3,1> q);
-    void SetDq(int leg_id,Eigen::Matrix<float,3,1> dq);
-    void SetDq(Eigen::Matrix<float,12,1> dq);
-    void SetP(int leg_id,Eigen::Matrix<float,3,1> p);
-    void SetP(Eigen::Matrix<float,12,1> p);
+    void SetQ(int leg_id , Eigen::Matrix<double,3,1> q);
+    void SetDq(int leg_id,Eigen::Matrix<double,3,1> dq);
+    void SetDq(Eigen::Matrix<double,12,1> dq);
+    void SetP(int leg_id,Eigen::Matrix<double,3,1> p);
+    void SetP(Eigen::Matrix<double,12,1> p);
     void SetZeroP();
-    void SetD(int leg_id,Eigen::Matrix<float,3,1> d);
-    void SetD(Eigen::Matrix<float,12,1> d);
+    void SetD(int leg_id,Eigen::Matrix<double,3,1> d);
+    void SetD(Eigen::Matrix<double,12,1> d);
     void SetZeroD();
-    void SetTau(Eigen::Matrix<float,12,1> tau,Eigen::Matrix<double,2,1> torqueLimit = Eigen::Matrix<double,2,1>(-9.0, 9.0));
-    void SetTau(int leg_id,Eigen::Matrix<float,3,1> tau);
+    void SetTau(Eigen::Matrix<double,12,1> tau,Eigen::Matrix<double,2,1> torqueLimit = Eigen::Matrix<double,2,1>(-9.0, 9.0));
+    void SetTau(int leg_id,Eigen::Matrix<double,3,1> tau);
     void SetZeroTau(int legID);
     void SetZeroTau();
     void SetZeroDq(int legID);

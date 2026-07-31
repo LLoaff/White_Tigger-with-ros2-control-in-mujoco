@@ -8,7 +8,7 @@
 #include "BalanceCtrl.h"
 #include "lcm_msg_cpp/plot.hpp"
 #include "Gait/GaitGenerator.h"
-
+#include "Robot.h"
 class Trotting_State : public FSMState{
 public:
     Trotting_State(ControlComponent * ctrlComp);
@@ -31,7 +31,7 @@ private:
     Estimator *_est;
     BalanceCtrl *_balCtrl;
     GaitGenerator *_gait;
-
+    QuadrupedRobot* _robModel;
     double  _yaw, _dYaw;
     Vec34   _posFeetGlobal, _velFeetGlobal;                 // 足端位置  足端速度
     Vec12    _q;
@@ -85,7 +85,6 @@ private:
     lcm::LCM *          _lcm4;
     float               x,y,z;
     plot_msg_cpp::plot  _msg;
-    // mpc*                _mpc;
 
     Vec3 _pcd;
     RotMat _Rd;

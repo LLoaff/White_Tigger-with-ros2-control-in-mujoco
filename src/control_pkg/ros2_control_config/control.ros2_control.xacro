@@ -4,7 +4,7 @@
     <ros2_control name="Pino" type="system">
         <hardware>
             <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
-            <param name="mujoco_model">$(find descrip_pkg)/urdf/White_Tigger.xml</param>
+            <param name="mujoco_model">$(find descrip_pkg)/urdf/go2.xml</param>
             <param name="sim_speed_factor">1.0</param>
             <param name="initial_keyframe">init_pose</param>
         </hardware>

@@ -54,8 +54,8 @@ inline Eigen::Matrix<double, 3, 3> Rpy2RotMat(const float& row, const float& pit
     return m;
 }
 /* 旋转矩阵转欧拉角 */
-inline Eigen::Matrix<float, 3, 1> rotMatToRPY(const Eigen::Matrix<float, 3, 3>& R) {
-    Eigen::Matrix<float, 3, 1> rpy;
+inline Eigen::Matrix<double, 3, 1> rotMatToRPY(const Eigen::Matrix<double, 3, 3>& R) {
+    Eigen::Matrix<double, 3, 1> rpy;
     rpy(0) = atan2(R(2,1),R(2,2));
     rpy(1) = asin(-R(2,0));
     rpy(2) = atan2(R(1,0),R(0,0));
@@ -97,12 +97,12 @@ inline Eigen::Matrix<float, 3, 1> noHomoVec(Eigen::Matrix<float, 4, 1> v4){
 }
 
 /* 四元数转旋转矩阵 */
-inline Eigen::Matrix<float, 3, 3>Quat2RotMat(Eigen::Matrix<float, 4, 1> q){
+inline Eigen::Matrix<double, 3, 3>Quat2RotMat(Eigen::Matrix<double, 4, 1> q){
     double e0 = q(0);
     double e1 = q(1);
     double e2 = q(2);
     double e3 = q(3);
-    Eigen::Matrix<float, 3, 3> R;
+    Eigen::Matrix<double, 3, 3> R;
     R << 1 - 2 * (e2 * e2 + e3 * e3), 2 * (e1 * e2 - e0 * e3),
             2 * (e1 * e3 + e0 * e2), 2 * (e1 * e2 + e0 * e3),
             1 - 2 * (e1 * e1 + e3 * e3), 2 * (e2 * e3 - e0 * e1),
@@ -111,8 +111,8 @@ inline Eigen::Matrix<float, 3, 3>Quat2RotMat(Eigen::Matrix<float, 4, 1> q){
     return R;
 }
 //四元数转欧拉角
-inline Eigen::Matrix<float,3,1> Quat2Euler(Eigen::Matrix<float, 4, 1> q){
-    Eigen::Matrix<float,3,1> euler;
+inline Eigen::Matrix<double,3,1> Quat2Euler(Eigen::Matrix<double, 4, 1> q){
+    Eigen::Matrix<double,3,1> euler;
     float w = q[0];
     float x = q[1];
     float y = q[2];
@@ -135,10 +135,11 @@ inline Eigen::Matrix<float,3,1> Quat2Euler(Eigen::Matrix<float, 4, 1> q){
     return euler;
 }
 /*平衡所用旋转矩阵*/
-inline Eigen::Matrix<double, 3, 3> BalanceRPY(Eigen::Matrix<float, 4, 1> q){
+
+inline Eigen::Matrix<double, 3, 3> BalanceRPY(Eigen::Matrix<double, 4, 1> q){
     Eigen::Matrix<double,3,1> rpy;
     Eigen::Matrix<double, 3, 3> rotmat;
-    rpy=Quat2Euler(q).cast<double>();
+    rpy=Quat2Euler(q);
     rotmat = roty(-rpy(1)) * rotx(-rpy(0));
     return rotmat;
 }
@@ -251,8 +252,8 @@ inline Eigen::Matrix<double, 3, 4> vec12ToVec34(Eigen::Matrix<double, 12, 1> vec
     return vec34;
 }
 
-inline Eigen::Matrix<float, 12, 1> vec34ToVec12(Eigen::Matrix<float, 3, 4> vec34){
-    Eigen::Matrix<float, 12, 1> vec12;
+inline Eigen::Matrix<double, 12, 1> vec34ToVec12(Eigen::Matrix<double, 3, 4> vec34){
+    Eigen::Matrix<double, 12, 1> vec12;
     for(int i(0); i < 4; ++i){
         vec12.segment(3*i, 3) = vec34.col(i);
     }

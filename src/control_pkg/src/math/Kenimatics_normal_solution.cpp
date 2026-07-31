@@ -1,12 +1,12 @@
 #include "Kenimatics_normal_solution.h"
 
                             // group用来区别是第几条腿
-Eigen::Matrix<float,3,1> GetPos_H(uint8_t group, float theta1, float theta2, float theta3)
+Eigen::Matrix<double,3,1> GetPos_H(uint8_t group, double theta1, double theta2, double theta3)
 {
-    Eigen::Matrix<float,3,1> matrix;
-    float l1 = _labad_;
-    float l2 = -_lhip_;
-    float l3 = -_lknee_;
+    Eigen::Matrix<double,3,1> matrix;
+    double l1 = _labad_;
+    double l2 = -_lhip_;
+    double l3 = -_lknee_;
     
     if(group == 0 || group == 2)
         l1 = -l1;
@@ -18,14 +18,14 @@ Eigen::Matrix<float,3,1> GetPos_H(uint8_t group, float theta1, float theta2, flo
     return matrix;
 }
 
-Eigen::Matrix<float,3,1> GetPos_B(uint8_t group, float theta1, float theta2, float theta3)
+Eigen::Matrix<double,3,1> GetPos_B(uint8_t group, double theta1, double theta2, double theta3)
 {
-    Eigen::Matrix<float,3,1> matrix;
-    float length = _length_;
-    float weigh = _weigh_;
-    float l1 = _labad_;
-    float l2 = -_lhip_;
-    float l3 = -_lknee_;
+    Eigen::Matrix<double,3,1> matrix;
+    double length = _length_;
+    double weigh = _weigh_;
+    double l1 = _labad_;
+    double l2 = -_lhip_;
+    double l3 = -_lknee_;
     
     if(group == 0 || group == 2){
         l1 = -l1;
@@ -49,16 +49,16 @@ Eigen::Matrix<float,3,1> GetPos_B(uint8_t group, float theta1, float theta2, flo
     return matrix;
 }
 
-Eigen::Matrix<float,3,1> GetPos_S(Eigen::Matrix<float,3,1> init_pos,uint8_t id,float theta1, float theta2, float theta3)
+Eigen::Matrix<double,3,1> GetPos_S(Eigen::Matrix<double,3,1> init_pos,uint8_t id,float theta1, float theta2, float theta3)
 {
-    Eigen::Matrix<float,3,1> matrix_s;
+    Eigen::Matrix<double,3,1> matrix_s;
 
     matrix_s = GetPos_B(id,theta1,theta2,theta3) - init_pos;
 
     return matrix_s;
 }
 
-Eigen::Matrix<float,3,1> Pos_Speed(int group,float theta1, float theta2, float theta3 , float th1_s , float th2_s , float th3_s)
+Eigen::Matrix<double,3,1> Pos_Speed(int group,float theta1, float theta2, float theta3 , float th1_s , float th2_s , float th3_s)
 {
     float l1 = _labad_;
     float l2 = -_lhip_;
@@ -67,9 +67,9 @@ Eigen::Matrix<float,3,1> Pos_Speed(int group,float theta1, float theta2, float t
     if(group == 0 || group == 2)
         l1 = -l1;
 
-    Eigen::Matrix<float,3,1> w;
-    Eigen::Matrix<float,3,1> pos_s;
-    Eigen::Matrix<float,3,3> Jac;
+    Eigen::Matrix<double,3,1> w;
+    Eigen::Matrix<double,3,1> pos_s;
+    Eigen::Matrix<double,3,3> Jac;
 
     Jac<< 0, 
           l3*cos(theta2+theta3)+l2*cos(theta2), 
@@ -96,19 +96,19 @@ Eigen::Matrix<double,3,4> GetFeetPos2BODY(LowState &lowstate , FrameType frame){
     Eigen::Matrix<double,3,4> feetpos;
     if(frame == FrameType::GLOBAL){
         for(int i(0);i<4;++i){  
-           feetpos.col(i) = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q).cast<double>();
+           feetpos.col(i) = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q);
         }
-        feetpos = lowstate._imu.GetRotMat().cast<double>()*feetpos;
+        feetpos = lowstate._imu.GetRotMat()*feetpos;
         // std::cout<<"rotmat:"<< lowstate._imu.GetRotMat().cast<double>() << std::endl;
     }
     else if(frame == FrameType::BODY){
         for(int i(0);i<4;++i){  
-           feetpos.col(i) = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q).cast<double>();
+           feetpos.col(i) = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q);
         }
     }
     else if(frame == FrameType::HIP){
         for(int i(0);i<4;++i){  
-           feetpos.col(i) = GetPos_H(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q).cast<double>();
+           feetpos.col(i) = GetPos_H(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q);
         }
     }
     else {
@@ -121,15 +121,15 @@ Eigen::Matrix<double,3,4> GetFeetPos2BODY(LowState &lowstate , FrameType frame){
 Eigen::Matrix<double,3,1> GetFeetPos2BODY(LowState &lowstate,int i , FrameType frame){
     Eigen::Matrix<double,3,1> feetpos;
     if(frame == FrameType::GLOBAL){
-        feetpos = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q).cast<double>();
-        feetpos = lowstate._imu.GetRotMat().cast<double>()*feetpos;
+        feetpos = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q);
+        feetpos = lowstate._imu.GetRotMat()*feetpos;
         // std::cout<<"rotmat:"<< lowstate._imu.GetRotMat().cast<double>() << std::endl;
     }
     else if(frame == FrameType::BODY){
-        feetpos = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q).cast<double>();
+        feetpos = GetPos_B(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q);
     }
     else if(frame == FrameType::HIP){
-        feetpos = GetPos_H(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q).cast<double>();
+        feetpos = GetPos_H(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q);
     }
     else {
         std::cout << "[ERROR] Frame error " << std::endl;
@@ -142,12 +142,12 @@ Eigen::Matrix<double,3,4> GetFeetSpeed2BODY(LowState &lowstate , FrameType frame
     Eigen::Matrix<double,3,4>  vel;
     for(int i(0);i<4;++i){
         vel.col(i) = Pos_Speed(i,lowstate._motor_state[3*i+0].q,lowstate._motor_state[3*i+1].q,lowstate._motor_state[3*i+2].q,
-                               lowstate._motor_state[3*i+0].dq,lowstate._motor_state[3*i+1].dq,lowstate._motor_state[3*i+2].dq).cast<double>();
+                               lowstate._motor_state[3*i+0].dq,lowstate._motor_state[3*i+1].dq,lowstate._motor_state[3*i+2].dq);
     }
     if(frame == FrameType::GLOBAL){
         Eigen::Matrix<double,3,4> posBody = GetFeetPos2BODY(lowstate, FrameType::BODY);
-        vel += skew(lowstate._imu.GetGyro().cast<double>()) * posBody;
-        vel = lowstate._imu.GetRotMat().cast<double>() * vel;
+        vel += skew(lowstate._imu.GetGyro()) * posBody;
+        vel = lowstate._imu.GetRotMat() * vel;
     }
     else if((frame == FrameType::BODY) || (frame == FrameType::HIP)){
     }
@@ -158,14 +158,14 @@ Eigen::Matrix<double,3,4> GetFeetSpeed2BODY(LowState &lowstate , FrameType frame
     return vel;
 }
 /* tau */
-Eigen::Matrix<float,3,1> CalTau(
-    int group,Eigen::Matrix<float,3,1> angle,Eigen::Matrix<float,3,1> w,Eigen::Matrix<float,3,3>Kp ,Eigen::Matrix<float,3,3>Kd,Eigen::Matrix<float,3,1> target_pos, Eigen::Matrix<float,3,1> target_speed,FrameType frame)
+Eigen::Matrix<double,3,1> CalTau(
+    int group,Eigen::Matrix<double,3,1> angle,Eigen::Matrix<double,3,1> w,Eigen::Matrix<double,3,3>Kp ,Eigen::Matrix<double,3,3>Kd,Eigen::Matrix<double,3,1> target_pos, Eigen::Matrix<double,3,1> target_speed,FrameType frame)
 {
-    Eigen::Matrix<float,3,1> f; 
-    Eigen::Matrix<float,3,1> tua;
-    Eigen::Matrix<float,3,1> pos_xyz; // 存储xyz
-    Eigen::Matrix<float,3,1> pos_s;   // 存储xyz的速度
-    Eigen::Matrix<float,3,3> Jac;
+    Eigen::Matrix<double,3,1> f; 
+    Eigen::Matrix<double,3,1> tua;
+    Eigen::Matrix<double,3,1> pos_xyz; // 存储xyz
+    Eigen::Matrix<double,3,1> pos_s;   // 存储xyz的速度
+    Eigen::Matrix<double,3,3> Jac;
     float l1 = _labad_;
     float l2 = -_lhip_;
     float l3 = -_lknee_;
@@ -208,10 +208,10 @@ Eigen::Matrix<float,3,1> CalTau(
     return tua;
 }
 
-Eigen::Matrix<float,12,1> CalTaus(
-    Eigen::Matrix<float,12,1> angle,Eigen::Matrix<float,12,1> w,Eigen::Matrix<float,3,3>Kp ,Eigen::Matrix<float,3,3>Kd,Eigen::Matrix<float,12,1> target_pos, Eigen::Matrix<float,12,1> target_speed,FrameType frame)
+Eigen::Matrix<double,12,1> CalTaus(
+    Eigen::Matrix<double,12,1> angle,Eigen::Matrix<double,12,1> w,Eigen::Matrix<double,3,3>Kp ,Eigen::Matrix<double,3,3>Kd,Eigen::Matrix<double,12,1> target_pos, Eigen::Matrix<double,12,1> target_speed,FrameType frame)
 {
-    Eigen::Matrix<float,12,1> tua;
+    Eigen::Matrix<double,12,1> tua;
     for(int i(0);i<4;++i){
         tua.segment(3*i,3) = CalTau(i,angle.segment(3*i,3),w.segment(3*i,3),Kp,Kd,target_pos.segment(3*i,3),target_speed.segment(3*i,3),frame);
     }
@@ -219,7 +219,7 @@ Eigen::Matrix<float,12,1> CalTaus(
 }
 
 // 计算一条腿的Jaco
-Eigen::Matrix<double,3,3> calcJaco(int legid , Eigen::Matrix<float,3,1> q){
+Eigen::Matrix<double,3,3> calcJaco(int legid , Eigen::Matrix<double,3,1> q){
     Eigen::Matrix<double,3,3> Jac;
     float l1 = _labad_;
     float l2 = -_lhip_;
@@ -248,17 +248,16 @@ Eigen::Matrix<double,3,3> calcJaco(int legid , Eigen::Matrix<float,3,1> q){
     Jac(0, 2) = l3 * c23;
     Jac(1, 2) = l3 * s1 * s23;
     Jac(2, 2) = -l3 * c1 * s23;
-    // std::cout<< "Jac:\n"<<Jac<<"---\n"<<std::endl;
     return Jac;
 }
 
 //计算一条腿的Tau
-Eigen::Matrix<double,3,1> calcTau(int legid ,Eigen::Matrix<float,3,1> q, Eigen::Matrix<double,3,1> force){
+Eigen::Matrix<double,3,1> calcTau(int legid ,Eigen::Matrix<double,3,1> q, Eigen::Matrix<double,3,1> force){
     return calcJaco(legid,q).transpose() * force;
 }
 
 //获取所有腿的Tau
-Eigen::Matrix<double,12,1> getTau(const Eigen::Matrix<float,12,1> &q, const Eigen::Matrix<double,3,4> feetForce){
+Eigen::Matrix<double,12,1> getTau(const Eigen::Matrix<double,12,1> &q, const Eigen::Matrix<double,3,4> feetForce){
     Eigen::Matrix<double,12,1> tau;
     for(int i(0); i < 4; ++i){
         tau.segment(3*i, 3) = calcTau(i,q.segment(3*i, 3), feetForce.col(i));

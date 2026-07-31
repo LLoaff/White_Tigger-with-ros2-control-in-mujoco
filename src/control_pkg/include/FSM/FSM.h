@@ -11,7 +11,7 @@
 #include "TimeMaker.h"
 #include "Trotting_State.h"
 #include "Sit_Down_State.h"
-
+#include "State_BalanceTest.h"
 struct FSMStateList
 {
     FSMState      *     invalid;
@@ -21,10 +21,10 @@ struct FSMStateList
     Free_Stand_State *  free_stand;
     Trotting_State*     trotting;
     Sit_Down_State*     sit_down;
+    State_BalanceTest*  balance_test;
 };
 
-class FSM
-{
+class FSM{
 public:
     FSM(ControlComponent *_ctrlcomp);
     ~FSM();

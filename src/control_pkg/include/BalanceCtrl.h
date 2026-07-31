@@ -4,6 +4,7 @@
 #include <eigen3/Eigen/Dense>
 #include <QuadProg++/QuadProg++.hh>
 #include "mathtool.h"
+#include "mathTypes.h"
 
 class BalanceCtrl
 {

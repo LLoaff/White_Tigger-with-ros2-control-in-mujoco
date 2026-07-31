@@ -16,15 +16,15 @@ public:
     FSMStateName CheckChange();
 
 private:
-    Eigen::Matrix<float,12,1>    _target_xyz;
-    Eigen::Matrix<float,12,1>    _start_xyz;
-    Eigen::Matrix<float,12,1>    _target_speed;
-    Eigen::Matrix<float,12,1>    _target_angle;
-    Eigen::Matrix<float,12,1>    _start_angle;
+    Eigen::Matrix<double,12,1>    _target_xyz;
+    Eigen::Matrix<double,12,1>    _start_xyz;
+    Eigen::Matrix<double,12,1>    _target_speed;
+    Eigen::Matrix<double,12,1>    _target_angle;
+    Eigen::Matrix<double,12,1>    _start_angle;
     Eigen::Matrix<int,4,1>*      _conact;
-    Eigen::Matrix<float,3,3>     _KP;
-    Eigen::Matrix<float,3,3>     _KD;
+    Eigen::Matrix<double,3,3>     _KP;
+    Eigen::Matrix<double,3,3>     _KD;
     float                        _duration = 200;
-    float                        _percent  = 0;
+    double                        _percent  = 0;
 };
 #endif

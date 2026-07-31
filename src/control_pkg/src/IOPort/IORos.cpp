@@ -111,12 +111,12 @@ void IORos::imuCallBack(const sensor_msgs::msg::Imu& rec){
     _state._imu.quaternion[3] = rec.orientation.z;
 }
 
-Eigen::Matrix<float,3,4> IORos::getQ(){
-    Eigen::Matrix<float,3,4> qLegs;
+Eigen::Matrix<double,3,4> IORos::getQ(){
+    Eigen::Matrix<double,3,4> qLegs;
     for(int i(0); i < 4; ++i){
-        qLegs.col(i)(0) = _state._motor_state[3*i + 0].q;
-        qLegs.col(i)(1) = _state._motor_state[3*i + 1].q;
-        qLegs.col(i)(2) = _state._motor_state[3*i + 2].q;
+        qLegs.col(i)(0) = (double)_state._motor_state[3*i + 0].q;
+        qLegs.col(i)(1) = (double)_state._motor_state[3*i + 1].q;
+        qLegs.col(i)(2) = (double)_state._motor_state[3*i + 2].q;
     }
   return qLegs;
 }
@@ -128,30 +128,30 @@ void IORos::cmdVelCallBack(const geometry_msgs::msg::Twist& rec){
     _cmd_vel[4] = rec.angular.y;
     _cmd_vel[5] = rec.angular.z;
 }
-Eigen::Matrix<float,12,1> IORos::getQ12(){
-    Eigen::Matrix<float,12,1> qLegs;
+Eigen::Matrix<double,12,1> IORos::getQ12(){
+    Eigen::Matrix<double,12,1> qLegs;
     for(int i(0); i < 4; ++i){
-        qLegs(3*i  ) = _state._motor_state[3*i + 0].q;
-        qLegs(3*i+1) = _state._motor_state[3*i + 1].q;
-        qLegs(3*i+2) = _state._motor_state[3*i + 2].q;
+        qLegs(3*i  ) = (double)_state._motor_state[3*i + 0].q;
+        qLegs(3*i+1) = (double)_state._motor_state[3*i + 1].q;
+        qLegs(3*i+2) = (double)_state._motor_state[3*i + 2].q;
     }
   return qLegs;
 }
 
-Eigen::Matrix<float,12,1> IORos::getW12(){
-    Eigen::Matrix<float,12,1> w;
+Eigen::Matrix<double,12,1> IORos::getW12(){
+    Eigen::Matrix<double,12,1> w;
     for(int i(0); i < 4; ++i){
-        w(3*i  ) = _state._motor_state[3*i + 0].dq;
-        w(3*i+1) = _state._motor_state[3*i + 1].dq;
-        w(3*i+2) = _state._motor_state[3*i + 2].dq;
+        w(3*i  ) = (double)_state._motor_state[3*i + 0].dq;
+        w(3*i+1) = (double)_state._motor_state[3*i + 1].dq;
+        w(3*i+2) = (double)_state._motor_state[3*i + 2].dq;
     }
   return w;
 }
 
-void IORos::SetQ(Eigen::Matrix<float,12,1> q)
+void IORos::SetQ(Eigen::Matrix<double,12,1> q)
 {
     for(int i(0); i<12; ++i){
-        _joint_cmd-> q[i] = q(i);
+        _joint_cmd-> q[i] = (float)q(i);
     }
 }
 
@@ -160,40 +160,40 @@ void IORos::SetQ(int id,float q)       // 单独控制某一电机角度
     _joint_cmd-> q[id] = q;
 }
 
-void IORos::SetQ(int leg_id , Eigen::Matrix<float,3,1> q)
+void IORos::SetQ(int leg_id , Eigen::Matrix<double,3,1> q)
 {
-    _joint_cmd-> q[3*leg_id +0 ] = q(0);
-    _joint_cmd-> q[3*leg_id +1 ] = q(1);
-    _joint_cmd-> q[3*leg_id +2 ] = q(2); 
+    _joint_cmd-> q[3*leg_id +0 ] = (float)q(0);
+    _joint_cmd-> q[3*leg_id +1 ] = (float)q(1);
+    _joint_cmd-> q[3*leg_id +2 ] = (float)q(2); 
 }
 
-void IORos::SetDq(int leg_id,Eigen::Matrix<float,3,1> dq)
+void IORos::SetDq(int leg_id,Eigen::Matrix<double,3,1> dq)
 {
-    _joint_cmd-> dq[3*leg_id +0 ] = dq(0);
-    _joint_cmd-> dq[3*leg_id +1 ] = dq(1);
-    _joint_cmd-> dq[3*leg_id +2 ] = dq(2); 
+    _joint_cmd-> dq[3*leg_id +0 ] = (float)dq(0);
+    _joint_cmd-> dq[3*leg_id +1 ] = (float)dq(1);
+    _joint_cmd-> dq[3*leg_id +2 ] = (float)dq(2); 
 }
 
-void IORos::SetDq(Eigen::Matrix<float,12,1> dq)  
+void IORos::SetDq(Eigen::Matrix<double,12,1> dq)  
 {  
     for(int i=0;i<12;i++)
     {
-        _joint_cmd-> dq[i] = dq(i);
+        _joint_cmd-> dq[i] = (float)dq(i);
     }
 }
 
-void IORos::SetP(int leg_id,Eigen::Matrix<float,3,1> p)
+void IORos::SetP(int leg_id,Eigen::Matrix<double,3,1> p)
 {
-    _joint_cmd->kp[3*leg_id +0 ] = p(0);
-    _joint_cmd->kp[3*leg_id +1 ] = p(1);
-    _joint_cmd->kp[3*leg_id +2 ] = p(2); 
+    _joint_cmd->kp[3*leg_id +0 ] = (float)p(0);
+    _joint_cmd->kp[3*leg_id +1 ] = (float)p(1);
+    _joint_cmd->kp[3*leg_id +2 ] = (float)p(2); 
 }
 
-void IORos::SetP(Eigen::Matrix<float,12,1> p)  
+void IORos::SetP(Eigen::Matrix<double,12,1> p)  
 {  
     for(int i=0;i<12;i++)
     {
-        _joint_cmd->kp[i] = p(i);
+        _joint_cmd->kp[i] = (float)p(i);
     }
 }
 
@@ -205,18 +205,18 @@ void IORos::SetZeroP(){
     }
 }
 
-void IORos::SetD(int leg_id,Eigen::Matrix<float,3,1> d)
+void IORos::SetD(int leg_id,Eigen::Matrix<double,3,1> d)
 {
-    _joint_cmd->kd[3*leg_id +0 ] = d(0);
-    _joint_cmd->kd[3*leg_id +1 ] = d(1);
-    _joint_cmd->kd[3*leg_id +2 ] = d(2); 
+    _joint_cmd->kd[3*leg_id +0 ] = (float)d(0);
+    _joint_cmd->kd[3*leg_id +1 ] = (float)d(1);
+    _joint_cmd->kd[3*leg_id +2 ] = (float)d(2); 
 }
 
-void IORos::SetD(Eigen::Matrix<float,12,1> d)  
+void IORos::SetD(Eigen::Matrix<double,12,1> d)  
 {  
     for(int i=0;i<12;i++)
     {
-        _joint_cmd->kd[i] = d(i);
+        _joint_cmd->kd[i] = (float)d(i);
     }
 }
 
@@ -228,20 +228,20 @@ void IORos::SetZeroD(){
     }
 }
                                                                                                                     // -2.3, 2.3
-void IORos::SetTau(Eigen::Matrix<float,12,1> tau,Eigen::Matrix<double,2,1> torqueLimit){
+void IORos::SetTau(Eigen::Matrix<double,12,1> tau,Eigen::Matrix<double,2,1> torqueLimit){
     for(int i(0); i<12; ++i){
         if(std::isnan(tau(i))){
             printf("[ERROR] The setTau function meets Nan\n");
             exit(1);
         }
-        _joint_cmd-> tau[i] = saturation(tau(i),torqueLimit);
+        _joint_cmd-> tau[i] = saturation((float)tau(i),torqueLimit);
     }
 }
 
-void IORos::SetTau(int leg_id,Eigen::Matrix<float,3,1> tau){
-    _joint_cmd-> tau[leg_id*3+0] = tau(0);
-    _joint_cmd-> tau[leg_id*3+1] = tau(1);
-    _joint_cmd-> tau[leg_id*3+2] = tau(2);
+void IORos::SetTau(int leg_id,Eigen::Matrix<double,3,1> tau){
+    _joint_cmd-> tau[leg_id*3+0] = (float)tau(0);
+    _joint_cmd-> tau[leg_id*3+1] = (float)tau(1);
+    _joint_cmd-> tau[leg_id*3+2] = (float)tau(2);
     
 }
 
@@ -279,23 +279,12 @@ void IORos::SetFree()
     SetZeroTau();
 }
 void IORos::setStableGain(int legID){
-    if(legID<2){
-        _joint_cmd->kp[legID*3+0] = 18;
-        _joint_cmd->kd[legID*3+0] = 2.8;
-        _joint_cmd->kp[legID*3+1] = 28;
-        _joint_cmd->kd[legID*3+1] = 3.2;
-        _joint_cmd->kp[legID*3+2] = 28;
-        _joint_cmd->kd[legID*3+2] = 3.2;
-    }
-    else{
-        _joint_cmd->kp[legID*3+0] = 23;
-        _joint_cmd->kd[legID*3+0] = 2.8;
-        _joint_cmd->kp[legID*3+1] = 40;
-        _joint_cmd->kd[legID*3+1] = 3.2;
-        _joint_cmd->kp[legID*3+2] = 40;
-        _joint_cmd->kd[legID*3+2] = 3.2;
-    }
-    
+    _joint_cmd->kp[legID*3+0] = 25;
+    _joint_cmd->kd[legID*3+0] = 8;
+    _joint_cmd->kp[legID*3+1] = 25;
+    _joint_cmd->kd[legID*3+1] = 8;
+    _joint_cmd->kp[legID*3+2] = 25;
+    _joint_cmd->kd[legID*3+2] = 8;
 }
 void IORos::setStableGain(){
     for(int i(0); i<4; ++i){
@@ -303,23 +292,12 @@ void IORos::setStableGain(){
     }
 }
 void IORos::setSwingGain(int legID){
-    if(legID<2){
-        _joint_cmd->kp[legID*3+0] = 16;
-        _joint_cmd->kd[legID*3+0] = 1.4;
-        _joint_cmd->kp[legID*3+1] = 22;
-        _joint_cmd->kd[legID*3+1] = 1.8;
-        _joint_cmd->kp[legID*3+2] = 22;
-        _joint_cmd->kd[legID*3+2] = 1.8;
-    }
-    else{
-        _joint_cmd->kp[legID*3+0] = 20;
-        _joint_cmd->kd[legID*3+0] = 1.4;
-        _joint_cmd->kp[legID*3+1] = 28;
-        _joint_cmd->kd[legID*3+1] = 1.8;
-        _joint_cmd->kp[legID*3+2] = 28;
-        _joint_cmd->kd[legID*3+2] = 1.8;
-    }
-    
+    _joint_cmd->kp[legID*3+0] = 25;
+    _joint_cmd->kd[legID*3+0] = 8;
+    _joint_cmd->kp[legID*3+1] = 25;
+    _joint_cmd->kd[legID*3+1] = 8;
+    _joint_cmd->kp[legID*3+2] = 25;
+    _joint_cmd->kd[legID*3+2] = 8;
 
 }
 IORos::~IORos(){

@@ -22,104 +22,104 @@ void GaitGenerator::restart(){
 }
 
 void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio,FSMStateName state_name){
-    const double Tst = period * stancePhaseRatio;
-
     if(_firstRun){
-        if(state_name == FSMStateName::TROTTING){
-            _startP = _robModel->getFeetPosIdeal();
-
-        }
-        else if(state_name == FSMStateName::JUMP)
-            _startP = _robModel->getFeetPosJump();
-        _contactPast = *_contact;
+        _startP = _est->getFeetPos();
         _firstRun = false;
     }
 
     for(int i(0); i<4; ++i){
 
-        const Vec3 idealP = (state_name == FSMStateName::JUMP) ? _robModel->getFeetPosJump().col(i)
-                                                               : _robModel->getFeetPosIdeal().col(i);
+        // const Vec3 idealP = (state_name == FSMStateName::JUMP) ? _robModel->getFeetPosJump().col(i)
+        //                                                        : _robModel->getFeetPosIdeal().col(i);
         if((*_contact)(i) == 1){
+            // feetPos.col(i) = _startP.col(i);
+            // feetVel.col(i).setZero();
+            // const double stanceScale = 0.5 - (*_phase)(i);
+            // feetPos.col(i)(0) = idealP(0) + stanceScale * _vxyGoal(0) * Tst
+            //                               - stanceScale * _dYawGoal * Tst * idealP(1);
+            // feetPos.col(i)(1) = idealP(1) + stanceScale * _vxyGoal(1) * Tst
+            //                               + stanceScale * _dYawGoal * Tst * idealP(0);
+            // feetPos.col(i)(2) = idealP(2);
+
+            // feetVel.col(i)(0) = -_vxyGoal(0) + _dYawGoal * idealP(1);
+            // feetVel.col(i)(1) = -_vxyGoal(1) - _dYawGoal * idealP(0);
+            // feetVel.col(i)(2) = 0.0;
+
+            if((*_phase)(i) < 0.5){
+                _startP.col(i) = _est->getFootPos(i);
+            }
             feetPos.col(i) = _startP.col(i);
             feetVel.col(i).setZero();
-            const double stanceScale = 0.5 - (*_phase)(i);
-            feetPos.col(i)(0) = idealP(0) + stanceScale * _vxyGoal(0) * Tst
-                                          - stanceScale * _dYawGoal * Tst * idealP(1);
-            feetPos.col(i)(1) = idealP(1) + stanceScale * _vxyGoal(1) * Tst
-                                          + stanceScale * _dYawGoal * Tst * idealP(0);
-            feetPos.col(i)(2) = idealP(2);
-
-            feetVel.col(i)(0) = -_vxyGoal(0) + _dYawGoal * idealP(1);
-            feetVel.col(i)(1) = -_vxyGoal(1) - _dYawGoal * idealP(0);
-            feetVel.col(i)(2) = 0.0;
-
-            // feetPos.col(i)(0) = _startP.col(i)(0) - _vxyGoal(0) * Tst * (*_phase)(i);
-            // feetPos.col(i)(1) = _startP.col(i)(1) - _vxyGoal(1) * Tst * (*_phase)(i);
-            // feetVel.col(i)(2) = 0.0f;
         }
         else{
-            _startP.col(i)(0) = idealP(0) - 0.5 * _vxyGoal(0) * Tst
-                                          + 0.5 * _dYawGoal * Tst * idealP(1);
-            _startP.col(i)(1) = idealP(1) - 0.5 * _vxyGoal(1) * Tst
-                                          - 0.5 * _dYawGoal * Tst * idealP(0);
-            _startP.col(i)(2) = idealP(2);
+            // _startP.col(i)(0) = idealP(0) - 0.5 * _vxyGoal(0) * Tst
+            //                               + 0.5 * _dYawGoal * Tst * idealP(1);
+            // _startP.col(i)(1) = idealP(1) - 0.5 * _vxyGoal(1) * Tst
+            //                               - 0.5 * _dYawGoal * Tst * idealP(0);
+            // _startP.col(i)(2) = idealP(2);
 
-            _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i), period, stancePhaseRatio); // 获得最终x、y的落脚点
+            // _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i), period, stancePhaseRatio); // 获得最终x、y的落脚点
+            _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i), period, stancePhaseRatio);
 
-            // feetPos.col(i) = getFootPos(i); // 获取下一刻 足端的位置
-            // feetVel.col(i) = getFootVel(i); // 获取下一刻 足端的速度
-
-            // _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i),period, stancePhaseRatio);
             
             feetPos.col(i) = getFootPos(i);
             feetVel.col(i) = getFootVel(i);
         }
     }
-    // std::cout<<"_startP:\n"<< _startP<<std::endl;
     // std::cout<<"_endP:\n"<< _endP<<std::endl;
+    // std::cout<<"_endP0x:\n"<< _endP(0,0) - _est->getPosition()(0)<<std::endl;
+    // std::cout<<"_endP0y:\n"<< _endP(1,0) - _est->getPosition()(1)<<std::endl;
+    // std::cout<<"_endP1x:\n"<< _endP(0,1) - _est->getPosition()(0)<<std::endl;
+    // std::cout<<"_endP1y:\n"<< _endP(1,1) - _est->getPosition()(1)<<std::endl;
+    // std::cout<<"_endP2x:\n"<< _endP(0,2) - _est->getPosition()(0)<<std::endl;
+    // std::cout<<"_endP2y:\n"<< _endP(1,2) - _est->getPosition()(1)<<std::endl;
+    // std::cout<<"_endP3x:\n"<< _endP(0,3) - _est->getPosition()(0)<<std::endl;
+    // std::cout<<"_endP3y:\n"<< _endP(1,3) - _est->getPosition()(1)<<std::endl;
     // std::cout<<"feetPos:\n"<< feetPos<<std::endl;
     // std::cout<<"feetVel:\n"<< feetVel<<std::endl;
-    // usleep(500000);
     _pastP = feetPos;
     _phasePast = *_phase;
-    _contactPast = *_contact;
+    // _contactPast = *_contact;
+}
+Vec34 GaitGenerator::getEndpos(){
+    return _endP;
 }
 
 Vec3 GaitGenerator::getFootPos(int i){
-    // Vec3 footPos;
-    // footPos(0) = cycloidXYPosition(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
-    // footPos(1) = cycloidXYPosition(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
-    // footPos(2) =  cycloidZPosition(_startP.col(i)(2), _gaitHeight, (*_phase)(i));
-    // return footPos;
     Vec3 footPos;
-    float Tsw = _waveG->getTswing();
-    Vec2 vSwing = -_vxyGoal; // 离地与落地的速度
-    float aSwing = 0.0f;     // 离地与落地的加速度
-    footPos(0) = quinticPolyPosition(_startP.col(i)(0), _endP.col(i)(0), 
-                                    vSwing(0), vSwing(0), aSwing, aSwing, (*_phase)(i), Tsw);
-    footPos(1) = quinticPolyPosition(_startP.col(i)(1), _endP.col(i)(1), 
-                                    vSwing(1), vSwing(1), aSwing, aSwing, (*_phase)(i), Tsw);
-    footPos(2) = quinticPolyZPosition(_startP.col(i)(2), _gaitHeight, (*_phase)(i), Tsw);
+    footPos(0) = cycloidXYPosition(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
+    footPos(1) = cycloidXYPosition(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
+    footPos(2) =  cycloidZPosition(_startP.col(i)(2), _gaitHeight, (*_phase)(i));
     return footPos;
+    // Vec3 footPos;
+    // float Tsw = _waveG->getTswing();
+    // Vec2 vSwing = -_vxyGoal; // 离地与落地的速度
+    // float aSwing = 0.0f;     // 离地与落地的加速度
+    // footPos(0) = quinticPolyPosition(_startP.col(i)(0), _endP.col(i)(0), 
+    //                                 vSwing(0), vSwing(0), aSwing, aSwing, (*_phase)(i), Tsw);
+    // footPos(1) = quinticPolyPosition(_startP.col(i)(1), _endP.col(i)(1), 
+    //                                 vSwing(1), vSwing(1), aSwing, aSwing, (*_phase)(i), Tsw);
+    // footPos(2) = quinticPolyZPosition(_startP.col(i)(2), _gaitHeight, (*_phase)(i), Tsw);
+    // return footPos;
 }
 
 Vec3 GaitGenerator::getFootVel(int i){
-    // Vec3 footVel;
-    // footVel(0) = cycloidXYVelocity(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
-    // footVel(1) = cycloidXYVelocity(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
-    // footVel(2) =  cycloidZVelocity(_gaitHeight, (*_phase)(i));
-    // return footVel;
-
     Vec3 footVel;
-    float Tsw = _waveG->getTswing();
-    Vec2 vSwing = -_vxyGoal;
-    float aSwing = 0.0f;
-    footVel(0) = quinticPolyVelocity(_startP.col(i)(0), _endP.col(i)(0), 
-                                    vSwing(0), vSwing(0), aSwing, aSwing, (*_phase)(i), Tsw);
-    footVel(1) = quinticPolyVelocity(_startP.col(i)(1), _endP.col(i)(1), 
-                                    vSwing(1), vSwing(1), aSwing, aSwing, (*_phase)(i), Tsw);
-    footVel(2) = quinticPolyZVelocity(_gaitHeight, (*_phase)(i), Tsw);
+    footVel(0) = cycloidXYVelocity(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
+    footVel(1) = cycloidXYVelocity(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
+    footVel(2) =  cycloidZVelocity(_gaitHeight, (*_phase)(i));
     return footVel;
+
+    // Vec3 footVel;
+    // float Tsw = _waveG->getTswing();
+    // Vec2 vSwing = -_vxyGoal;
+    // float aSwing = 0.0f;
+    // footVel(0) = quinticPolyVelocity(_startP.col(i)(0), _endP.col(i)(0), 
+    //                                 vSwing(0), vSwing(0), aSwing, aSwing, (*_phase)(i), Tsw);
+    // footVel(1) = quinticPolyVelocity(_startP.col(i)(1), _endP.col(i)(1), 
+    //                                 vSwing(1), vSwing(1), aSwing, aSwing, (*_phase)(i), Tsw);
+    // footVel(2) = quinticPolyZVelocity(_gaitHeight, (*_phase)(i), Tsw);
+    // return footVel;
 }
 
 float GaitGenerator::cycloidXYPosition(float start, float end, float phase){ // 对应9.11 xy方向位移坐标公式

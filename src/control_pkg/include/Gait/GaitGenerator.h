@@ -16,7 +16,7 @@ public:
     Vec3 getFootPos(int i);
     Vec3 getFootVel(int i);
     void restart();
-
+    Vec34 getEndpos();
     // 五次多项式轨迹：
     float quinticPolyPosition(float start, float end, float vStart, float vEnd, 
                              float aStart, float aEnd, float phase, float Tsw);

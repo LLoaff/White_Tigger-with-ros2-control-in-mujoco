@@ -16,9 +16,9 @@ public:
     FSMStateName CheckChange();
 
 private:
-    Eigen::Matrix<float,12,1>    _target_angle;
-    Eigen::Matrix<float,12,1>    _start_angle;
-    float                        _duration = 600;
-    float                        _percent  = 0;
+    Eigen::Matrix<double,12,1>    _target_angle;
+    Eigen::Matrix<double,12,1>    _start_angle;
+    double                        _duration = 600;
+    double                        _percent  = 0;
 };
 #endif

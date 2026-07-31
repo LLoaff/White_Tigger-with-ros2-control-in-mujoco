@@ -14,7 +14,7 @@ Free_Stand_State::Free_Stand_State(ControlComponent * free_stand_ctrl_comp):FSMS
 
 void Free_Stand_State::enter(){
 
-    Eigen::Matrix<float,3,1> dq,kp,b_kp,kd,tau;
+    Eigen::Matrix<double,3,1> dq,kp,b_kp,kd,tau;
     kp<< 2.0 , 2.0 , 3.5;
     b_kp<<2.0,2.0,4.2;
     kd<< 0.05 , 0.05 , 0.08;
@@ -26,14 +26,14 @@ void Free_Stand_State::enter(){
     _fstate_ctrl->_ioros->SetP(2,b_kp);
     _fstate_ctrl->_ioros->SetP(3,b_kp);
 
-    _pb1_pos_b = GetPos_B(0,_fstate_ctrl->_ioros->_state._motor_state[0].q ,_fstate_ctrl->_ioros->_state._motor_state[1].q,_fstate_ctrl->_ioros->_state._motor_state[2].q);
+    _pb1_pos_b = GetPos_B(0,_fstate_ctrl->_ioros->_state._motor_state[0].q ,_fstate_ctrl->_ioros->_state._motor_state[1].q,_fstate_ctrl->_ioros->_state._motor_state[2].q).cast<float>();
 
     for(int i=0;i<4;i++){
         _fstate_ctrl->_ioros->SetD(i,kd);
         _fstate_ctrl->_ioros->SetDq(i,dq);
         _fstate_ctrl->_ioros->SetTau(i,tau);
 
-        _pos_s.col(i) = GetPos_S(_pb1_pos_b,i,_fstate_ctrl->_ioros->_state._motor_state[3*i].q,_fstate_ctrl->_ioros->_state._motor_state[3*i+1].q,_fstate_ctrl->_ioros->_state._motor_state[3*i+2].q);
+        _pos_s.col(i) = GetPos_S(_pb1_pos_b.cast<double>(),i,_fstate_ctrl->_ioros->_state._motor_state[3*i].q,_fstate_ctrl->_ioros->_state._motor_state[3*i+1].q,_fstate_ctrl->_ioros->_state._motor_state[3*i+2].q).cast<float>();
 
     }
 
@@ -107,11 +107,11 @@ void Free_Stand_State::CalQ(Eigen::Matrix<float,3,4> pos){
             length = -length;
         }
 
-        cmd_q.col(i) = Reversal_Solution_Update(i,pos.col(i)(0)-length,pos.col(i)(1)-weigh,pos.col(i)(2));
+        cmd_q.col(i) = Reversal_Solution_Update(i,pos.col(i)(0)-length,pos.col(i)(1)-weigh,pos.col(i)(2)).cast<float>();
 
         // printf("id:%d 髋: %.3f , 大: %.3f , 小: %.3f \n",i,cmd_q.col(i)(0)/M_PI*180,cmd_q.col(i)(1)/M_PI*180,cmd_q.col(i)(2)/M_PI*180);
         // syslog(LOG_INFO,"id:%d 小: %.3f , 大: %.3f , 髋: %.3f \n",i,cmd_q.col(i)(0)/M_PI*180,cmd_q.col(i)(1)/M_PI*180,cmd_q.col(i)(2)/M_PI*180);
-        _fstate_ctrl->_ioros->SetQ(i,cmd_q.col(i));
+        _fstate_ctrl->_ioros->SetQ(i,cmd_q.col(i).cast<double>());
 
     }
     // Eigen::Matrix<float,3,1> position;

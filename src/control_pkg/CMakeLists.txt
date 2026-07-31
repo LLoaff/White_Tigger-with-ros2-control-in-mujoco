@@ -30,6 +30,7 @@ add_executable(start src/start.cpp
 src/common/Estimator.cpp src/common/Imu.cpp src/common/LowPassFilter.cpp src/common/Robot.cpp  
 src/FSM/ControlComponent.cpp src/FSM/Free_Stand_State.cpp src/FSM/Free_State.cpp src/FSM/FSM.cpp src/FSM/FSMState.cpp
 src/FSM/Passive_State.cpp src/FSM/Stand_State.cpp src/FSM/Trotting_State.cpp src/FSM/UserCmd.cpp src/FSM/Sit_Down_State.cpp
+src/FSM/State_BalanceTest.cpp
 src/Gait/FeetEndCal.cpp  src/Gait/WaveGenerator.cpp  src/Gait/GaitGenerator.cpp
 src/low/LowCmd.cpp src/low/LowState.cpp
 src/math/Kenimatics_normal_solution.cpp src/math/Reversal_solution.cpp
