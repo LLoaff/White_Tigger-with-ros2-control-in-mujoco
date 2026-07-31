@@ -5,7 +5,7 @@
 #include "TimeMaker.h"
 #include "FSM/EnumClassList.h"
 #include <unistd.h>
-
+#include "mathtool.h"
 /*generate linear wave, [0, 1]*/
 class WaveGenerator{
 public:

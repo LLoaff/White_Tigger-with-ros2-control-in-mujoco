@@ -1,7 +1,7 @@
 #include "FSM/Stand_State.h"
 
-Stand_State::Stand_State(ControlComponent * stand_ctrl_comp):FSMState(stand_ctrl_comp,FSMStateName::STAND,"stand"),
-_balance(stand_ctrl_comp->balCtrl),_conact(stand_ctrl_comp->_contact){}
+Stand_State::Stand_State(ControlComponent * stand_ctrl_comp):FSMState(stand_ctrl_comp,FSMStateName::STAND,"stand")
+,_conact(stand_ctrl_comp->_contact){}
 
 void Stand_State::enter()
 {
@@ -10,10 +10,14 @@ void Stand_State::enter()
     dq<< 0, 0, 0;
     speed<< 0,0,0;
     tau<< 0 , 0 ,0;
-    _target_xyz << 0,-0.087,-0.21,
-                   0, 0.087,-0.21,
-                   0,-0.087,-0.21,
-                   0, 0.087,-0.21;
+    // _target_xyz << 0,-0.087,-0.21,
+    //                0, 0.087,-0.21,
+    //                0,-0.087,-0.21,
+    //                0, 0.087,-0.21;
+    _target_xyz << 0,-0.08,-0.14,
+                   0, 0.08,-0.14,
+                   0,-0.08,-0.14,
+                   0, 0.08,-0.14;
     // _target_xyz << 0.26,  0.26,  -0.3,  -0.3,
     //               -0.146,  0.146,  -0.146,  0.146,
     //               -0.365,-0.365,-0.365,-0.365;
@@ -28,7 +32,7 @@ void Stand_State::enter()
     //       0,   7,  0,
     //       0,   0,   7;
 
-    kp<< 5.1 , 5.5 , 5.7;
+    kp<< 2.1 , 2.5 , 2.7;
     kd<< 0.6 , 0.6 , 0.6;
 
     _KP<< 40.0,  0 ,   0,
@@ -87,7 +91,7 @@ void Stand_State::run(){
     // std::cout<< "target_q\n"<< target_q <<std::endl;
     
     _fstate_ctrl->_ioros->SetQ(target_q);
-    _fstate_ctrl->_ioros->SetTau(tau);
+    // _fstate_ctrl->_ioros->SetTau(tau);
     // std::cout<< "tau:\n"<< tau <<"---"<<std::endl;
     // std::cout<< "stand"<<std::endl;
     // auto r = rotMatToRPY (_fstate_ctrl->_ioros->_state._imu.GetRotMat());
@@ -106,5 +110,7 @@ FSMStateName Stand_State::CheckChange(){
         return FSMStateName::TROTTING;
     else if ( user == UserValue::SIT_DOWN)
         return FSMStateName::SIT_DOWN;
+    else if ( user == UserValue::JUMP)
+        return FSMStateName::JUMP;
     return FSMStateName::STAND;
 }

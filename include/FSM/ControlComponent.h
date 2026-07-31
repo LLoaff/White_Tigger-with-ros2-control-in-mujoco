@@ -2,8 +2,7 @@
 #define CONTROLCOMPONENT_H
 
 #include "UserCmd.h"
-#include "Estimator.h"
-#include "BalanceCtrl.h"
+
 #include "Gait/WaveGenerator.h"
 #include "Robot.h"
 #include <thread>
@@ -22,8 +21,8 @@ public:
     void Estimator_Init();
     
     UserCmd  *  user_cmd; // 获取单一实例
-    Estimator * _estimator;
-    BalanceCtrl* balCtrl;
+    // Estimator * _estimator;
+    // BalanceCtrl* balCtrl;
     QuadrupedRobot *robotModel;
 
     double dt;

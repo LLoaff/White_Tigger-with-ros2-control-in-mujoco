@@ -4,14 +4,16 @@ FSM::FSM(ControlComponent *_ctrlcomp):_fsm_ctrl(_ctrlcomp){
     _fsm_state_list.passive     = new Passive_State(_ctrlcomp);
     _fsm_state_list.free        = new Free_State(_ctrlcomp);
     _fsm_state_list.stand       = new Stand_State(_ctrlcomp);
-    _fsm_state_list.free_stand  = new Free_Stand_State(_ctrlcomp);
-    _fsm_state_list.balance     = new Balance_State(_ctrlcomp,&_fsm_ctrl->_ioros->_state);
+    // _fsm_state_list.free_stand  = new Free_Stand_State(_ctrlcomp);
+    // _fsm_state_list.balance     = new Balance_State(_ctrlcomp,&_fsm_ctrl->_ioros->_state);
     _fsm_state_list.trotting    = new Trotting_State(_ctrlcomp);
     _fsm_state_list.sit_down    = new Sit_Down_State(_ctrlcomp);
+    _fsm_state_list.jump_state = new Jump_State(_ctrlcomp);
     initialize();
 }
 
 void FSM::initialize(){
+
     _current_state = _fsm_state_list.passive;
     _current_state->enter();
     _next_state = _current_state;
@@ -19,15 +21,20 @@ void FSM::initialize(){
 }
 
 void FSM::run(){
+    // std::cout<<"FSM::run: "<<std::endl;
+    // printf("66666");
+
     _start_time = getSystemTime();
+
     _fsm_ctrl->_ioros->Update();        // 对电机发送命令
     _fsm_ctrl->runWaveGen();
-    // if(_fsm_ctrl->user_cmd->_turn == 1)
+    // if(_fsm_ctrl->user_cmd->_turn == 2)
     //     _fsm_ctrl->_servo->setAngle(0);
-    // else if (_fsm_ctrl->user_cmd->_turn == 2)
+    // else if (_fsm_ctrl->user_cmd->_turn == 1)
     //     _fsm_ctrl->_servo->setAngle(180);
-    
-    // _fsm_ctrl->_estimator->run();
+    // else 
+    //     _fsm_ctrl->_servo->setAngle(90);
+
     if(_mode == FSMMode::NORMAL)
     {
         _current_state->run();          // 当前 状态执行一次run 
@@ -53,6 +60,8 @@ void FSM::run(){
         _mode = FSMMode::NORMAL;
         _current_state->run();
     }
+    // long long end = getSystemTime();
+    // std::cout<<"cost time: "<< end - _start_time<<std::endl;
     absoluteWait(_start_time, (long long)(_fsm_ctrl->dt * 1000000));       // dt 需初始化时手动赋值
 }
 
@@ -72,17 +81,20 @@ FSMState* FSM::GetNextState(FSMStateName fsm_state_name){
         case FSMStateName::STAND:
             return _fsm_state_list.stand;
             break;
-        case FSMStateName::FREE_STAND:
-            return _fsm_state_list.free_stand;
-            break;
-        case FSMStateName::BALANCE:
-            return _fsm_state_list.balance;
-            break;
+        // case FSMStateName::FREE_STAND:
+        //     return _fsm_state_list.free_stand;
+        //     break;
+        // case FSMStateName::BALANCE:
+        //     return _fsm_state_list.balance;
+        //     break;
         case FSMStateName::TROTTING:
             return _fsm_state_list.trotting;
             break;
         case FSMStateName::SIT_DOWN:
             return _fsm_state_list.sit_down;
+            break;
+        case FSMStateName::JUMP:
+            return _fsm_state_list.jump_state;
             break;
         default:
             return _fsm_state_list.invalid;
@@ -96,8 +108,9 @@ FSM::~FSM()
     delete _fsm_state_list.passive;
     delete _fsm_state_list.free;
     delete _fsm_state_list.stand;
-    delete _fsm_state_list.free_stand;
-    delete _fsm_state_list.balance;
+    // delete _fsm_state_list.free_stand;
+    // delete _fsm_state_list.balance;
     delete _fsm_state_list.trotting;
     delete _fsm_state_list.sit_down;
+    delete _fsm_state_list.jump_state;
 }

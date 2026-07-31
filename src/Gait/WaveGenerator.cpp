@@ -20,7 +20,7 @@ WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias)
 
     _startT = getSystemTime();
     _contactPast.setZero();
-    _phasePast << 0.5, 0.5, 0.5, 0.5;
+    _phasePast << PHASE, PHASE, PHASE, PHASE;
     _statusPast = WaveStatus::SWING_ALL;
 }
 
@@ -43,7 +43,7 @@ void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias) {
 
     _startT = getSystemTime();
     _contactPast.setZero();
-    _phasePast << 0.5, 0.5, 0.5, 0.5;
+    _phasePast << PHASE, PHASE, PHASE, PHASE;
     _statusPast = WaveStatus::SWING_ALL;
     _switchStatus.setZero();
 }

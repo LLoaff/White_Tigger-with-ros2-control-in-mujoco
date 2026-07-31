@@ -6,23 +6,24 @@
 #include "Passive_State.h"
 #include "Free_State.h"
 #include "Stand_State.h"
-#include "Free_Stand_State.h"
-#include "Balance_State.h"
+// #include "Free_Stand_State.h"
+// #include "Balance_State.h"
 #include "FSMState.h"
 #include "TimeMaker.h"
 #include "Trotting_State.h"
 #include "Sit_Down_State.h"
-
+#include "FSM/Jump_State.h"
 struct FSMStateList
 {
     FSMState      *     invalid;
     Passive_State *     passive;
     Free_State    *     free;
     Stand_State   *     stand;
-    Free_Stand_State *  free_stand;
-    Balance_State*      balance;
+    // Free_Stand_State *  free_stand;
+    // Balance_State*      balance;
     Trotting_State*     trotting;
     Sit_Down_State*     sit_down;
+    Jump_State *       jump_state;
 };
 
 class FSM

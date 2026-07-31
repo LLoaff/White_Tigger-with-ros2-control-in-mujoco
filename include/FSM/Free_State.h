@@ -4,6 +4,7 @@
 #include "ControlComponent.h"
 #include "FSMState.h"
 #include "EnumClassList.h"
+#include  "Kenimatics_normal_solution.h"
 class Free_State : public FSMState
 {
 public:

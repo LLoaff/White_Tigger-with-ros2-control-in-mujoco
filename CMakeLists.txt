@@ -18,8 +18,8 @@ if(LOWCMD_DEBUG)
 endif()
 
 add_executable(start src/start.cpp 
-src/common/BalanceCtrl.cpp src/common/Estimator.cpp src/common/Imu.cpp src/common/LowPassFilter.cpp src/common/Robot.cpp  
-src/FSM/Balance_State.cpp src/FSM/ControlComponent.cpp src/FSM/Free_Stand_State.cpp src/FSM/Free_State.cpp src/FSM/FSM.cpp src/FSM/FSMState.cpp
+src/common/Imu.cpp src/common/LowPassFilter.cpp src/common/Robot.cpp  
+src/FSM/ControlComponent.cpp src/FSM/Free_State.cpp src/FSM/FSM.cpp src/FSM/FSMState.cpp src/FSM/Jump_State.cpp
 src/FSM/Passive_State.cpp src/FSM/Stand_State.cpp src/FSM/Trotting_State.cpp src/FSM/UserCmd.cpp src/FSM/Sit_Down_State.cpp
 src/Gait/FeetEndCal.cpp src/Gait/GaitGenerator.cpp src/Gait/WaveGenerator.cpp
 src/low/LowCmd.cpp src/low/LowState.cpp
@@ -76,20 +76,20 @@ quadprog
 
 # # ========== 项目基本配置 ==========
 # set(TARGET_NAME "start")
-# set(BOARD_IP "192.168.8.103")
+# set(BOARD_IP "192.168.31.110")
 # set(BOARD_USER "shu")
 
 # # ========== 源文件列表 ==========
 # set(SRC_FILES
 #     src/start.cpp
-#     src/common/BalanceCtrl.cpp
-#     src/common/Estimator.cpp
+#     # src/common/BalanceCtrl.cpp
+#     # src/common/Estimator.cpp
 #     src/common/Imu.cpp
 #     src/common/LowPassFilter.cpp
 #     src/common/Robot.cpp
-#     src/FSM/Balance_State.cpp
+#     # src/FSM/Balance_State.cpp
 #     src/FSM/ControlComponent.cpp
-#     src/FSM/Free_Stand_State.cpp
+#     # src/FSM/Free_Stand_State.cpp
 #     src/FSM/Free_State.cpp
 #     src/FSM/FSM.cpp
 #     src/FSM/FSMState.cpp
@@ -98,6 +98,7 @@ quadprog
 #     src/FSM/Trotting_State.cpp
 #     src/FSM/UserCmd.cpp
 #     src/FSM/Sit_Down_State.cpp
+#     src/FSM/Jump_State.cpp
 #     src/Gait/FeetEndCal.cpp
 #     src/Gait/GaitGenerator.cpp
 #     src/Gait/WaveGenerator.cpp

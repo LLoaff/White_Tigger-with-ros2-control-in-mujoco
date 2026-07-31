@@ -4,7 +4,7 @@ ControlComponent::ControlComponent(){
     _contact = new Eigen::Matrix<int,4,1>();
     _phase = new Eigen::Matrix<double,4,1>();
     *_contact = Eigen::Matrix<int,4,1>(0,0,0,0);
-    *_phase = Eigen::Matrix<double,4,1>(0.5,0.5,0.5,0.5);
+    *_phase = Eigen::Matrix<double,4,1>(PHASE,PHASE,PHASE,PHASE);
     robotModel = new QuadrupedRobot();     
 
     // _servo = new Servo(18);
@@ -30,15 +30,15 @@ void ControlComponent::setStartWave(){
 }
 
 void ControlComponent::Estimator_Init(){
-    _estimator = new Estimator(&_ioros->_state, _contact,_phase,dt);
-    balCtrl = new BalanceCtrl();
+    // _estimator = new Estimator(&_ioros->_state, _contact,_phase,dt);
+    // balCtrl = new BalanceCtrl();
 }
 
 ControlComponent::~ControlComponent(){
-    delete _estimator;
+    // delete _estimator;
     delete _contact;
     delete _phase;
-    delete balCtrl;
+    // delete balCtrl;
     delete robotModel;
     // delete _servo;
     delete _ioros;

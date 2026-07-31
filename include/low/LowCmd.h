@@ -5,6 +5,7 @@
 #include "LowState.h"
 #include "dm_SDK/damiao.h"
 #include "dm_SDK/SerialPort.h"
+#include "TimeMaker.h"
 
 
 
@@ -35,6 +36,9 @@ class LowCmd
         void setStableGain(int legID);
         void setStableGain();
         void setSwingGain(int legID);
+
+        void setStableGain_JUMP(int legID);
+        void setSwingGain_JUMP(int legID);
 
         Eigen::Matrix<float,3,4> getQ();
         Eigen::Matrix<float,12,1> getQ12();

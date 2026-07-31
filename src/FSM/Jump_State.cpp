@@ -8,17 +8,22 @@ Jump_State::Jump_State(ControlComponent * ctrlComp):FSMState(ctrlComp,FSMStateNa
     // _vxLim = _robModel->getRobVelLimitX();
     // _vyLim = _robModel->getRobVelLimitY();
     // _wyawLim = _robModel->getRobVelLimitYaw();
-    _vxLim << -0.3, 0.3;
-    _vyLim << -0.3, 0.3;
-    _wyawLim << -0.2, 0.2;
+    _vxLim << -0.5, 0.5;
+    _vyLim << -0.5, 0.5;
+    _wyawLim << -0.8, 0.8;
 
-    _KP<< 200.0,  0 ,   0,
-          0 ,   200.0,  0,
-          0 ,   0 ,   200.0;
+    _KP<< 120.0,  0 ,   0,
+          0 ,   120.0,  0,
+          0 ,   0 ,   180.0;
 
-    _KD<< 15.0, 0,    0,
-          0,   15.0,  0,
-          0,   0,   15.0;
+    _KD<< 8.0, 0,    0,
+          0,   8.0,  0,
+          0,   0,   10.0;
+
+    // _lcm = new lcm::LCM();
+    // _lcm2 = new lcm::LCM();
+    // _lcm3 = new lcm::LCM();
+    // _lcm4 = new lcm::LCM();
 }
 
 void Jump_State::enter(){
@@ -26,7 +31,7 @@ void Jump_State::enter(){
     _wCmdGlobal.setZero();
     _gait->restart();
     _fstate_ctrl->waveGen->reset(
-        0.8,        // 跳跃周期（可以更长）
+        0.3,        // 跳跃周期（可以更长）
         0.3,        // 支撑相比例（跳跃时支撑相更短）
         Vec4(0, 0, 0, 0)  // 四足相位完全同步
     );
@@ -34,9 +39,8 @@ void Jump_State::enter(){
 }
 
 
-
 void Jump_State::run(){
-    _G2B_RotMat = rotx(_lowstate->_imu.getRoll()).cast<double>()*roty(_lowstate->_imu.getPitch()).cast<double>();
+    // _G2B_RotMat = rotx(_lowstate->_imu.getRoll()).cast<double>()*roty(_lowstate->_imu.getPitch()).cast<double>();
 //     std::cout<<"q0: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[0]<<" q1: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[1]<<
 //    " q2: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[2]<<" q3: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[3]<<std::endl;
     // std::cout<<"Roll: "<< _lowstate->_imu.getRoll() <<std::endl;
@@ -45,8 +49,8 @@ void Jump_State::run(){
     // std::cout<<"roty: \n"<< roty(_lowstate->_imu.getPitch()) <<std::endl;
 
 
-    _yaw = _lowstate->_imu.getYaw() ;
-    _dYaw = _lowstate->_imu.getDYaw();
+    // _yaw = _lowstate->_imu.getYaw() ;
+    // _dYaw = _lowstate->_imu.getDYaw();
 
 // /* 遥控归一 */
     // float ly = (_fstate_ctrl->user_cmd->R_Data.ch3 - 1024) / 660.0;
@@ -69,8 +73,10 @@ void Jump_State::run(){
     getUserCmd(); // 计算 期望速度
     calcCmd();    // 计算位移、转动角度，获取全局速度
     //         //      全局 v                      全局角速度        抬腿高度
-    _gait->setGait(_vCmdGlobal.segment(0,2), _wCmdGlobal(2), _gaitHeight);
-    _gait->run(_posFeetGlobalGoal, _velFeetGlobalGoal, _fstate_ctrl->_period, _fstate_ctrl->_stancePhaseRatio,FSMStateName::JUMP); // 生成下一刻的 足端坐标 、速度 (global)
+    // _gait->setGait(_vCmdGlobal.segment(0,2), _wCmdGlobal(2), _gaitHeight);
+    _gait->setGait(_vCmdBody.segment(0,2), _wCmdGlobal(2), _gaitHeight,_G2B_RotMat);
+
+    _gait->run(_posFeet2BGoal, _velFeet2BGoal, _fstate_ctrl->_period, _fstate_ctrl->_stancePhaseRatio,FSMStateName::JUMP); // 生成下一刻的 足端坐标 、速度 (global)
     // std::cout<<"_posFeetGlobalGoal:\n"<< _posFeetGlobalGoal <<std::endl;
     // std::cout<<"_velFeetGlobalGoal:\n"<< _velFeetGlobalGoal <<std::endl;
 
@@ -89,9 +95,9 @@ void Jump_State::run(){
 
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){
-            _fstate_ctrl->_ioros->setSwingGain(i);
+            _fstate_ctrl->_ioros->setSwingGain_JUMP(i);
         }else{
-            _fstate_ctrl->_ioros->setStableGain(i);
+            _fstate_ctrl->_ioros->setStableGain_JUMP(i);
         }
     }
 }
@@ -161,22 +167,19 @@ void Jump_State::calcQQd(){
     Vec34 _posFeet2B;
     _posFeet2B = GetFeetPos2BODY(*_lowstate,FrameType::BODY);
     
-    for(int i(0); i<4; ++i){
-        _posFeet2BGoal.col(i) =_G2B_RotMat* _posFeetGlobalGoal.col(i);
-        _velFeet2BGoal.col(i) = _G2B_RotMat* _velFeetGlobalGoal.col(i); 
-        // _posFeet2BGoal.col(i) = (_posFeetGlobalGoal.col(i)- _posBody);
-        // _velFeet2BGoal.col(i) =  (_velFeetGlobalGoal.col(i)- _velBody); 
-        // std::cout<<"_posFeetGlobalGoal.col(i)- _posBody:\n"<< _posFeetGlobalGoal.col(i)- _posBody <<std::endl;
-        // std::cout<<"_G2B_RotMat:\n"<< _G2B_RotMat <<std::endl;
-    }
     // std::cout<<"_G2B_RotMat:\n"<< _G2B_RotMat <<std::endl;
 
     // std::cout<<"_posFeetGlobalGoal:\n"<< _posFeetGlobalGoal <<std::endl;
     // std::cout<<"_posBody:\n"<< _posBody <<std::endl;
 
     // std::cout<<"_posFeet2BGoal:\n"<< _posFeet2BGoal <<std::endl;
+    // std::cout<<"_velFeet2BGoal:\n"<< _velFeet2BGoal <<std::endl;
     // std::cout<<"_posFeetGlobalGoal:\n"<< _posFeetGlobalGoal <<std::endl;
     // std::cout<<"_posBody:\n"<< _posBody <<std::endl;
+    // sendPlot((float)_posFeet2BGoal(0,0),(float)_posFeet2BGoal(1,0),(float)_posFeet2BGoal(2,0));
+    // sendPlot2((float)_posFeet2BGoal(0,1),(float)_posFeet2BGoal(1,1),(float)_posFeet2BGoal(2,1));
+    // sendPlot3((float)_posFeet2BGoal(0,2),(float)_posFeet2BGoal(1,2),(float)_posFeet2BGoal(2,2));
+    // sendPlot4((float)_posFeet2BGoal(0,3),(float)_posFeet2BGoal(1,3),(float)_posFeet2BGoal(2,3));
 
     // usleep(50000);
     // sleep(1);
@@ -208,4 +211,30 @@ FSMStateName Jump_State::CheckChange(){
 
 Jump_State::~Jump_State(){
     delete _gait;
+}
+
+void Jump_State::sendPlot(float x,float y,float z){
+    _msg.x = x;
+    _msg.y = y;
+    _msg.z = z;
+    _lcm->publish("plot_rf",&_msg);
+}
+
+void Jump_State::sendPlot2(float x,float y,float z){
+    _msg.x = x;
+    _msg.y = y;
+    _msg.z = z;
+    _lcm->publish("plot_lf",&_msg);
+}
+void Jump_State::sendPlot3(float x,float y,float z){
+    _msg.x = x;
+    _msg.y = y;
+    _msg.z = z;
+    _lcm->publish("plot_rr",&_msg);
+}
+void Jump_State::sendPlot4(float x,float y,float z){
+    _msg.x = x;
+    _msg.y = y;
+    _msg.z = z;
+    _lcm->publish("plot_lr",&_msg);
 }

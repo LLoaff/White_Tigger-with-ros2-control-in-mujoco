@@ -11,10 +11,12 @@
 class GaitGenerator{
 public:
     GaitGenerator(ControlComponent *ctrlComp);
-    void setGait(Vec2 vxyGoalGlobal, float dYawGoal, float gaitHeight);
+    void setGait(Vec2 vxyGoalBody, float dYawGoal, float gaitHeight,RotMat G2B);
     void run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio,FSMStateName state_name);
     Vec3 getFootPos(int i);
     Vec3 getFootVel(int i);
+    Vec3 getFootPos_JUMP(int i);
+    Vec3 getFootVel_JUMP(int i);
     void restart();
 
     // 五次多项式轨迹：
@@ -31,7 +33,7 @@ private:
     float cycloidZVelocity(float height, float phase);
 
     WaveGenerator *_waveG;
-    Estimator *_est;
+    // Estimator *_est;
     FeetEndCal *_feetCal;
     LowState *_state;
 

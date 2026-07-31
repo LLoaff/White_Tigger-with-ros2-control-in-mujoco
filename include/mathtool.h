@@ -6,13 +6,13 @@
 #include <iostream>
 
 #define _labad_   0.08785
-#define _lhip_    0.12
+#define _lhip_    0.08
 #define _lknee_   0.1358 
 
-#define _length_  0.1842
-#define _weigh_   0.04
+#define _length_  0.165
+#define _weigh_   0.035
 
-
+#define PHASE   0.5
 /*反归一化*/
 template<typename T0, typename T1, typename T2>
 inline T1 invNormalize(const T0 value, const T1 min, const T2 max, const float minLim = -1, const float maxLim = 1){

@@ -6,6 +6,7 @@
 #include "EnumClassList.h"
 #include "Gait/GaitGenerator.h"
 #include "Reversal_solution.h"
+#include "lcm_msg_cpp/plot.hpp"
 
 class Jump_State : public FSMState{
 public:
@@ -65,5 +66,17 @@ private:
 
     Eigen::Matrix<float,3,3>     _KP;
     Eigen::Matrix<float,3,3>     _KD;
+
+    lcm::LCM *          _lcm;
+    lcm::LCM *          _lcm2;
+    lcm::LCM *          _lcm3;
+    lcm::LCM *          _lcm4;
+    float               x,y,z;
+    plot_msg_cpp::plot  _msg;
+
+    void sendPlot(float x,float y,float z);
+    void sendPlot2(float x,float y,float z);
+    void sendPlot3(float x,float y,float z);
+    void sendPlot4(float x,float y,float z);
 };
 #endif

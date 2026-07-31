@@ -67,6 +67,8 @@ LowCmd::LowCmd():serial(std::make_shared<SerialPort>("/dev/ttyACM0", B921600)),_
 }
 
 void LowCmd::Update(){
+    // std::cout<<"update\n"<<std::endl;
+    // long long start = getSystemTime();
     struct Motor_State tmp_cmd[12];
     for(int i = 0; i < 12; ++i){
         tmp_cmd[i].id = i;
@@ -206,6 +208,8 @@ void LowCmd::Update(){
             break;
         }
     }
+    // long long end = getSystemTime();
+    // std::cout<<"time: "<<end - start<<std::endl;
 }
 
 void LowCmd::SetQ(Eigen::Matrix<float,12,1> q){
@@ -369,22 +373,14 @@ Eigen::Matrix<float,12,1> LowCmd::getW12(){
 }
 
 void LowCmd::setStableGain(int legID){
-    // _cmd[legID*3+0].kp = 10.5;
-    // _cmd[legID*3+0].kd = 2.5;
+    _cmd[legID*3+0].kp = 4.5;
+    _cmd[legID*3+0].kd = 2.0;
 
-    // _cmd[legID*3+1].kp = 11.5;
-    // _cmd[legID*3+1].kd = 2.5;
+    _cmd[legID*3+1].kp = 4.5;
+    _cmd[legID*3+1].kd = 2.0;
 
-    // _cmd[legID*3+2].kp = 11.9;
-    // _cmd[legID*3+2].kd = 2.5;
-    _cmd[legID*3+0].kp = 9.0;
-    _cmd[legID*3+0].kd = 1.5;
-
-    _cmd[legID*3+1].kp = 11.5;
-    _cmd[legID*3+1].kd = 1.5;
-
-    _cmd[legID*3+2].kp = 11.8;
-    _cmd[legID*3+2].kd = 1.5;
+    _cmd[legID*3+2].kp = 4.9;
+    _cmd[legID*3+2].kd = 2.0;
 }
 void LowCmd::setStableGain(){
     for(int i(0); i<4; ++i){
@@ -392,24 +388,36 @@ void LowCmd::setStableGain(){
     }
 }
 void LowCmd::setSwingGain(int legID){
-    // _cmd[legID*3+0].kp = 12.5;
-    // _cmd[legID*3+0].kd = 2.0;
+    _cmd[legID*3+0].kp = 4.5;
+    _cmd[legID*3+0].kd = 2.2;
 
-    // _cmd[legID*3+1].kp = 13.8;
-    // _cmd[legID*3+1].kd = 2.0;
+    _cmd[legID*3+1].kp = 4.8;
+    _cmd[legID*3+1].kd = 2.2;
 
-    // _cmd[legID*3+2].kp = 13.8;
-    // _cmd[legID*3+2].kd = 2.0;
-    _cmd[legID*3+0].kp = 8.5;
-    _cmd[legID*3+0].kd = 0.4;
+    _cmd[legID*3+2].kp = 4.8;
+    _cmd[legID*3+2].kd = 2.2;
 
-    _cmd[legID*3+1].kp = 9.8;
-    _cmd[legID*3+1].kd = 0.6;
-
-    _cmd[legID*3+2].kp = 9.8;
-    _cmd[legID*3+2].kd = 0.8;
 }
+void LowCmd::setStableGain_JUMP(int legID){
+    _cmd[legID*3+0].kp = 4.5;
+    _cmd[legID*3+0].kd = 1.5;
 
+    _cmd[legID*3+1].kp = 4.5;
+    _cmd[legID*3+1].kd = 1.5;
+
+    _cmd[legID*3+2].kp = 4.9;
+    _cmd[legID*3+2].kd = 1.5;
+}
+void LowCmd::setSwingGain_JUMP(int legID){
+    _cmd[legID*3+0].kp = 4.5;
+    _cmd[legID*3+0].kd = 1.5;
+
+    _cmd[legID*3+1].kp = 4.8;
+    _cmd[legID*3+1].kd = 1.5;
+
+    _cmd[legID*3+2].kp = 4.8;
+    _cmd[legID*3+2].kd = 1.5;
+}
 Eigen::Matrix<float,12,1> LowCmd::getInitialQ12(){
     Eigen::Matrix<float,12,1> initialQ;
     initialQ(0) = _state.Angle_Initialization_Variable.fr_hip_joint;

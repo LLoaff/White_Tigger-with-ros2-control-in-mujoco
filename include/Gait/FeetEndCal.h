@@ -13,7 +13,7 @@ public:
     Vec3 calFootPos(int legID, Vec2 vxyGoalGlobal, float dYawGoal, float phase,double period,double stancePhaseRatio);
 private:
     LowState *_lowState;
-    Estimator *_est;
+    // Estimator *_est;
 
     Vec3 _nextStep, _footPos;
     Vec3 _bodyVelGlobal;        // linear velocity

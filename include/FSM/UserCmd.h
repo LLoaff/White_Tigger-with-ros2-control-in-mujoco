@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <iostream>  
 #include <unistd.h> 
-#include "CSerialPort/SerialPort.h"
 #include "EnumClassList.h"
 #include <termios.h>
 #include "Imu.h"
@@ -31,8 +30,6 @@ public:
     void KeyBoardGet();
     pthread_t           _thread;
     UserValue           _user_value = UserValue::PASSIVE;
-    itas109::CSerialPort _serial;
-    uint8_t             _srerial_data[52];
     RC_Ctl_t            R_Data;
     Imu*                 _imu;
     int                 _state;
