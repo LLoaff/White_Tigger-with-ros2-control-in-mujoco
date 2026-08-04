@@ -33,7 +33,11 @@ public:
     Eigen::Matrix<double, 4, 1>* _phase;
     WaveGenerator *waveGen;
 
+    mjModel* _mjmodel;
+    mjData* _mjdata;
     LowCmd * _ioros;
+    int root_body_id =-1;
+    double _mjBox_pos[7]; // xyz wxyz
 private:
     WaveStatus _waveStatus = WaveStatus::SWING_ALL;
 };

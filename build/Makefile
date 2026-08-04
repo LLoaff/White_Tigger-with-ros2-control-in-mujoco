@@ -465,6 +465,30 @@ src/WBC/Estimator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/WBC/Estimator.cpp.s
 .PHONY : src/WBC/Estimator.cpp.s
 
+src/WBC/mujocoEstimator.o: src/WBC/mujocoEstimator.cpp.o
+.PHONY : src/WBC/mujocoEstimator.o
+
+# target to build an object file
+src/WBC/mujocoEstimator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o
+.PHONY : src/WBC/mujocoEstimator.cpp.o
+
+src/WBC/mujocoEstimator.i: src/WBC/mujocoEstimator.cpp.i
+.PHONY : src/WBC/mujocoEstimator.i
+
+# target to preprocess a source file
+src/WBC/mujocoEstimator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.i
+.PHONY : src/WBC/mujocoEstimator.cpp.i
+
+src/WBC/mujocoEstimator.s: src/WBC/mujocoEstimator.cpp.s
+.PHONY : src/WBC/mujocoEstimator.s
+
+# target to generate assembly for a file
+src/WBC/mujocoEstimator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.s
+.PHONY : src/WBC/mujocoEstimator.cpp.s
+
 src/basic.o: src/basic.cc.o
 .PHONY : src/basic.o
 
@@ -560,6 +584,30 @@ src/math/Kenimatics_normal_solution.s: src/math/Kenimatics_normal_solution.cpp.s
 src/math/Kenimatics_normal_solution.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/Kenimatics_normal_solution.cpp.s
 .PHONY : src/math/Kenimatics_normal_solution.cpp.s
+
+src/math/Mujoco_box.o: src/math/Mujoco_box.cpp.o
+.PHONY : src/math/Mujoco_box.o
+
+# target to build an object file
+src/math/Mujoco_box.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o
+.PHONY : src/math/Mujoco_box.cpp.o
+
+src/math/Mujoco_box.i: src/math/Mujoco_box.cpp.i
+.PHONY : src/math/Mujoco_box.i
+
+# target to preprocess a source file
+src/math/Mujoco_box.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.i
+.PHONY : src/math/Mujoco_box.cpp.i
+
+src/math/Mujoco_box.s: src/math/Mujoco_box.cpp.s
+.PHONY : src/math/Mujoco_box.s
+
+# target to generate assembly for a file
+src/math/Mujoco_box.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.s
+.PHONY : src/math/Mujoco_box.cpp.s
 
 src/math/Reversal_solution.o: src/math/Reversal_solution.cpp.o
 .PHONY : src/math/Reversal_solution.o
@@ -708,6 +756,9 @@ help:
 	@echo "... src/WBC/Estimator.o"
 	@echo "... src/WBC/Estimator.i"
 	@echo "... src/WBC/Estimator.s"
+	@echo "... src/WBC/mujocoEstimator.o"
+	@echo "... src/WBC/mujocoEstimator.i"
+	@echo "... src/WBC/mujocoEstimator.s"
 	@echo "... src/basic.o"
 	@echo "... src/basic.i"
 	@echo "... src/basic.s"
@@ -720,6 +771,9 @@ help:
 	@echo "... src/math/Kenimatics_normal_solution.o"
 	@echo "... src/math/Kenimatics_normal_solution.i"
 	@echo "... src/math/Kenimatics_normal_solution.s"
+	@echo "... src/math/Mujoco_box.o"
+	@echo "... src/math/Mujoco_box.i"
+	@echo "... src/math/Mujoco_box.s"
 	@echo "... src/math/Reversal_solution.o"
 	@echo "... src/math/Reversal_solution.i"
 	@echo "... src/math/Reversal_solution.s"

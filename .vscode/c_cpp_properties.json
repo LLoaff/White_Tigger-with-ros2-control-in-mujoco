@@ -3,12 +3,14 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/home/loaf/mujoco/include/**",
-                "/home/loaf/WT_MPC/include/**"
+                "${workspaceFolder}/include",
+                "/home/loaf/mujoco/include",
+                "/usr/include/glib-2.0",
+                "/usr/lib/x86_64-linux-gnu/glib-2.0/include",
             ],
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-x64"

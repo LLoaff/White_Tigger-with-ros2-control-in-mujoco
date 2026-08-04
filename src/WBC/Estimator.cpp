@@ -86,7 +86,7 @@ void Estimator::init(){
 void Estimator::run(){
     _feetPosBodyKine = GetFeetPos2BODY(*_lowstate,FrameType::BODY);
     _feetVelGlobalKine = GetFeetSpeed2BODY(*_lowstate,FrameType::GLOBAL);
-    _rotMatB2G = _lowstate->_imu.GetRotMat().cast<double>();
+    _rotMatB2G = _lowstate->_imu.GetRotMat();
     U<<0,0,-9.81;
     // std::cout<<"U: \n"<<U<<std::endl;
 
@@ -159,10 +159,6 @@ Eigen::Matrix<double, 3, 4> Estimator::getFeetPos(){
     for(int i(0); i < 4; ++i){
         feetPos.col(i) = getFootPos(i);
     }
-    // feetPos.block(0,0,3,1) = X.block(6, 0, 3, 1);
-    // feetPos.block(0,1,3,1) = X.block(9, 0, 3, 1);
-    // feetPos.block(0,2,3,1) = X.block(12, 0, 3, 1);
-    // feetPos.block(0,3,3,1) = X.block(15, 0, 3, 1);
     return feetPos;
 }
 Eigen::Matrix<double, 3, 4> Estimator::getFeetVel(){
@@ -180,14 +176,4 @@ Eigen::Matrix<double, 3, 4> Estimator::getPosFeet2BGlobal(){
     return feet2BPos;
 }
 
-LowState* Estimator::getLowState(){
-    return this->_lowstate;
-}
 
-Eigen::Vector3d Estimator::getPcom(){
-    return _pcom;
-}
-
-Eigen::Vector3d Estimator::getVcom(){
-    return _vcom;
-}

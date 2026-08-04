@@ -1,6 +1,12 @@
 #include "FSM/ControlComponent.h"
 
-ControlComponent::ControlComponent(mjModel *model, mjData *data){
+ControlComponent::ControlComponent(mjModel *model, mjData *data):_mjmodel(model)
+,_mjdata(data){
+    root_body_id = mj_name2id(_mjmodel, mjOBJ_BODY, "root");
+    if (root_body_id == -1) {
+        std::cerr << "没有找到 root body" << std::endl;
+        return;
+    }
     _contact = new Eigen::Matrix<int,4,1>();
     _phase = new Eigen::Matrix<double,4,1>();
     *_contact = Eigen::Matrix<int,4,1>(0,0,0,0);
@@ -10,6 +16,8 @@ ControlComponent::ControlComponent(mjModel *model, mjData *data){
     _ioros = new LowCmd(model,data);
     user_cmd = new UserCmd();
     _ioros->_state._imu.Imu_Initial();
+
+
 }
 
 void ControlComponent::runWaveGen(){
