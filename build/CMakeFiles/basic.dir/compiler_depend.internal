@@ -482,6 +482,20 @@ CMakeFiles/basic.dir/src/FSM/ControlComponent.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -503,20 +517,6 @@ CMakeFiles/basic.dir/src/FSM/ControlComponent.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -537,6 +537,32 @@ CMakeFiles/basic.dir/src/FSM/ControlComponent.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
 
 CMakeFiles/basic.dir/src/FSM/FSM.cpp.o
  /home/loaf/WT_MPC/src/FSM/FSM.cpp
@@ -1020,6 +1046,20 @@ CMakeFiles/basic.dir/src/FSM/FSM.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -1041,20 +1081,6 @@ CMakeFiles/basic.dir/src/FSM/FSM.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -1075,6 +1101,32 @@ CMakeFiles/basic.dir/src/FSM/FSM.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/Passive_State.h
  /home/loaf/WT_MPC/include/FSM/FSMState.h
  /home/loaf/WT_MPC/include/FSM/Free_State.h
@@ -1089,6 +1141,7 @@ CMakeFiles/basic.dir/src/FSM/FSM.cpp.o
  /home/loaf/WT_MPC/include/Gait/GaitGenerator.h
  /home/loaf/WT_MPC/include/Gait/FeetEndCal.h
  /home/loaf/WT_MPC/include/FSM/Sit_Down_State.h
+ /home/loaf/WT_MPC/include/math/Mujoco_box.h
 
 CMakeFiles/basic.dir/src/FSM/FSMState.cpp.o
  /home/loaf/WT_MPC/src/FSM/FSMState.cpp
@@ -1572,6 +1625,20 @@ CMakeFiles/basic.dir/src/FSM/FSMState.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -1593,20 +1660,6 @@ CMakeFiles/basic.dir/src/FSM/FSMState.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -1627,6 +1680,32 @@ CMakeFiles/basic.dir/src/FSM/FSMState.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/FSMState.h
 
 CMakeFiles/basic.dir/src/FSM/Free_State.cpp.o
@@ -2111,6 +2190,20 @@ CMakeFiles/basic.dir/src/FSM/Free_State.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -2132,20 +2225,6 @@ CMakeFiles/basic.dir/src/FSM/Free_State.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -2166,6 +2245,32 @@ CMakeFiles/basic.dir/src/FSM/Free_State.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/FSMState.h
 
 CMakeFiles/basic.dir/src/FSM/Passive_State.cpp.o
@@ -2650,6 +2755,20 @@ CMakeFiles/basic.dir/src/FSM/Passive_State.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -2671,20 +2790,6 @@ CMakeFiles/basic.dir/src/FSM/Passive_State.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -2705,6 +2810,32 @@ CMakeFiles/basic.dir/src/FSM/Passive_State.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/FSMState.h
 
 CMakeFiles/basic.dir/src/FSM/Sit_Down_State.cpp.o
@@ -3189,6 +3320,20 @@ CMakeFiles/basic.dir/src/FSM/Sit_Down_State.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -3210,20 +3355,6 @@ CMakeFiles/basic.dir/src/FSM/Sit_Down_State.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -3244,6 +3375,32 @@ CMakeFiles/basic.dir/src/FSM/Sit_Down_State.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/FSMState.h
  /home/loaf/WT_MPC/include/math/Reversal_solution.h
  /home/loaf/WT_MPC/include/math/mathTypes.h
@@ -3731,6 +3888,20 @@ CMakeFiles/basic.dir/src/FSM/Stand_State.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -3752,20 +3923,6 @@ CMakeFiles/basic.dir/src/FSM/Stand_State.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -3786,6 +3943,32 @@ CMakeFiles/basic.dir/src/FSM/Stand_State.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/FSMState.h
  /home/loaf/WT_MPC/include/math/Reversal_solution.h
  /home/loaf/WT_MPC/include/math/mathTypes.h
@@ -4274,6 +4457,20 @@ CMakeFiles/basic.dir/src/FSM/Trotting_State.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -4295,20 +4492,6 @@ CMakeFiles/basic.dir/src/FSM/Trotting_State.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -4329,6 +4512,32 @@ CMakeFiles/basic.dir/src/FSM/Trotting_State.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/EnumClassList.h
  /home/loaf/WT_MPC/include/math/Reversal_solution.h
  /home/loaf/WT_MPC/include/math/mathTypes.h
@@ -4817,6 +5026,20 @@ CMakeFiles/basic.dir/src/FSM/UserCmd.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -5306,6 +5529,20 @@ CMakeFiles/basic.dir/src/Gait/FeetEndCal.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -5327,20 +5564,6 @@ CMakeFiles/basic.dir/src/Gait/FeetEndCal.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -5361,6 +5584,32 @@ CMakeFiles/basic.dir/src/Gait/FeetEndCal.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
 
 CMakeFiles/basic.dir/src/Gait/GaitGenerator.cpp.o
  /home/loaf/WT_MPC/src/Gait/GaitGenerator.cpp
@@ -5849,6 +6098,20 @@ CMakeFiles/basic.dir/src/Gait/GaitGenerator.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -5866,20 +6129,6 @@ CMakeFiles/basic.dir/src/Gait/GaitGenerator.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -5900,6 +6149,32 @@ CMakeFiles/basic.dir/src/Gait/GaitGenerator.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
 
 CMakeFiles/basic.dir/src/Gait/WaveGenerator.cpp.o
  /home/loaf/WT_MPC/src/Gait/WaveGenerator.cpp
@@ -7314,8 +7589,22 @@ CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o
  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
  /home/loaf/WT_MPC/include/math/mathtool.h
  /home/loaf/WT_MPC/include/FSM/EnumClassList.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/mathTypes.h
 
 CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o
  /home/loaf/WT_MPC/src/WBC/mujocoEstimator.cpp
@@ -7800,6 +8089,9 @@ CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o
  /home/loaf/mujoco/include/mujoco/mjrender.h
  /home/loaf/mujoco/include/mujoco/mjsan.h
  /home/loaf/mujoco/include/mujoco/mjui.h
+ /home/loaf/WT_MPC/include/math/mathTypes.h
+ /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
+ /home/loaf/WT_MPC/include/math/mathtool.h
 
 CMakeFiles/basic.dir/src/basic.cc.o
  /home/loaf/WT_MPC/src/basic.cc
@@ -8342,6 +8634,32 @@ CMakeFiles/basic.dir/src/basic.cc.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/FSM.h
  /home/loaf/WT_MPC/include/FSM/ControlComponent.h
  /home/loaf/WT_MPC/include/FSM/Passive_State.h
@@ -8358,6 +8676,7 @@ CMakeFiles/basic.dir/src/basic.cc.o
  /home/loaf/WT_MPC/include/Gait/GaitGenerator.h
  /home/loaf/WT_MPC/include/Gait/FeetEndCal.h
  /home/loaf/WT_MPC/include/FSM/Sit_Down_State.h
+ /home/loaf/WT_MPC/include/math/Mujoco_box.h
 
 CMakeFiles/basic.dir/src/low/LowCmd.cpp.o
  /home/loaf/WT_MPC/src/low/LowCmd.cpp
@@ -9312,6 +9631,19 @@ CMakeFiles/basic.dir/src/low/LowState.cpp.o
  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
  /home/loaf/WT_MPC/include/math/mathtool.h
  /home/loaf/WT_MPC/include/FSM/EnumClassList.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
 
 CMakeFiles/basic.dir/src/math/Kenimatics_normal_solution.cpp.o
  /home/loaf/WT_MPC/src/math/Kenimatics_normal_solution.cpp
@@ -9784,6 +10116,19 @@ CMakeFiles/basic.dir/src/math/Kenimatics_normal_solution.cpp.o
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h
  /usr/include/linux/close_range.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
 
 CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o
  /home/loaf/WT_MPC/src/math/Mujoco_box.cpp
@@ -10267,6 +10612,20 @@ CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -10288,20 +10647,6 @@ CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -10322,6 +10667,32 @@ CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
 
 CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o
  /home/loaf/WT_MPC/src/math/Reversal_solution.cpp
@@ -10796,6 +11167,19 @@ CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h
  /usr/include/linux/close_range.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
 
 CMakeFiles/basic.dir/src/math/Robot.cpp.o
  /home/loaf/WT_MPC/src/math/Robot.cpp
@@ -11722,6 +12106,20 @@ CMakeFiles/basic.dir/src/sensor/Imu.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
 
 CMakeFiles/basic.dir/src/start.cpp.o
  /home/loaf/WT_MPC/src/start.cpp
@@ -12205,6 +12603,20 @@ CMakeFiles/basic.dir/src/start.cpp.o
  /usr/include/syslog.h
  /usr/include/x86_64-linux-gnu/sys/syslog.h
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /home/loaf/mujoco/include/mujoco/mujoco.h
+ /usr/include/c++/11/math.h
+ /home/loaf/mujoco/include/mujoco/mjdata.h
+ /home/loaf/mujoco/include/mujoco/mjtnum.h
+ /home/loaf/mujoco/include/mujoco/mjmodel.h
+ /home/loaf/mujoco/include/mujoco/mjthread.h
+ /home/loaf/mujoco/include/mujoco/mjexport.h
+ /home/loaf/mujoco/include/mujoco/mjmacro.h
+ /home/loaf/mujoco/include/mujoco/mjplugin.h
+ /home/loaf/mujoco/include/mujoco/mjspec.h
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h
+ /home/loaf/mujoco/include/mujoco/mjrender.h
+ /home/loaf/mujoco/include/mujoco/mjsan.h
+ /home/loaf/mujoco/include/mujoco/mjui.h
  /usr/include/lcm/lcm-cpp.hpp
  /usr/include/lcm/lcm.h
  /usr/include/lcm/eventlog.h
@@ -12226,20 +12638,6 @@ CMakeFiles/basic.dir/src/start.cpp.o
  /usr/include/c++/11/bits/parse_numbers.h
  /home/loaf/WT_MPC/include/low/LowCmd.h
  /home/loaf/WT_MPC/include/low/LowState.h
- /usr/include/c++/11/math.h
- /home/loaf/mujoco/include/mujoco/mujoco.h
- /home/loaf/mujoco/include/mujoco/mjdata.h
- /home/loaf/mujoco/include/mujoco/mjtnum.h
- /home/loaf/mujoco/include/mujoco/mjmodel.h
- /home/loaf/mujoco/include/mujoco/mjthread.h
- /home/loaf/mujoco/include/mujoco/mjexport.h
- /home/loaf/mujoco/include/mujoco/mjmacro.h
- /home/loaf/mujoco/include/mujoco/mjplugin.h
- /home/loaf/mujoco/include/mujoco/mjspec.h
- /home/loaf/mujoco/include/mujoco/mjvisualize.h
- /home/loaf/mujoco/include/mujoco/mjrender.h
- /home/loaf/mujoco/include/mujoco/mjsan.h
- /home/loaf/mujoco/include/mujoco/mjui.h
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h
  /usr/local/include/QuadProg++/QuadProg++.hh
  /usr/local/include/QuadProg++/Array.hh
@@ -12260,6 +12658,32 @@ CMakeFiles/basic.dir/src/start.cpp.o
  /home/loaf/WT_MPC/include/WBC/Estimator.h
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h
  /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/data_analyze.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/curlver.h
+ /usr/include/x86_64-linux-gnu/curl/system.h
+ /usr/include/x86_64-linux-gnu/sys/socket.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h
+ /usr/include/x86_64-linux-gnu/bits/socket.h
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h
+ /usr/include/x86_64-linux-gnu/asm/socket.h
+ /usr/include/asm-generic/socket.h
+ /usr/include/linux/posix_types.h
+ /usr/include/linux/stddef.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h
+ /usr/include/asm-generic/posix_types.h
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h
+ /usr/include/asm-generic/bitsperlong.h
+ /usr/include/x86_64-linux-gnu/asm/sockios.h
+ /usr/include/asm-generic/sockios.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h
+ /usr/include/x86_64-linux-gnu/curl/easy.h
+ /usr/include/x86_64-linux-gnu/curl/multi.h
+ /usr/include/x86_64-linux-gnu/curl/curl.h
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h
+ /usr/include/x86_64-linux-gnu/curl/options.h
  /home/loaf/WT_MPC/include/FSM/FSM.h
  /home/loaf/WT_MPC/include/FSM/ControlComponent.h
  /home/loaf/WT_MPC/include/FSM/Passive_State.h
@@ -12276,4 +12700,5 @@ CMakeFiles/basic.dir/src/start.cpp.o
  /home/loaf/WT_MPC/include/Gait/GaitGenerator.h
  /home/loaf/WT_MPC/include/Gait/FeetEndCal.h
  /home/loaf/WT_MPC/include/FSM/Sit_Down_State.h
+ /home/loaf/WT_MPC/include/math/Mujoco_box.h
 

@@ -2,7 +2,7 @@
 GaitGenerator::GaitGenerator(ControlComponent *ctrlComp)
               : _waveG(ctrlComp->waveGen), _est(ctrlComp->_estimator), 
                 _phase(ctrlComp->_phase), _contact(ctrlComp->_contact), 
-                 _state(&ctrlComp->_ioros->_state),_robModel(ctrlComp->robotModel),
+                 _state(ctrlComp->_ioros->_state),_robModel(ctrlComp->robotModel),
                  _dt(ctrlComp->dt){
     _feetCal = new FeetEndCal(ctrlComp);
     _firstRun = true;

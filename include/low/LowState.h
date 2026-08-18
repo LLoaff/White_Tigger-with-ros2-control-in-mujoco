@@ -5,6 +5,7 @@
 #include <math.h>
 #include "sensor/Imu.h"
 #include <eigen3/Eigen/Dense>
+#include <mujoco/mujoco.h>
 
 struct Motor_State {
     uint8_t id;
@@ -38,12 +39,15 @@ class LowState
 {
 public:
   
-    LowState();
+    LowState(mjModel *model, mjData *data);
 
     // damiao::Motor   _motor_data[12];// 接受电机原始数据
     struct Angle_Initialization Angle_Initialization_Variable;
     Imu         _imu;
     struct Motor_State _motor_state[12];
+private:
+    mjModel*  _model;
+    mjData*   _data;
 };
 
 

@@ -43,6 +43,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o.d"
   "CMakeFiles/basic.dir/src/math/Robot.cpp.o"
   "CMakeFiles/basic.dir/src/math/Robot.cpp.o.d"
+  "CMakeFiles/basic.dir/src/math/data_analyze.cpp.o"
+  "CMakeFiles/basic.dir/src/math/data_analyze.cpp.o.d"
   "CMakeFiles/basic.dir/src/sensor/Imu.cpp.o"
   "CMakeFiles/basic.dir/src/sensor/Imu.cpp.o.d"
   "CMakeFiles/basic.dir/src/start.cpp.o"

@@ -9,14 +9,14 @@
 /*generate linear wave, [0, 1]*/
 class WaveGenerator{
 public:
-    WaveGenerator(double period, double stancePhaseRatio, Vec4 bias);// period:步态周期 stancePhaseRatio：触地系数 bias：偏移时间b与p的比值
-    void calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status);//计算相位和接触状态
+    WaveGenerator(double period, double stancePhaseRatio, Vec4 bias,double current_time);// period:步态周期 stancePhaseRatio：触地系数 bias：偏移时间b与p的比值
+    void calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status,double current_time);//计算相位和接触状态
     float getTstance();// 返回触地时长
     float getTswing(); // 返回腾空时长
     float getT();      // 返回步态周期P
-    void reset(double period, double stancePhaseRatio, Vec4 bias);
+    void reset(double period, double stancePhaseRatio, Vec4 bias,double current_time);
 private:
-    void calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status);
+    void calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,double current_time);
 
     double _period;                 // 周期 P
     double _stRatio;                // 触地系数 r

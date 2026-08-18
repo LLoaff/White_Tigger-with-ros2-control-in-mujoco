@@ -6,8 +6,9 @@
 
 LowCmd::LowCmd(mjModel *model, mjData *data):_mjmodel(model),_mjdata(data){
     idInit();
+    _state = new LowState(model,data);
     for(int i = 0; i < 12; ++i){
-        this->_state._motor_state[i].id = i;
+        this->_state->_motor_state[i].id = i;
         _cmd[i].id = i;
         _cmd[i].dq = 0;
         _cmd[i].tau = 0;
@@ -17,40 +18,40 @@ LowCmd::LowCmd(mjModel *model, mjData *data):_mjmodel(model),_mjdata(data){
         switch (i)
         {
             case 0:
-                _cmd[i].q = _state.Angle_Initialization_Variable.fr_hip_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.fr_hip_joint;
                 break;
             case 1:
-                _cmd[i].q = _state.Angle_Initialization_Variable.fr_thigh_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.fr_thigh_joint;
                 break;
             case 2:
-                _cmd[i].q = _state.Angle_Initialization_Variable.fr_calf_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.fr_calf_joint;
                 break;
             case 3:
-                _cmd[i].q = _state.Angle_Initialization_Variable.fl_hip_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.fl_hip_joint;
                 break;
             case 4:
-                _cmd[i].q = _state.Angle_Initialization_Variable.fl_thigh_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.fl_thigh_joint;
                 break;
             case 5:
-                _cmd[i].q = _state.Angle_Initialization_Variable.fl_calf_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.fl_calf_joint;
                 break;
             case 6:
-                _cmd[i].q = _state.Angle_Initialization_Variable.br_hip_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.br_hip_joint;
                 break;
             case 7:
-                _cmd[i].q = _state.Angle_Initialization_Variable.br_thigh_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.br_thigh_joint;
                 break;
             case 8:
-                _cmd[i].q = _state.Angle_Initialization_Variable.br_calf_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.br_calf_joint;
                 break;
             case 9:
-                _cmd[i].q = _state.Angle_Initialization_Variable.bl_hip_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.bl_hip_joint;
                 break;
             case 10:
-                _cmd[i].q = _state.Angle_Initialization_Variable.bl_thigh_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.bl_thigh_joint;
                 break;
             case 11:
-                _cmd[i].q = _state.Angle_Initialization_Variable.bl_calf_joint;
+                _cmd[i].q = _state->Angle_Initialization_Variable.bl_calf_joint;
                 break;
             default:
                 break;
@@ -69,19 +70,19 @@ void LowCmd::Update(){
         // tmp_cmd[i].kp = _cmd[i].kp;
         // tmp_cmd[i].kd = _cmd[i].kd;
 
-        _state._motor_state[i].q = _mjdata->sensordata[_mjmodel->sensor_adr[_jointid[3*i + 0]]];
-        _state._motor_state[i].dq = _mjdata->sensordata[_mjmodel->sensor_adr[_jointid[3*i + 1]]];
-        _state._motor_state[i].tau = _mjdata->sensordata[_mjmodel->sensor_adr[_jointid[3*i + 2]]];
-        // std::cout<<"id :"<<i<<" q: "<< _state._motor_state[i].q<<std::endl;
-        // std::cout<<"id :"<<i<<" v: "<< _state._motor_state[i].dq<<std::endl;
-        // std::cout<<"id :"<<i<<" t: "<< _state._motor_state[i].tau<<std::endl;
+        _state->_motor_state[i].q = _mjdata->sensordata[_mjmodel->sensor_adr[_jointid[3*i + 0]]];
+        _state->_motor_state[i].dq = _mjdata->sensordata[_mjmodel->sensor_adr[_jointid[3*i + 1]]];
+        _state->_motor_state[i].tau = _mjdata->sensordata[_mjmodel->sensor_adr[_jointid[3*i + 2]]];
+        // std::cout<<"id :"<<i<<" q: "<< _state->_motor_state[i].q<<std::endl;
+        // std::cout<<"id :"<<i<<" v: "<< _state->_motor_state[i].dq<<std::endl;
+        // std::cout<<"id :"<<i<<" t: "<< _state->_motor_state[i].tau<<std::endl;
         this->PDController(i,_cmd[i].q,_cmd[i].dq,_cmd[i].kp,_cmd[i].kd,_cmd[i].tau);
     }
 }
 
 void LowCmd::PDController(int id,float q,float vel,float kp,float kd,float tau){
-    float q_cur = this->_state._motor_state[id].q;
-    float dq_cur = this->_state._motor_state[id].dq;
+    float q_cur = this->_state->_motor_state[id].q;
+    float dq_cur = this->_state->_motor_state[id].dq;
     float out_tau = tau + kp*(q-q_cur)+kd*(vel-dq_cur);
     // std::cout<<"id: "<<id<<" tau: "<< out_tau<<std::endl;
     if (std::isnan(out_tau) || std::isinf(out_tau) || fabs(out_tau) > 1000) {
@@ -226,9 +227,9 @@ void LowCmd::SetFree()
 Eigen::Matrix<double,3,4> LowCmd::getQ(){
   Eigen::Matrix<double,3,4> qLegs;
   for(int i(0); i < 4; ++i){
-      qLegs.col(i)(0) = _state._motor_state[3*i    ].q;
-      qLegs.col(i)(1) = _state._motor_state[3*i + 1].q;
-      qLegs.col(i)(2) = _state._motor_state[3*i + 2].q;
+      qLegs.col(i)(0) = _state->_motor_state[3*i    ].q;
+      qLegs.col(i)(1) = _state->_motor_state[3*i + 1].q;
+      qLegs.col(i)(2) = _state->_motor_state[3*i + 2].q;
   }
   return qLegs;
 }
@@ -236,9 +237,9 @@ Eigen::Matrix<double,3,4> LowCmd::getQ(){
 Eigen::Matrix<double,12,1> LowCmd::getQ12(){
   Eigen::Matrix<double,12,1> qLegs;
   for(int i(0); i < 4; ++i){
-      qLegs(3*i  ) = _state._motor_state[3*i  ].q;
-      qLegs(3*i+1) = _state._motor_state[3*i+1].q;
-      qLegs(3*i+2) = _state._motor_state[3*i+2].q;
+      qLegs(3*i  ) = _state->_motor_state[3*i  ].q;
+      qLegs(3*i+1) = _state->_motor_state[3*i+1].q;
+      qLegs(3*i+2) = _state->_motor_state[3*i+2].q;
   }
   return qLegs;
 }
@@ -246,9 +247,9 @@ Eigen::Matrix<double,12,1> LowCmd::getQ12(){
 Eigen::Matrix<double,12,1> LowCmd::getW12(){
   Eigen::Matrix<double,12,1> w;
   for(int i(0); i < 4; ++i){
-      w(3*i  ) = _state._motor_state[3*i  ].dq ;
-      w(3*i+1) = _state._motor_state[3*i+1].dq ;
-      w(3*i+2) = _state._motor_state[3*i+2].dq;
+      w(3*i  ) = _state->_motor_state[3*i  ].dq ;
+      w(3*i+1) = _state->_motor_state[3*i+1].dq ;
+      w(3*i+2) = _state->_motor_state[3*i+2].dq;
   }
   return w;
 }
@@ -311,18 +312,18 @@ void LowCmd::setZeroGain(int legID){
 }
 Eigen::Matrix<double,12,1> LowCmd::getInitialQ12(){
     Eigen::Matrix<double,12,1> initialQ;
-    initialQ(0) = _state.Angle_Initialization_Variable.fr_hip_joint;
-    initialQ(1) = _state.Angle_Initialization_Variable.fr_thigh_joint;
-    initialQ(2) = _state.Angle_Initialization_Variable.fr_calf_joint;
-    initialQ(3) = _state.Angle_Initialization_Variable.fl_hip_joint;
-    initialQ(4) = _state.Angle_Initialization_Variable.fl_thigh_joint;
-    initialQ(5) = _state.Angle_Initialization_Variable.fl_calf_joint;
-    initialQ(6) = _state.Angle_Initialization_Variable.br_hip_joint;
-    initialQ(7) = _state.Angle_Initialization_Variable.br_thigh_joint;
-    initialQ(8) = _state.Angle_Initialization_Variable.br_calf_joint;
-    initialQ(9) = _state.Angle_Initialization_Variable.bl_hip_joint;
-    initialQ(10) = _state.Angle_Initialization_Variable.bl_thigh_joint;
-    initialQ(11) = _state.Angle_Initialization_Variable.bl_calf_joint;
+    initialQ(0) = _state->Angle_Initialization_Variable.fr_hip_joint;
+    initialQ(1) = _state->Angle_Initialization_Variable.fr_thigh_joint;
+    initialQ(2) = _state->Angle_Initialization_Variable.fr_calf_joint;
+    initialQ(3) = _state->Angle_Initialization_Variable.fl_hip_joint;
+    initialQ(4) = _state->Angle_Initialization_Variable.fl_thigh_joint;
+    initialQ(5) = _state->Angle_Initialization_Variable.fl_calf_joint;
+    initialQ(6) = _state->Angle_Initialization_Variable.br_hip_joint;
+    initialQ(7) = _state->Angle_Initialization_Variable.br_thigh_joint;
+    initialQ(8) = _state->Angle_Initialization_Variable.br_calf_joint;
+    initialQ(9) = _state->Angle_Initialization_Variable.bl_hip_joint;
+    initialQ(10) = _state->Angle_Initialization_Variable.bl_thigh_joint;
+    initialQ(11) = _state->Angle_Initialization_Variable.bl_calf_joint;
     return initialQ;
 }
 LowCmd::~LowCmd() {

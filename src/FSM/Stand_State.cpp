@@ -37,13 +37,13 @@ void Stand_State::enter()
         _fstate_ctrl->_ioros->SetTau(i,tau);
         _target_speed.segment(3*i,3) = speed;
         _target_angle.segment(3*i,3) =  Reversal_Solution_Update(i,_target_xyz(3*i+0),_target_xyz(3*i+1),_target_xyz(3*i+2));
-        _start_angle(3*i+0)  =  _fstate_ctrl->_ioros->_state._motor_state[3*i+0].q;
-        _start_angle(3*i+1)  =  _fstate_ctrl->_ioros->_state._motor_state[3*i+1].q;
-        _start_angle(3*i+2)  =  _fstate_ctrl->_ioros->_state._motor_state[3*i+2].q;
+        _start_angle(3*i+0)  =  _fstate_ctrl->_ioros->_state->_motor_state[3*i+0].q;
+        _start_angle(3*i+1)  =  _fstate_ctrl->_ioros->_state->_motor_state[3*i+1].q;
+        _start_angle(3*i+2)  =  _fstate_ctrl->_ioros->_state->_motor_state[3*i+2].q;
     }
     // std::cout<< "_target_angle: \n" << _target_angle<< std::endl;
     // _target_angle = Reversal_GetQ(_target_xyz.cast<double>(),FrameType::BODY).cast<float>();
-    _start_xyz =vec34ToVec12(GetFeetPos2BODY(_fstate_ctrl->_ioros->_state,FrameType::HIP));
+    _start_xyz =vec34ToVec12(GetFeetPos2BODY(*_fstate_ctrl->_ioros->_state,FrameType::HIP));
     _fstate_ctrl->setAllStance();
    std::cout<<"stand"<<std::endl;     
 

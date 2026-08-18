@@ -1,5 +1,5 @@
 <mujoco model="small_dog">
-  <option iterations="50" timestep="0.001" solver="PGS" gravity="0 0 -9.81" />
+  <option iterations="50" timestep="0.002" solver="PGS" gravity="0 0 -9.81" />
 
   <compiler angle="radian" meshdir="meshes" eulerseq="zyx" autolimits="true" />
 
@@ -237,8 +237,8 @@
     <actuatorpos name="bl_calf_joint_p" actuator="bl_calf_joint" />
     <actuatorvel name="bl_calf_joint_v" actuator="bl_calf_joint" />
     <actuatorfrc name="bl_calf_joint_f" actuator="bl_calf_joint" noise="0.00" />
-    <framequat name="imu_sensor_quat" objtype="site" noise="0.00" objname="imu_sensor" />
-    <gyro name="imu_sensor_gyro" site="imu_sensor" noise="0.00" cutoff="34.9" />
-    <accelerometer name="imu_sensor_accel" site="imu_sensor"/>
+    <framequat name="imu_quat" objtype="site" noise="0.00" objname="imu_sensor" />
+    <gyro name="imu_gyro" site="imu_sensor" noise="0.00" cutoff="34.9" />
+    <accelerometer name="imu_acc" site="imu_sensor"/>
   </sensor>
 </mujoco>

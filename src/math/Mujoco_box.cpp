@@ -16,15 +16,15 @@ Mujoco_box::Mujoco_box(ControlComponent* comp):_comp(comp){
     int _quat_index = 4 * box_mocap_id;
 }
 
-void Mujoco_box::BoxUpdate(){
-    _comp->_mjdata->mocap_pos[_pos_index + 0] = _comp->_mjBox_pos[0];
-    _comp->_mjdata->mocap_pos[_pos_index + 1] = _comp->_mjBox_pos[1];
-    _comp->_mjdata->mocap_pos[_pos_index + 2] = _comp->_mjBox_pos[2];
+void Mujoco_box::BoxUpdate(Vec3 pcom,Vec4 quat){
+    _comp->_mjdata->mocap_pos[_pos_index + 0] = pcom(0);
+    _comp->_mjdata->mocap_pos[_pos_index + 1] = pcom(1);
+    _comp->_mjdata->mocap_pos[_pos_index + 2] = pcom(2);
 
-    _comp->_mjdata->mocap_quat[_pos_index + 0] = _comp->_mjBox_pos[3];
-    _comp->_mjdata->mocap_quat[_pos_index + 1] = _comp->_mjBox_pos[4];
-    _comp->_mjdata->mocap_quat[_pos_index + 2] = _comp->_mjBox_pos[5];
-    _comp->_mjdata->mocap_quat[_pos_index + 3] = _comp->_mjBox_pos[6];
+    _comp->_mjdata->mocap_quat[_pos_index + 0] = quat(0);
+    _comp->_mjdata->mocap_quat[_pos_index + 1] = quat(1);
+    _comp->_mjdata->mocap_quat[_pos_index + 2] = quat(2);
+    _comp->_mjdata->mocap_quat[_pos_index + 3] = quat(3);
 
 }
 

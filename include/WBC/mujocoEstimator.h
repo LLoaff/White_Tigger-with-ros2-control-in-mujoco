@@ -4,6 +4,7 @@
 #include "low/LowState.h"
 #include "eigen3/Eigen/Dense"
 #include "math/mathtool.h"
+#include "math/mathTypes.h"
 // #include "FSM/EnumClassList.h"
 #include "math/Kenimatics_normal_solution.h"
 #include "mujoco/mujoco.h"

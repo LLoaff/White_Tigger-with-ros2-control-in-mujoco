@@ -1,5 +1,6 @@
 #include "FSM/FSM.h"
 FSM::FSM(ControlComponent *_ctrlcomp):_fsm_ctrl(_ctrlcomp){
+    _mj_box = new Mujoco_box(_ctrlcomp);
     _fsm_state_list.invalid     = nullptr;
     _fsm_state_list.passive     = new Passive_State(_ctrlcomp);
     _fsm_state_list.free        = new Free_State(_ctrlcomp);
@@ -22,10 +23,13 @@ void FSM::initialize(){
 
 void FSM::run(){
     // std::cout<<"FSM::run: "<<std::endl;
-    _start_time = getSystemTime();
+    // _start_time = getSystemTime();
     _fsm_ctrl->_ioros->Update();        // 对电机发送命令
     _fsm_ctrl->runWaveGen();
-
+    _fsm_ctrl->_estimator->run();
+    
+    _mj_box->BoxUpdate(_fsm_ctrl->_estimator->getPosition(),_fsm_ctrl->_ioros->_state->_imu.GetQuat());
+    // _fsm_ctrl->_analyze.sendComPos(_fsm_ctrl->_mjdata->time,);
     if(_mode == FSMMode::NORMAL){
         _current_state->run();          // 当前 状态执行一次run 
 
@@ -49,7 +53,7 @@ void FSM::run(){
         _current_state->run();
     }
 
-    absoluteWait(_start_time, (long long)(_fsm_ctrl->dt * 1000000));       // dt 需初始化时手动赋值
+    // absoluteWait(_start_time, (long long)(_fsm_ctrl->dt * 1000000));       // dt 需初始化时手动赋值
 }
 
 FSMState* FSM::GetNextState(FSMStateName fsm_state_name){
@@ -99,5 +103,6 @@ FSM::~FSM()
     // delete _fsm_state_list.balance;
     delete _fsm_state_list.trotting;
     delete _fsm_state_list.sit_down;
+    delete _mj_box;
 //     delete _fsm_state_list.jump_state;
 }

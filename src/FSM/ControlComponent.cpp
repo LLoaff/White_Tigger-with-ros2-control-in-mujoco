@@ -15,13 +15,13 @@ ControlComponent::ControlComponent(mjModel *model, mjData *data):_mjmodel(model)
 
     _ioros = new LowCmd(model,data);
     user_cmd = new UserCmd();
-    _ioros->_state._imu.Imu_Initial();
+    _ioros->_state->_imu.Imu_Initial();
 
 
 }
 
 void ControlComponent::runWaveGen(){
-    waveGen->calcContactPhase(*_phase, *_contact, _waveStatus);
+    waveGen->calcContactPhase(*_phase, *_contact, _waveStatus,_mjdata->time );
 }
 
 void ControlComponent::setAllStance(){
@@ -37,7 +37,7 @@ void ControlComponent::setStartWave(){
 }
 
 void ControlComponent::Estimator_Init(){
-    _estimator = new Estimator(&_ioros->_state, _contact,_phase,dt);
+    _estimator = new Estimator(_ioros->_state, _contact,_phase,dt);
     _balCtrl = new BalanceCtrl();
 }
 

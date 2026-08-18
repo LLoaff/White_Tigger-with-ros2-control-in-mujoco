@@ -6,11 +6,12 @@
 #include "eigen3/Eigen/Dense"
 #include "math/mathtool.h"
 #include <syslog.h>
+#include <mujoco/mujoco.h>
 
 class Imu
 {
 public:
-    Imu();
+    Imu(mjModel *model, mjData *data);
     ~Imu();
     void Imu_Initial();
     void Imu_Update();
@@ -30,6 +31,11 @@ public:
     double accelerometer[3];
 private:
     // uint8_t data_buff[42];
+    int _imu_acc_id = 0;
+    int _imu_gyro_id = 0;
+    int _imu_quat_id = 0;
+    mjModel*  _model;
+    mjData*   _data;
 };
 
 #endif

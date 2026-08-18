@@ -1,7 +1,7 @@
 #include "Gait/WaveGenerator.h"
 
                                   // 0.4              0.5                 0 ,0.5 ,0.5,0 
-WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias)
+WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias,double current_time)
 : _period(period), _stRatio(stancePhaseRatio), _bias(bias){
     if ((_stRatio >= 1) || (_stRatio <= 0))
     {
@@ -18,13 +18,15 @@ WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias)
         }
     }
 
-    _startT = getSystemTime();
+    // _startT = getSystemTime();
+    _startT = current_time;
+
     _contactPast.setZero();
     _phasePast << 0.5, 0.5, 0.5, 0.5;
     _statusPast = WaveStatus::SWING_ALL;
 }
 
-void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias) {
+void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias,double current_time) {
     if ((stancePhaseRatio >= 1) || (stancePhaseRatio <= 0)) {
         std::cout << "[ERROR] The stancePhaseRatio of WaveGenerator should between (0, 1)" << std::endl;
         return; 
@@ -41,22 +43,24 @@ void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias) {
     _stRatio = stancePhaseRatio;
     _bias = bias;
 
-    _startT = getSystemTime();
+    // _startT = getSystemTime();
+    _startT = current_time;
+
     _contactPast.setZero();
     _phasePast << 0.5, 0.5, 0.5, 0.5;
     _statusPast = WaveStatus::SWING_ALL;
     _switchStatus.setZero();
 }
 // 步态切换控制器 
-void WaveGenerator::calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status){
-    calcWave(_phase, _contact, status);
+void WaveGenerator::calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status,double current_time){
+    calcWave(_phase, _contact, status, current_time);
     if (status != _statusPast)
     {
         if (_switchStatus.sum() == 0)
         {
             _switchStatus.setOnes();
         }
-        calcWave(_phasePast, _contactPast, _statusPast);
+        calcWave(_phasePast, _contactPast, _statusPast,current_time);
 
         if ((status == WaveStatus::STANCE_ALL) && (_statusPast == WaveStatus::SWING_ALL))
         {
@@ -103,9 +107,11 @@ float WaveGenerator::getT(){
     return _period;
 }
 
-void WaveGenerator::calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status){
+void WaveGenerator::calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,double current_time){
     if (status == WaveStatus::WAVE_ALL){
-        _passT = (double)(getSystemTime() - _startT) * 1e-6; 
+        // _passT = (double)(getSystemTime() - _startT) * 1e-6; 
+        _passT = current_time - _startT; 
+
         for (int i(0); i < 4; ++i){
                                 // fmod:求余函数fmod(x,y): x/y的余数  _period * _bias(i): 偏移时间  
             _normalT(i) = fmod(_passT + _period - _period * _bias(i), _period) / _period;

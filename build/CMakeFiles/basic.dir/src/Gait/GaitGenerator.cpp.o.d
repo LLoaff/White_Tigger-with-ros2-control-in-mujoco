@@ -429,18 +429,7 @@ CMakeFiles/basic.dir/src/Gait/GaitGenerator.cpp.o: \
  /home/loaf/WT_MPC/include/sensor/Imu.h /usr/include/syslog.h \
  /usr/include/x86_64-linux-gnu/sys/syslog.h \
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h \
- /usr/include/lcm/lcm-cpp.hpp /usr/include/lcm/lcm.h \
- /usr/include/lcm/eventlog.h /usr/include/lcm/lcm-cpp-impl.hpp \
- /home/loaf/WT_MPC/include/lcm_msg_cpp/lcm_vel_cmd.hpp \
- /usr/include/lcm/lcm_coretypes.h /home/loaf/WT_MPC/include/math/Robot.h \
- /usr/include/c++/11/thread /usr/include/c++/11/bits/std_thread.h \
- /usr/include/c++/11/bits/unique_ptr.h \
- /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/c++/11/chrono \
- /usr/include/c++/11/ratio /usr/include/c++/11/ctime \
- /usr/include/c++/11/bits/parse_numbers.h \
- /home/loaf/WT_MPC/include/low/LowCmd.h \
- /home/loaf/WT_MPC/include/low/LowState.h /usr/include/c++/11/math.h \
- /home/loaf/mujoco/include/mujoco/mujoco.h \
+ /home/loaf/mujoco/include/mujoco/mujoco.h /usr/include/c++/11/math.h \
  /home/loaf/mujoco/include/mujoco/mjdata.h \
  /home/loaf/mujoco/include/mujoco/mjtnum.h \
  /home/loaf/mujoco/include/mujoco/mjmodel.h \
@@ -452,7 +441,18 @@ CMakeFiles/basic.dir/src/Gait/GaitGenerator.cpp.o: \
  /home/loaf/mujoco/include/mujoco/mjvisualize.h \
  /home/loaf/mujoco/include/mujoco/mjrender.h \
  /home/loaf/mujoco/include/mujoco/mjsan.h \
- /home/loaf/mujoco/include/mujoco/mjui.h \
+ /home/loaf/mujoco/include/mujoco/mjui.h /usr/include/lcm/lcm-cpp.hpp \
+ /usr/include/lcm/lcm.h /usr/include/lcm/eventlog.h \
+ /usr/include/lcm/lcm-cpp-impl.hpp \
+ /home/loaf/WT_MPC/include/lcm_msg_cpp/lcm_vel_cmd.hpp \
+ /usr/include/lcm/lcm_coretypes.h /home/loaf/WT_MPC/include/math/Robot.h \
+ /usr/include/c++/11/thread /usr/include/c++/11/bits/std_thread.h \
+ /usr/include/c++/11/bits/unique_ptr.h \
+ /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/c++/11/chrono \
+ /usr/include/c++/11/ratio /usr/include/c++/11/ctime \
+ /usr/include/c++/11/bits/parse_numbers.h \
+ /home/loaf/WT_MPC/include/low/LowCmd.h \
+ /home/loaf/WT_MPC/include/low/LowState.h \
  /home/loaf/WT_MPC/include/WBC/BalanceCtrl.h \
  /usr/local/include/QuadProg++/QuadProg++.hh \
  /usr/local/include/QuadProg++/Array.hh /usr/include/c++/11/set \
@@ -468,4 +468,29 @@ CMakeFiles/basic.dir/src/Gait/GaitGenerator.cpp.o: \
  /usr/include/c++/11/bits/quoted_string.h \
  /home/loaf/WT_MPC/include/WBC/Estimator.h \
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h \
- /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/mathtool.h \
+ /home/loaf/WT_MPC/include/math/data_analyze.h \
+ /usr/include/x86_64-linux-gnu/curl/curl.h \
+ /usr/include/x86_64-linux-gnu/curl/curlver.h \
+ /usr/include/x86_64-linux-gnu/curl/system.h \
+ /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
+ /usr/include/x86_64-linux-gnu/bits/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h \
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
+ /usr/include/x86_64-linux-gnu/asm/socket.h \
+ /usr/include/asm-generic/socket.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h \
+ /usr/include/x86_64-linux-gnu/asm/sockios.h \
+ /usr/include/asm-generic/sockios.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+ /usr/include/x86_64-linux-gnu/curl/easy.h \
+ /usr/include/x86_64-linux-gnu/curl/multi.h \
+ /usr/include/x86_64-linux-gnu/curl/curl.h \
+ /usr/include/x86_64-linux-gnu/curl/urlapi.h \
+ /usr/include/x86_64-linux-gnu/curl/options.h

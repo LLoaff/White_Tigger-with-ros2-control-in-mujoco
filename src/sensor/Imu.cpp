@@ -1,6 +1,15 @@
 #include"sensor/Imu.h"
 
-Imu::Imu(){
+Imu::Imu(mjModel *model, mjData *data):_model(model),_data(data){
+    _imu_acc_id = mj_name2id(_model,mjOBJ_SENSOR,"imu_acc");
+    _imu_gyro_id = mj_name2id(_model,mjOBJ_SENSOR,"imu_gyro");
+    _imu_quat_id = mj_name2id(_model,mjOBJ_SENSOR,"imu_quat");
+    if(_imu_acc_id == -1){
+        std::cout<<"没有 找到imu_acc "<<std::endl;
+    }
+    if(_imu_gyro_id == -1){
+        std::cout<<"没有 找到imu_gyro"<<std::endl;
+    }
 }
 
 void Imu::Imu_Initial(){
@@ -12,6 +21,18 @@ void Imu::Imu_Initial(){
 
 void Imu::Imu_Update(){
 
+    accelerometer[0] = _data->sensordata[_model->sensor_adr[_imu_acc_id] + 0];
+    accelerometer[1] = _data->sensordata[_model->sensor_adr[_imu_acc_id] + 1];
+    accelerometer[2] = _data->sensordata[_model->sensor_adr[_imu_acc_id] + 2];
+
+    gyroscope[0] = _data->sensordata[_model->sensor_adr[_imu_gyro_id] + 0];
+    gyroscope[1] = _data->sensordata[_model->sensor_adr[_imu_gyro_id] + 1];
+    gyroscope[2] = _data->sensordata[_model->sensor_adr[_imu_gyro_id] + 2];
+
+    quaternion[0] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 0];
+    quaternion[1] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 1];
+    quaternion[2] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 2];
+    quaternion[3] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 3];
 }
 
 Eigen::Matrix<double,3,3> Imu::GetRotMat(){

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WT_MPC Telemetry</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>WT_MPC Telemetry</h1>
+        <p id="status">Connecting...</p>
+      </div>
+      <div class="actions">
+        <button id="pauseBtn" type="button">Pause</button>
+        <button id="sampleBtn" type="button">Send Sample</button>
+        <a class="button" href="/api/export?format=csv">CSV</a>
+        <a class="button" href="/api/export?format=jsonl">JSONL</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="metrics">
+        <div>
+          <span>Samples</span>
+          <strong id="sampleCount">0</strong>
+        </div>
+        <div>
+          <span>Sim Time</span>
+          <strong id="simTime">-</strong>
+        </div>
+        <div>
+          <span>State</span>
+          <strong id="stateValue">-</strong>
+        </div>
+        <div>
+          <span>Last Received</span>
+          <strong id="receivedAt">-</strong>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Acceleration</h2>
+            <span>m/s²</span>
+          </div>
+          <canvas id="accelChart" width="800" height="260"></canvas>
+          <div class="legend"><b class="x"></b>X <b class="y"></b>Y <b class="z"></b>Z</div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Gyroscope</h2>
+            <span>rad/s</span>
+          </div>
+          <canvas id="gyroChart" width="800" height="260"></canvas>
+          <div class="legend"><b class="x"></b>X <b class="y"></b>Y <b class="z"></b>Z</div>
+        </article>
+        <article class="panel wide">
+          <div class="panel-head">
+            <h2>COM Position</h2>
+            <span>m</span>
+          </div>
+          <div class="com-toolbar">
+            <label>Window <input id="comWindowSeconds" type="number" min="1" step="1" value="12"> s</label>
+            <button id="comLatestBtn" type="button">Latest</button>
+          </div>
+          <div class="com-charts">
+            <section class="com-axis">
+              <div class="axis-head">
+                <strong><b class="x"></b>X</strong>
+                <div class="axis-controls">
+                  <label>Y min <input id="comYMinX" type="number" step="any" placeholder="auto"></label>
+                  <label>Y max <input id="comYMaxX" type="number" step="any" placeholder="auto"></label>
+                  <button id="comYAutoX" type="button">Auto</button>
+                </div>
+              </div>
+              <canvas id="comXChart" class="com-chart" width="420" height="190"></canvas>
+            </section>
+            <section class="com-axis">
+              <div class="axis-head">
+                <strong><b class="y"></b>Y</strong>
+                <div class="axis-controls">
+                  <label>Y min <input id="comYMinY" type="number" step="any" placeholder="auto"></label>
+                  <label>Y max <input id="comYMaxY" type="number" step="any" placeholder="auto"></label>
+                  <button id="comYAutoY" type="button">Auto</button>
+                </div>
+              </div>
+              <canvas id="comYChart" class="com-chart" width="420" height="190"></canvas>
+            </section>
+            <section class="com-axis">
+              <div class="axis-head">
+                <strong><b class="z"></b>Z</strong>
+                <div class="axis-controls">
+                  <label>Y min <input id="comYMinZ" type="number" step="any" placeholder="auto"></label>
+                  <label>Y max <input id="comYMaxZ" type="number" step="any" placeholder="auto"></label>
+                  <button id="comYAutoZ" type="button">Auto</button>
+                </div>
+              </div>
+              <canvas id="comZChart" class="com-chart" width="420" height="190"></canvas>
+            </section>
+          </div>
+        </article>
+        <article class="panel wide">
+          <div class="panel-head">
+            <h2>Quaternion</h2>
+            <span>w x y z</span>
+          </div>
+          <canvas id="quatChart" width="1200" height="280"></canvas>
+          <div class="legend"><b class="w"></b>W <b class="x"></b>X <b class="y"></b>Y <b class="z"></b>Z</div>
+        </article>
+      </section>
+
+      <section class="bottom">
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Latest Payload</h2>
+          </div>
+          <pre id="latestPayload">{}</pre>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <h2>API</h2>
+          </div>
+          <pre>POST /api/telemetry
+Content-Type: application/json
+
+{
+  "sim_time": 1.234,
+	  "imu": {
+	    "accel": [0, 0, -9.81],
+	    "gyro": [0, 0, 0],
+	    "quat": [1, 0, 0, 0]
+	  },
+	  "com": {"pos": [0.1, 0.0, 0.25]},
+	  "params": {"kp": 14, "kd": 1.2},
+	  "state": "stand"
+	}</pre>
+        </article>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

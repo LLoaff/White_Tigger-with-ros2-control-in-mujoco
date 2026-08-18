@@ -8,6 +8,7 @@ class start{
 public:
     start(mjModel *model, mjData *data);
     ~start();
+    void run();
 private:
     pthread_t pthread;
     static void* lets_start(void * arg);

@@ -412,5 +412,19 @@ CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o: \
  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
  /home/loaf/WT_MPC/include/math/mathtool.h \
  /home/loaf/WT_MPC/include/FSM/EnumClassList.h \
+ /home/loaf/mujoco/include/mujoco/mujoco.h \
+ /home/loaf/mujoco/include/mujoco/mjdata.h \
+ /home/loaf/mujoco/include/mujoco/mjtnum.h \
+ /home/loaf/mujoco/include/mujoco/mjmodel.h \
+ /home/loaf/mujoco/include/mujoco/mjthread.h \
+ /home/loaf/mujoco/include/mujoco/mjexport.h \
+ /home/loaf/mujoco/include/mujoco/mjmacro.h \
+ /home/loaf/mujoco/include/mujoco/mjplugin.h \
+ /home/loaf/mujoco/include/mujoco/mjspec.h \
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h \
+ /home/loaf/mujoco/include/mujoco/mjrender.h \
+ /home/loaf/mujoco/include/mujoco/mjsan.h \
+ /home/loaf/mujoco/include/mujoco/mjui.h \
  /home/loaf/WT_MPC/include/math/Kenimatics_normal_solution.h \
- /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/mathtool.h \
+ /home/loaf/WT_MPC/include/math/mathTypes.h

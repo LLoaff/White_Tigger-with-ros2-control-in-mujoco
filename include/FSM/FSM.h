@@ -12,7 +12,7 @@
 #include "math/TimeMaker.h"
 #include "FSM/Trotting_State.h"
 #include "FSM/Sit_Down_State.h"
-
+#include "math/Mujoco_box.h"
 struct FSMStateList
 {
     FSMState      *     invalid;
@@ -34,7 +34,7 @@ public:
     void run();
 private:
     FSMState         * GetNextState(FSMStateName fsm_state_name);
-
+    Mujoco_box       *_mj_box;
     ControlComponent * _fsm_ctrl;
     FSMStateList       _fsm_state_list;
     FSMState         * _current_state;

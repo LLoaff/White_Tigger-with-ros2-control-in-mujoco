@@ -30,6 +30,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/loaf/WT_MPC/src/math/Mujoco_box.cpp" "CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o" "gcc" "CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o.d"
   "/home/loaf/WT_MPC/src/math/Reversal_solution.cpp" "CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o" "gcc" "CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o.d"
   "/home/loaf/WT_MPC/src/math/Robot.cpp" "CMakeFiles/basic.dir/src/math/Robot.cpp.o" "gcc" "CMakeFiles/basic.dir/src/math/Robot.cpp.o.d"
+  "/home/loaf/WT_MPC/src/math/data_analyze.cpp" "CMakeFiles/basic.dir/src/math/data_analyze.cpp.o" "gcc" "CMakeFiles/basic.dir/src/math/data_analyze.cpp.o.d"
   "/home/loaf/WT_MPC/src/sensor/Imu.cpp" "CMakeFiles/basic.dir/src/sensor/Imu.cpp.o" "gcc" "CMakeFiles/basic.dir/src/sensor/Imu.cpp.o.d"
   "/home/loaf/WT_MPC/src/start.cpp" "CMakeFiles/basic.dir/src/start.cpp.o" "gcc" "CMakeFiles/basic.dir/src/start.cpp.o.d"
   )

@@ -408,4 +408,17 @@ CMakeFiles/basic.dir/src/sensor/Imu.cpp.o: \
  /home/loaf/WT_MPC/include/math/mathtool.h \
  /home/loaf/WT_MPC/include/FSM/EnumClassList.h /usr/include/syslog.h \
  /usr/include/x86_64-linux-gnu/sys/syslog.h \
- /usr/include/x86_64-linux-gnu/bits/syslog-path.h
+ /usr/include/x86_64-linux-gnu/bits/syslog-path.h \
+ /home/loaf/mujoco/include/mujoco/mujoco.h /usr/include/c++/11/math.h \
+ /home/loaf/mujoco/include/mujoco/mjdata.h \
+ /home/loaf/mujoco/include/mujoco/mjtnum.h \
+ /home/loaf/mujoco/include/mujoco/mjmodel.h \
+ /home/loaf/mujoco/include/mujoco/mjthread.h \
+ /home/loaf/mujoco/include/mujoco/mjexport.h \
+ /home/loaf/mujoco/include/mujoco/mjmacro.h \
+ /home/loaf/mujoco/include/mujoco/mjplugin.h \
+ /home/loaf/mujoco/include/mujoco/mjspec.h \
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h \
+ /home/loaf/mujoco/include/mujoco/mjrender.h \
+ /home/loaf/mujoco/include/mujoco/mjsan.h \
+ /home/loaf/mujoco/include/mujoco/mjui.h

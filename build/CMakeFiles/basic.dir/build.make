@@ -335,10 +335,24 @@ CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/loaf/WT_MPC/src/math/Mujoco_box.cpp -o CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.s
 
+CMakeFiles/basic.dir/src/math/data_analyze.cpp.o: CMakeFiles/basic.dir/flags.make
+CMakeFiles/basic.dir/src/math/data_analyze.cpp.o: ../src/math/data_analyze.cpp
+CMakeFiles/basic.dir/src/math/data_analyze.cpp.o: CMakeFiles/basic.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/basic.dir/src/math/data_analyze.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic.dir/src/math/data_analyze.cpp.o -MF CMakeFiles/basic.dir/src/math/data_analyze.cpp.o.d -o CMakeFiles/basic.dir/src/math/data_analyze.cpp.o -c /home/loaf/WT_MPC/src/math/data_analyze.cpp
+
+CMakeFiles/basic.dir/src/math/data_analyze.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basic.dir/src/math/data_analyze.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/loaf/WT_MPC/src/math/data_analyze.cpp > CMakeFiles/basic.dir/src/math/data_analyze.cpp.i
+
+CMakeFiles/basic.dir/src/math/data_analyze.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basic.dir/src/math/data_analyze.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/loaf/WT_MPC/src/math/data_analyze.cpp -o CMakeFiles/basic.dir/src/math/data_analyze.cpp.s
+
 CMakeFiles/basic.dir/src/sensor/Imu.cpp.o: CMakeFiles/basic.dir/flags.make
 CMakeFiles/basic.dir/src/sensor/Imu.cpp.o: ../src/sensor/Imu.cpp
 CMakeFiles/basic.dir/src/sensor/Imu.cpp.o: CMakeFiles/basic.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/basic.dir/src/sensor/Imu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/basic.dir/src/sensor/Imu.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic.dir/src/sensor/Imu.cpp.o -MF CMakeFiles/basic.dir/src/sensor/Imu.cpp.o.d -o CMakeFiles/basic.dir/src/sensor/Imu.cpp.o -c /home/loaf/WT_MPC/src/sensor/Imu.cpp
 
 CMakeFiles/basic.dir/src/sensor/Imu.cpp.i: cmake_force
@@ -352,7 +366,7 @@ CMakeFiles/basic.dir/src/sensor/Imu.cpp.s: cmake_force
 CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o: CMakeFiles/basic.dir/flags.make
 CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o: ../src/WBC/BalanceCtrl.cpp
 CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o: CMakeFiles/basic.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o -MF CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o.d -o CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o -c /home/loaf/WT_MPC/src/WBC/BalanceCtrl.cpp
 
 CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.i: cmake_force
@@ -366,7 +380,7 @@ CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.s: cmake_force
 CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o: CMakeFiles/basic.dir/flags.make
 CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o: ../src/WBC/Estimator.cpp
 CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o: CMakeFiles/basic.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o -MF CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o.d -o CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o -c /home/loaf/WT_MPC/src/WBC/Estimator.cpp
 
 CMakeFiles/basic.dir/src/WBC/Estimator.cpp.i: cmake_force
@@ -380,7 +394,7 @@ CMakeFiles/basic.dir/src/WBC/Estimator.cpp.s: cmake_force
 CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o: CMakeFiles/basic.dir/flags.make
 CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o: ../src/WBC/mujocoEstimator.cpp
 CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o: CMakeFiles/basic.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o -MF CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o.d -o CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o -c /home/loaf/WT_MPC/src/WBC/mujocoEstimator.cpp
 
 CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.i: cmake_force
@@ -394,7 +408,7 @@ CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.s: cmake_force
 CMakeFiles/basic.dir/src/start.cpp.o: CMakeFiles/basic.dir/flags.make
 CMakeFiles/basic.dir/src/start.cpp.o: ../src/start.cpp
 CMakeFiles/basic.dir/src/start.cpp.o: CMakeFiles/basic.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/basic.dir/src/start.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/basic.dir/src/start.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic.dir/src/start.cpp.o -MF CMakeFiles/basic.dir/src/start.cpp.o.d -o CMakeFiles/basic.dir/src/start.cpp.o -c /home/loaf/WT_MPC/src/start.cpp
 
 CMakeFiles/basic.dir/src/start.cpp.i: cmake_force
@@ -426,6 +440,7 @@ basic_OBJECTS = \
 "CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o" \
 "CMakeFiles/basic.dir/src/math/Robot.cpp.o" \
 "CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o" \
+"CMakeFiles/basic.dir/src/math/data_analyze.cpp.o" \
 "CMakeFiles/basic.dir/src/sensor/Imu.cpp.o" \
 "CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o" \
 "CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o" \
@@ -454,6 +469,7 @@ basic: CMakeFiles/basic.dir/src/math/Kenimatics_normal_solution.cpp.o
 basic: CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o
 basic: CMakeFiles/basic.dir/src/math/Robot.cpp.o
 basic: CMakeFiles/basic.dir/src/math/Mujoco_box.cpp.o
+basic: CMakeFiles/basic.dir/src/math/data_analyze.cpp.o
 basic: CMakeFiles/basic.dir/src/sensor/Imu.cpp.o
 basic: CMakeFiles/basic.dir/src/WBC/BalanceCtrl.cpp.o
 basic: CMakeFiles/basic.dir/src/WBC/Estimator.cpp.o
@@ -461,11 +477,12 @@ basic: CMakeFiles/basic.dir/src/WBC/mujocoEstimator.cpp.o
 basic: CMakeFiles/basic.dir/src/start.cpp.o
 basic: CMakeFiles/basic.dir/build.make
 basic: /home/loaf/mujoco/build/lib/libmujoco.so
+basic: /usr/lib/x86_64-linux-gnu/libcurl.so
 basic: /usr/lib/x86_64-linux-gnu/liblcm.so
 basic: /usr/lib/x86_64-linux-gnu/libgthread-2.0.so
 basic: /usr/lib/x86_64-linux-gnu/libglib-2.0.so
 basic: CMakeFiles/basic.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX executable basic"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/loaf/WT_MPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Linking CXX executable basic"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/basic.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

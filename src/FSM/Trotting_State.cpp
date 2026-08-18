@@ -1,7 +1,7 @@
 #include "FSM/Trotting_State.h"
 
 Trotting_State::Trotting_State(ControlComponent * ctrlComp):FSMState(ctrlComp,FSMStateName::TROTTING,"trotting"),
-_est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact),_lowstate(&ctrlComp->_ioros->_state)
+_est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact),_lowstate(ctrlComp->_ioros->_state)
 ,_balCtrl(ctrlComp->_balCtrl),_robModel(ctrlComp->robotModel){
     _gait = new GaitGenerator(ctrlComp);
     _gaitHeight = 0.045;
@@ -40,7 +40,8 @@ void Trotting_State::enter(){
     _fstate_ctrl->waveGen->reset(
         0.5,        
         0.5,        
-        Vec4(0, 0.5, 0.5, 0)  
+        Vec4(0, 0.5, 0.5, 0),
+        _fstate_ctrl->_mjdata->time
     );
     std::cout<<"trotting"<<std::endl;
 }

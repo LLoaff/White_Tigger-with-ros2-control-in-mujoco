@@ -422,7 +422,20 @@ CMakeFiles/basic.dir/src/FSM/UserCmd.cpp.o: \
  /home/loaf/WT_MPC/include/math/mathtool.h /usr/include/syslog.h \
  /usr/include/x86_64-linux-gnu/sys/syslog.h \
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h \
- /usr/include/lcm/lcm-cpp.hpp /usr/include/lcm/lcm.h \
- /usr/include/lcm/eventlog.h /usr/include/lcm/lcm-cpp-impl.hpp \
+ /home/loaf/mujoco/include/mujoco/mujoco.h /usr/include/c++/11/math.h \
+ /home/loaf/mujoco/include/mujoco/mjdata.h \
+ /home/loaf/mujoco/include/mujoco/mjtnum.h \
+ /home/loaf/mujoco/include/mujoco/mjmodel.h \
+ /home/loaf/mujoco/include/mujoco/mjthread.h \
+ /home/loaf/mujoco/include/mujoco/mjexport.h \
+ /home/loaf/mujoco/include/mujoco/mjmacro.h \
+ /home/loaf/mujoco/include/mujoco/mjplugin.h \
+ /home/loaf/mujoco/include/mujoco/mjspec.h \
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h \
+ /home/loaf/mujoco/include/mujoco/mjrender.h \
+ /home/loaf/mujoco/include/mujoco/mjsan.h \
+ /home/loaf/mujoco/include/mujoco/mjui.h /usr/include/lcm/lcm-cpp.hpp \
+ /usr/include/lcm/lcm.h /usr/include/lcm/eventlog.h \
+ /usr/include/lcm/lcm-cpp-impl.hpp \
  /home/loaf/WT_MPC/include/lcm_msg_cpp/lcm_vel_cmd.hpp \
  /usr/include/lcm/lcm_coretypes.h

@@ -416,4 +416,17 @@ CMakeFiles/basic.dir/src/math/Reversal_solution.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/include/linux/close_range.h \
- /home/loaf/WT_MPC/include/math/mathtool.h
+ /home/loaf/WT_MPC/include/math/mathtool.h \
+ /home/loaf/mujoco/include/mujoco/mujoco.h \
+ /home/loaf/mujoco/include/mujoco/mjdata.h \
+ /home/loaf/mujoco/include/mujoco/mjtnum.h \
+ /home/loaf/mujoco/include/mujoco/mjmodel.h \
+ /home/loaf/mujoco/include/mujoco/mjthread.h \
+ /home/loaf/mujoco/include/mujoco/mjexport.h \
+ /home/loaf/mujoco/include/mujoco/mjmacro.h \
+ /home/loaf/mujoco/include/mujoco/mjplugin.h \
+ /home/loaf/mujoco/include/mujoco/mjspec.h \
+ /home/loaf/mujoco/include/mujoco/mjvisualize.h \
+ /home/loaf/mujoco/include/mujoco/mjrender.h \
+ /home/loaf/mujoco/include/mujoco/mjsan.h \
+ /home/loaf/mujoco/include/mujoco/mjui.h

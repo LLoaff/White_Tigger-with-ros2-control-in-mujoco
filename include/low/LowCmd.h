@@ -44,7 +44,7 @@ class LowCmd
         ~LowCmd();
         // std::shared_ptr<SerialPort> serial;
         // damiao::Motor_Control _motor_cmd;
-        LowState _state;        // LowState类里 的数据是数组
+        LowState* _state;        // LowState类里 的数据是数组
     private:
             float start_angle[12]; // 存储开机时电机初始角度  弧度制
             struct Motor_State _cmd[12];

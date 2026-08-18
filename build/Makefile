@@ -657,6 +657,30 @@ src/math/Robot.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/Robot.cpp.s
 .PHONY : src/math/Robot.cpp.s
 
+src/math/data_analyze.o: src/math/data_analyze.cpp.o
+.PHONY : src/math/data_analyze.o
+
+# target to build an object file
+src/math/data_analyze.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/data_analyze.cpp.o
+.PHONY : src/math/data_analyze.cpp.o
+
+src/math/data_analyze.i: src/math/data_analyze.cpp.i
+.PHONY : src/math/data_analyze.i
+
+# target to preprocess a source file
+src/math/data_analyze.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/data_analyze.cpp.i
+.PHONY : src/math/data_analyze.cpp.i
+
+src/math/data_analyze.s: src/math/data_analyze.cpp.s
+.PHONY : src/math/data_analyze.s
+
+# target to generate assembly for a file
+src/math/data_analyze.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic.dir/build.make CMakeFiles/basic.dir/src/math/data_analyze.cpp.s
+.PHONY : src/math/data_analyze.cpp.s
+
 src/sensor/Imu.o: src/sensor/Imu.cpp.o
 .PHONY : src/sensor/Imu.o
 
@@ -780,6 +804,9 @@ help:
 	@echo "... src/math/Robot.o"
 	@echo "... src/math/Robot.i"
 	@echo "... src/math/Robot.s"
+	@echo "... src/math/data_analyze.o"
+	@echo "... src/math/data_analyze.i"
+	@echo "... src/math/data_analyze.s"
 	@echo "... src/sensor/Imu.o"
 	@echo "... src/sensor/Imu.i"
 	@echo "... src/sensor/Imu.s"

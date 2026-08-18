@@ -1,7 +1,7 @@
 #include "Gait/FeetEndCal.h"
 
 FeetEndCal::FeetEndCal(ControlComponent *ctrlComp)
-: _est(ctrlComp->_estimator), _lowState(&ctrlComp->_ioros->_state),_robModel(ctrlComp->robotModel){
+: _est(ctrlComp->_estimator), _lowState(ctrlComp->_ioros->_state),_robModel(ctrlComp->robotModel){
 
     _Tstance  = ctrlComp->waveGen->getTstance();
     _Tswing   = ctrlComp->waveGen->getTswing();

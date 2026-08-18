@@ -6,6 +6,9 @@
 #include "math/mathtool.h"
 #include "FSM/EnumClassList.h"
 #include "math/Kenimatics_normal_solution.h"
+#include "math/mathTypes.h"
+
+using namespace std;
 
 class Estimator
 {
@@ -19,51 +22,58 @@ public:
     Eigen::Matrix<double, 3, 4> getFeetVel();
     Eigen::Matrix<double, 3, 4> getPosFeet2BGlobal();
     void run();
+    LowState* getLowState();
+    Eigen::Vector3d getPcom();
+    Eigen::Vector3d getVcom();
 
     Eigen::Matrix<double,3,4>   iPb;
 private:
 
-    Eigen::Matrix<double,18,18> A;
-    Eigen::Matrix<double,18,3>  B;
-    Eigen::Matrix<double,3,1>   U;
-    Eigen::Matrix<double,28,18> H;
-    Eigen::MatrixXd             Q;
-    Eigen::Matrix<double,28,28> R;
-    Eigen::Matrix<double,18,1> _X;
-    Eigen::Matrix<double,18,1> X;
-    Eigen::Matrix<double,18,18> _P;
-    Eigen::Matrix<double,18,18> P;
-    Eigen::Matrix<double,28,1> Z;
-    Eigen::Matrix<double,18,28> K;
+    Eigen::Matrix<double, 18, 1>  _xhat;            // The state of estimator, position(3)+velocity(3)+feet position(3x4)
+    Vec3 _u;                                        // The input of estimator
+    Eigen::Matrix<double, 28,  1> _y;               // The measurement value of output y
+    Eigen::Matrix<double, 28,  1> _yhat;            // The prediction of output y
+    Eigen::Matrix<double, 18, 18> _A;               // The transtion matrix of estimator
+    Eigen::Matrix<double, 18, 3>  _B;               // The input matrix
+    Eigen::Matrix<double, 28, 18> _C;               // The output matrix
+    // Covariance Matrix
+    Eigen::Matrix<double, 18, 18> _P;               // Prediction covariance
+    Eigen::Matrix<double, 18, 18> _Ppriori;         // Priori prediction covariance
+    Eigen::Matrix<double, 18, 18> _Q;               // Dynamic simulation covariance
+    Eigen::Matrix<double, 28, 28> _R;               // Measurement covariance
+    Eigen::Matrix<double, 18, 18> _QInit;           // Initial value of Dynamic simulation covariance
+    Eigen::Matrix<double, 28, 28> _RInit;           // Initial value of Measurement covariance
+    Vec18 _Qdig;                                    // adjustable process noise covariance
+    Mat3 _Cu;                                       // The covariance of system input u
+    // Output Measurement
+    Eigen::Matrix<double, 12, 1>  _feetPos2Body;    // The feet positions to body, in the global coordinate
+    Eigen::Matrix<double, 12, 1>  _feetVel2Body;    // The feet velocity to body, in the global coordinate
+    Eigen::Matrix<double,  4, 1>  _feetH;           // The Height of each foot, in the global coordinate
+    Eigen::Matrix<double, 28, 28> _S;               // _S = C*P*C.T + R
+    Eigen::PartialPivLU<Eigen::Matrix<double, 28, 28>> _Slu;    // _S.lu()
+    Eigen::Matrix<double, 28,  1> _Sy;              // _Sy = _S.inv() * (y - yhat)
+    Eigen::Matrix<double, 28, 18> _Sc;              // _Sc = _S.inv() * C
+    Eigen::Matrix<double, 28, 28> _SR;              // _SR = _S.inv() * R
+    Eigen::Matrix<double, 28, 18> _STC;             // _STC = (_S.transpose()).inv() * C
+    Eigen::Matrix<double, 18, 18> _IKC;             // _IKC = I - KC
 
-    Eigen::Matrix3d iden3;
-    Eigen::Matrix3d _3x3;
-    Eigen::Matrix<double,3,12> _3x12;
-    Eigen::Matrix<double,12,3> _12x3;
-    Eigen::MatrixXd             iden12;
-    Eigen::MatrixXd             iden18;
-    Eigen::Matrix<double, 12, 12>  _12x12 ;
-    Eigen::Matrix<double, 1, 1>         Onemat;
+    RotMat _rotMatB2G;                              // Rotate Matrix: from body to global
+    Vec3 _g;
+    Vec34 _feetPosGlobalKine, _feetVelGlobalKine;
 
-    Eigen::Vector3d Flipb, Fripb, Rlipb, Rripb;
-    Eigen::Vector3d FliPbv, FriPbv, RliPbv, RriPbv;
-    Eigen::Vector3d _pcom;
-    Eigen::Vector3d _vcom;
+    LowState* _lowState;
+    Vec4 *_phase;
+    VecInt4 *_contact;
+    double _dt;
+    double _trust;
+    double _largeVariance;
 
-    // 输出的测量数据
-    Eigen::Matrix<double, 12, 1>  _feetPos2Body;    // 腿相对与机身的位置 - 在{s}
-    Eigen::Matrix<double, 12, 1>  _feetVel2Body;    // 腿相对与机身的速度 - 在{s}
-    Eigen::Matrix<double,  4, 1>  _feetH;           // 腿相对与机身的高度 - 在{s}
+    // Low pass filters
+    // LPFilter *_vxFilter, *_vyFilter, *_vzFilter;
 
-    Eigen::Matrix<double, 3, 3>   _rotMatB2G;       // Rsb 旋转矩阵
-    Eigen::Matrix<double, 3, 1>    _g;                // 重力加速度
-    LowState*                     _lowstate;
-    Eigen::Matrix<double, 3, 4>   _feetPosBodyKine, _feetVelGlobalKine;   // 运动学正解所得的 位置 、 速度
-    Eigen::Matrix<double, 4, 1> * _phase;           // 步态的频率
-    double                        _dt;
-    Eigen::Matrix<int, 4, 1>*     _contact      ;   // 判断足端是否接触地面（通过力矩大小）
-    double                        _trust;
-
+    AvgCov *_RCheck;
+    AvgCov *_uCheck;
+    std::string _estName;
 };
 
 #endif
