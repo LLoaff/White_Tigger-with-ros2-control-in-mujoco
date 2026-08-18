@@ -1,3 +1,0 @@
-/home/loaf/WT_MPC/build/CMakeFiles/basic.dir
-/home/loaf/WT_MPC/build/CMakeFiles/edit_cache.dir
-/home/loaf/WT_MPC/build/CMakeFiles/rebuild_cache.dir

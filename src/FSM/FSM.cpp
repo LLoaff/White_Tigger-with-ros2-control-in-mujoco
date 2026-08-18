@@ -26,6 +26,7 @@ void FSM::run(){
     // _start_time = getSystemTime();
     _fsm_ctrl->_ioros->Update();        // 对电机发送命令
     _fsm_ctrl->runWaveGen();
+    _fsm_ctrl->_ioros->_state->_imu.Imu_Update();
     _fsm_ctrl->_estimator->run();
     
     _mj_box->BoxUpdate(_fsm_ctrl->_estimator->getPosition(),_fsm_ctrl->_ioros->_state->_imu.GetQuat());
