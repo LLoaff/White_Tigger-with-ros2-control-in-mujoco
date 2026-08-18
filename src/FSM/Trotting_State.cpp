@@ -181,8 +181,8 @@ void Trotting_State::calcTau(){
     _tau = getTau(_q, _forceFeetBody);
     // std::cout<<"_pcd\n"<<_pcd<<std::endl;
 
-    std::cout<<"_tau\n"<<_tau<<std::endl;
-    std::cout<<"_forceFeetBody\n"<<_forceFeetBody<<std::endl;
+    // std::cout<<"_tau\n"<<_tau<<std::endl;
+    // std::cout<<"_forceFeetBody\n"<<_forceFeetBody<<std::endl;
 }
 
 void Trotting_State::calcQQd(){
