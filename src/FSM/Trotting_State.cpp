@@ -165,8 +165,8 @@ void Trotting_State::calcCmd(){
     _vCmdGlobal(2) = 0;
 
     _yawCmd = _yawCmd + _dYawCmd * _fstate_ctrl->dt;
-    // if(_yawCmd > M_PI) _yawCmd -=2*M_PI;
-    // else if(_yawCmd < -M_PI) _yawCmd +=2*M_PI;
+    if(_yawCmd > M_PI) _yawCmd -=2*M_PI;
+    else if(_yawCmd < -M_PI) _yawCmd +=2*M_PI;
     _Rd = rotz(_yawCmd);
     _wCmdGlobal(2) = _dYawCmd;
 }
@@ -177,6 +177,7 @@ void Trotting_State::calcTau(){
 
     _ddPcd = _Kpp * _posError + _Kdp * _velError;
     _dWbd  = _kpw*rotMatToExp(_Rd*_G2B_RotMat) + _Kdw * (_wCmdGlobal - _lowstate->_imu.getGyroGlobal());
+    // _dWbd  =  _Kdw * (_wCmdGlobal - _lowstate->_imu.getGyroGlobal());
 
     _ddPcd(0) = saturation(_ddPcd(0), Vec2(-3, 3));
     _ddPcd(1) = saturation(_ddPcd(1), Vec2(-3, 3));
@@ -184,7 +185,7 @@ void Trotting_State::calcTau(){
 
     _dWbd(0) = saturation(_dWbd(0), Vec2(-40, 40));
     _dWbd(1) = saturation(_dWbd(1), Vec2(-40, 40));
-    _dWbd(2) = saturation(_dWbd(2), Vec2(-10, 10));
+    _dWbd(2) = saturation(_dWbd(2), Vec2(-60, 60));
     // std::cout<<"_dWbd:\n"<< _dWbd <<std::endl;
     std::cout
     << " yawCmd=" << _yawCmd
