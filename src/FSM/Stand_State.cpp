@@ -10,22 +10,42 @@ void Stand_State::enter()
     dq<< 0, 0, 0;
     speed<< 0,0,0;
     tau<< 0 , 0 ,0;
-    _target_xyz << 0,-0.087,-0.21,
-                   0, 0.087,-0.21,
-                   0,-0.087,-0.21,
-                   0, 0.087,-0.21;
+    if(use_go1_model == 1){
+        _target_xyz <<   0,-0.-0.08325,-0.3200,
+                         0,0.08325,-0.3200,
+                        -0,-0.08325,-0.3200,
+                        -0,0.08325,-0.3200;
+        kp<< 70.0 , 70.0 , 70;
+        kd<< 7.2 , 7.2 , 7.2;
+
+        _KP<< 70.0,  0 ,   0,
+            0 ,   70.0,  0,
+            0 ,   0 ,   70.0;
+
+        _KD<< 8.0, 0,    0,
+            0,   8.0,  0,
+            0,   0,   8.0;
+    }
+    else{
+        _target_xyz << 0,-0.087,-0.21,
+                       0, 0.087,-0.21,
+                       0,-0.087,-0.21,
+                       0, 0.087,-0.21;
+        kp<< 14.0 , 14.0 , 14;
+        kd<< 1.2 , 1.2 , 1.2;
+
+        _KP<< 45.0,  0 ,   0,
+            0 ,   45.0,  0,
+            0 ,   0 ,   55.0;
+
+        _KD<< 8.0, 0,    0,
+            0,   8.0,  0,
+            0,   0,   8.0;
+    }
+    
 
 
-    kp<< 14.0 , 14.0 , 14;
-    kd<< 1.2 , 1.2 , 1.2;
 
-    _KP<< 45.0,  0 ,   0,
-          0 ,   45.0,  0,
-          0 ,   0 ,   55.0;
-
-    _KD<< 8.0, 0,    0,
-          0,   8.0,  0,
-          0,   0,   8.0;
 
     
     for(int i=0;i<4;i++)
@@ -43,7 +63,9 @@ void Stand_State::enter()
     }
     // std::cout<< "_target_angle: \n" << _target_angle<< std::endl;
     // _target_angle = Reversal_GetQ(_target_xyz.cast<double>(),FrameType::BODY).cast<float>();
+
     _start_xyz =vec34ToVec12(GetFeetPos2BODY(*_fstate_ctrl->_ioros->_state,FrameType::HIP));
+    
     _fstate_ctrl->setAllStance();
    std::cout<<"stand"<<std::endl;     
 
@@ -66,6 +88,7 @@ void Stand_State::run(){
     target_q = (1-_percent)*_start_angle + _percent*_target_angle;
     
     tau =CalTaus(q,w,_KP,_KD,_target_xyz,_target_speed,FrameType::HIP);
+   
     // std::cout<<"q: \n"<< _fstate_ctrl->_ioros->getQ12() <<std::endl;
     
     // if(_percent != 1){

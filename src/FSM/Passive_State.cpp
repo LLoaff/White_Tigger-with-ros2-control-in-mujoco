@@ -40,5 +40,7 @@ FSMStateName Passive_State::CheckChange()
         return FSMStateName::SIT_DOWN;
     else if(user == UserValue::BALANCE)
         return FSMStateName::BALANCE;
+    else if(user == UserValue::TROTTING)
+        return FSMStateName::TROTTING;
     return FSMStateName::PASSIVE;
 }

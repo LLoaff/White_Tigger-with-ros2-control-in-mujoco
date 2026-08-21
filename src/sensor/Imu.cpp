@@ -10,6 +10,9 @@ Imu::Imu(mjModel *model, mjData *data):_model(model),_data(data){
     if(_imu_gyro_id == -1){
         std::cout<<"没有 找到imu_gyro"<<std::endl;
     }
+    if(_imu_quat_id == -1){
+        std::cout<<"没有 找到imu_quat"<<std::endl;
+    }
 }
 
 void Imu::Imu_Initial(){
@@ -20,6 +23,9 @@ void Imu::Imu_Initial(){
 }
 
 void Imu::Imu_Update(){
+    if (_imu_acc_id == -1 || _imu_gyro_id == -1 || _imu_quat_id == -1) {
+        return;
+    }
 
     accelerometer[0] = _data->sensordata[_model->sensor_adr[_imu_acc_id] + 0];
     accelerometer[1] = _data->sensordata[_model->sensor_adr[_imu_acc_id] + 1];
@@ -33,6 +39,8 @@ void Imu::Imu_Update(){
     quaternion[1] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 1];
     quaternion[2] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 2];
     quaternion[3] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 3];
+
+    // std::cout<<"quat: \n"<< GetQuat() <<std::endl;
 }
 
 Eigen::Matrix<double,3,3> Imu::GetRotMat(){

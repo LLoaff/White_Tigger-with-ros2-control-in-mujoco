@@ -4,19 +4,19 @@ Trotting_State::Trotting_State(ControlComponent * ctrlComp):FSMState(ctrlComp,FS
 _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact),_lowstate(ctrlComp->_ioros->_state)
 ,_balCtrl(ctrlComp->_balCtrl),_robModel(ctrlComp->robotModel){
     _gait = new GaitGenerator(ctrlComp);
-    _gaitHeight = 0.045;
+    _gaitHeight = 0.08;
 
-    _vxLim << -0.5, 0.5;
-    _vyLim << -0.5, 0.5;
-    _wyawLim << -1.0, 1.0;
+    _vxLim << -0.8, 0.8;
+    _vyLim << -0.8, 0.8;
+    _wyawLim << -0.5, 0.5;
 
-    _Kpp = Vec3(10, 10, 10).asDiagonal();
-    _Kdp = Vec3(2, 2, 2).asDiagonal();
-    _kpw = 120;
-    _Kdw = Vec3(2, 2, 2).asDiagonal();
+    _Kpp = Vec3(90, 90, 90).asDiagonal();
+    _Kdp = Vec3(10, 10, 10).asDiagonal();
+    _kpw = 780;
+    _Kdw = Vec3(70, 70, 70).asDiagonal();
 
-    _KpSwing = Vec3(20, 20, 20).asDiagonal();
-    _KdSwing = Vec3(2, 2, 2).asDiagonal();
+    _KpSwing = Vec3(400, 400, 400).asDiagonal();
+    _KdSwing = Vec3(10, 10, 10).asDiagonal();
 
     _lcm = new lcm::LCM();
     _lcm2 = new lcm::LCM();
@@ -26,7 +26,11 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
 
 void Trotting_State::enter(){
     _pcd = _est->getPosition();
-    _pcd(2) = 0.2;
+    if(use_go1_model == 1){
+        _pcd(2) = 0.32;
+    }else{
+        _pcd(2) = 0.2;
+    }
 
     _vCmdBody.setZero();
     _wCmdGlobal.setZero();
@@ -35,7 +39,6 @@ void Trotting_State::enter(){
     _yawCmd = _lowstate->_imu.getYaw();
     _Rd = rotz(_yawCmd);
 
-    _gait->restart();
 
     _fstate_ctrl->waveGen->reset(
         0.5,        
@@ -43,6 +46,8 @@ void Trotting_State::enter(){
         Vec4(0, 0.5, 0.5, 0),
         _fstate_ctrl->_mjdata->time
     );
+    _gait->restart();
+
     std::cout<<"trotting"<<std::endl;
 }
 
@@ -66,12 +71,13 @@ void Trotting_State::run(){
     getUserCmd(); // 计算 期望速度
     calcCmd();    // 计算位移、转动角度，获取全局速度
 
-    _gait->setGait(_vCmdBody.segment(0,2), _wCmdGlobal(2), _gaitHeight,_G2B_RotMat);
+    _gait->setGait(_vCmdBody.segment(0,2), _wCmdGlobal(2), _gaitHeight);
     _gait->run(_posFeetGlobalGoal, _velFeetGlobalGoal, _fstate_ctrl->_period, _fstate_ctrl->_stancePhaseRatio,FSMStateName::TROTTING); // 生成 body 坐标系下的足端目标
     // std::cout<<"_posFeetGlobalGoal:\n"<< _posFeetGlobalGoal <<std::endl; // Z为正数 0.04
     // std::cout<<"_velFeetGlobalGoal:\n"<< _velFeetGlobalGoal <<std::endl;
     // std::cout<<"next_pos:\n"<< _posFeet2BGoal<<std::endl;
-    this->calcTau();
+    // std::cout<<"_yaw:\n"<< _yaw<<std::endl;
+    calcTau();
     calcQQd(); // 计算机身坐标系下 足端坐标、速度
 
     // std::cout<<"_dq:\n"<< _qdGoal<< "\n"<<std::endl;
@@ -86,41 +92,50 @@ void Trotting_State::run(){
     // std::cout<<"_posFeet2BGoal:\n"<< _posFeet2BGoal <<std::endl;
 
     _fstate_ctrl->_ioros->SetTau(_tau);
-    // _fstate_ctrl->_ioros->SetQ(vec34ToVec12 (_qGoal));
-    // _fstate_ctrl->_ioros->SetDq(vec34ToVec12 (_qdGoal));
+    _fstate_ctrl->_ioros->SetQ(vec34ToVec12 (_qGoal));
+    _fstate_ctrl->_ioros->SetDq(vec34ToVec12 (_qdGoal));
 
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){
-            // _fstate_ctrl->_ioros->setSwingGain(i);
-            _fstate_ctrl->_ioros->setZeroGain(i);
-
+            _fstate_ctrl->_ioros->setSwingGain(i);
+            // _fstate_ctrl->_ioros->setZeroGain(i);
         }else{
-            // _fstate_ctrl->_ioros->setStableGain(i);
-            _fstate_ctrl->_ioros->setZeroGain(i);
-
+            _fstate_ctrl->_ioros->setStableGain(i);
+            // _fstate_ctrl->_ioros->setZeroGain(i);
         }
     }
 }
 
 bool Trotting_State::checkStepOrNot(){
 
-    static bool isStepping = false;
+    // static bool isStepping = false;
 
-    if(isStepping){
-        if( (fabs(_vCmdBody(0)) < 0.02) &&
-            (fabs(_vCmdBody(1)) < 0.02) &&
-            (fabs(_dYawCmd) < 0.03) ){
-            isStepping = false;
-        }
+    // if(isStepping){
+    //     if( (fabs(_vCmdBody(0)) < 0.02) &&
+    //         (fabs(_vCmdBody(1)) < 0.02) &&
+    //         (fabs(_dYawCmd) < 0.03) ){
+    //         isStepping = false;
+    //     }
+    // }else{
+    //     if( (fabs(_vCmdBody(0)) > 0.05) ||
+    //         (fabs(_vCmdBody(1)) > 0.05) ||
+    //         (fabs(_dYawCmd) > 0.08) ){
+    //         isStepping = true;
+    //     }
+    // }
+
+    // return isStepping;
+    if( (fabs(_vCmdBody(0)) > 0.03) ||
+        (fabs(_vCmdBody(1)) > 0.03) ||
+        (fabs(_posError(0)) > 0.08) ||
+        (fabs(_posError(1)) > 0.08) ||
+        (fabs(_velError(0)) > 0.05) ||
+        (fabs(_velError(1)) > 0.05) ||
+        (fabs(_dYawCmd) > 0.20) ){
+        return true;
     }else{
-        if( (fabs(_vCmdBody(0)) > 0.05) ||
-            (fabs(_vCmdBody(1)) > 0.05) ||
-            (fabs(_dYawCmd) > 0.08) ){
-            isStepping = true;
-        }
+        return false;
     }
-
-    return isStepping;
 }
 
 void Trotting_State::getUserCmd(){
@@ -132,7 +147,7 @@ void Trotting_State::getUserCmd(){
     /* Turning */
     _dYawCmd = -invNormalize(_userValue(3), _wyawLim(0), _wyawLim(1));// 换算转动期望速度
     _dYawCmd = 0.9*_dYawCmdPast + (1-0.9) * _dYawCmd;                 // 低通滤波
-
+    
     _dYawCmdPast = _dYawCmd;
 
 }
@@ -150,9 +165,12 @@ void Trotting_State::calcCmd(){
     _vCmdGlobal(2) = 0;
 
     _yawCmd = _yawCmd + _dYawCmd * _fstate_ctrl->dt;
+    // if(_yawCmd > M_PI) _yawCmd -=2*M_PI;
+    // else if(_yawCmd < -M_PI) _yawCmd +=2*M_PI;
     _Rd = rotz(_yawCmd);
     _wCmdGlobal(2) = _dYawCmd;
 }
+
 void Trotting_State::calcTau(){
     _posError = _pcd - _posBody;
     _velError = _vCmdGlobal - _velBody;
@@ -167,7 +185,15 @@ void Trotting_State::calcTau(){
     _dWbd(0) = saturation(_dWbd(0), Vec2(-40, 40));
     _dWbd(1) = saturation(_dWbd(1), Vec2(-40, 40));
     _dWbd(2) = saturation(_dWbd(2), Vec2(-10, 10));
-
+    // std::cout<<"_dWbd:\n"<< _dWbd <<std::endl;
+    std::cout
+    << " yawCmd=" << _yawCmd
+    // << " dYawCmd=" << _dYawCmd
+    // << " _wCmdGlobal=" << _wCmdGlobal(2)
+    // << " getGyroGlobal=" << _lowstate->_imu.getGyroGlobal()(2)
+    << " _dWbd=" << _dWbd(2)
+    << " _Rd = \n" << _Rd
+    << std::endl;
     _forceFeetGlobal = - _balCtrl->calF(_ddPcd, _dWbd, _B2G_RotMat, _posFeet2BGlobal, *_contact);
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){

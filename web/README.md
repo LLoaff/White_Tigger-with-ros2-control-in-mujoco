@@ -41,7 +41,8 @@ Send one sample:
   "imu": {
     "accel": [0.0, 0.0, -9.81],
     "gyro": [0.0, 0.0, 0.0],
-    "quat": [1.0, 0.0, 0.0, 0.0]
+    "quat": [1.0, 0.0, 0.0, 0.0],
+    "rpy": [0.0, 0.0, 0.0]
   },
   "com": {
     "pos": [0.1, 0.0, 0.25]
@@ -64,7 +65,8 @@ Send a batch:
       "imu": {
         "accel": [0.0, 0.0, -9.81],
         "gyro": [0.0, 0.0, 0.0],
-        "quat": [1.0, 0.0, 0.0, 0.0]
+        "quat": [1.0, 0.0, 0.0, 0.0],
+        "rpy": [0.0, 0.0, 0.0]
       },
       "com": {
         "pos": [0.1, 0.0, 0.25]
@@ -74,7 +76,7 @@ Send a batch:
 }
 ```
 
-Aliases are accepted: `accelerometer`, `gyroscope`, `quaternion`, `accel`, `gyro`, and `quat`.
+`imu.rpy` uses radians in `[roll, pitch, yaw]` order. Aliases are accepted: `accelerometer`, `gyroscope`, `quaternion`, `accel`, `gyro`, `quat`, and top-level `rpy`.
 
 ### GET `/api/telemetry?limit=500`
 

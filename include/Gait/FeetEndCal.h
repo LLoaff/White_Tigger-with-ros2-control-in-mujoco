@@ -10,7 +10,7 @@
 class FeetEndCal{
 public:
     FeetEndCal(ControlComponent * ctrlComp);
-    Vec3 calFootPos(int legID, Vec2 vxyBody, float dYawBody, float phase,double period,double stancePhaseRatio);
+    Vec3 calFootPos(int legID, Vec2 vxyGoalGlobal, float dYawGoal, float phase);
 private:
     LowState *_lowState;
     Estimator *_est;

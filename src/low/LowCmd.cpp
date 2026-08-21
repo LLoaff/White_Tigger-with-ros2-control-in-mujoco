@@ -2,7 +2,7 @@
 
 // #define LOWSTATE_DEBUG
 //  #define LOWCMD_DEBUG
-#define REDUCTION 1.0
+
 
 LowCmd::LowCmd(mjModel *model, mjData *data):_mjmodel(model),_mjdata(data){
     idInit();
@@ -255,13 +255,22 @@ Eigen::Matrix<double,12,1> LowCmd::getW12(){
 }
 
 void LowCmd::setStableGain(int legID){
-    _cmd[legID*3+0].kp = 4.5;
+    // _cmd[legID*3+0].kp = 4.5;
+    // _cmd[legID*3+0].kd = 2.0;
+
+    // _cmd[legID*3+1].kp = 4.5;
+    // _cmd[legID*3+1].kd = 2.0;
+
+    // _cmd[legID*3+2].kp = 4.9;
+    // _cmd[legID*3+2].kd = 2.0;
+
+    _cmd[legID*3+0].kp = 7;
     _cmd[legID*3+0].kd = 2.0;
 
-    _cmd[legID*3+1].kp = 4.5;
+    _cmd[legID*3+1].kp = 7;
     _cmd[legID*3+1].kd = 2.0;
 
-    _cmd[legID*3+2].kp = 4.9;
+    _cmd[legID*3+2].kp = 7;
     _cmd[legID*3+2].kd = 2.0;
 }
 void LowCmd::setStableGain(){
@@ -270,14 +279,22 @@ void LowCmd::setStableGain(){
     }
 }
 void LowCmd::setSwingGain(int legID){
-    _cmd[legID*3+0].kp = 4.5;
-    _cmd[legID*3+0].kd = 2.2;
+    // _cmd[legID*3+0].kp = 4.5;
+    // _cmd[legID*3+0].kd = 0.5;
 
-    _cmd[legID*3+1].kp = 4.8;
-    _cmd[legID*3+1].kd = 2.2;
+    // _cmd[legID*3+1].kp = 4.8;
+    // _cmd[legID*3+1].kd = 0.5;
 
-    _cmd[legID*3+2].kp = 4.8;
-    _cmd[legID*3+2].kd = 2.2;
+    // _cmd[legID*3+2].kp = 4.8;
+    // _cmd[legID*3+2].kd = 0.5;
+    _cmd[legID*3+0].kp = 5.5;
+    _cmd[legID*3+0].kd = 1;
+
+    _cmd[legID*3+1].kp = 5.5;
+    _cmd[legID*3+1].kd = 1;
+
+    _cmd[legID*3+2].kp = 5.5;
+    _cmd[legID*3+2].kd = 1;
 
 }
 void LowCmd::setStableGain_JUMP(int legID){
@@ -330,52 +347,103 @@ LowCmd::~LowCmd() {
 }    
 
 void LowCmd::idInit(){
-    _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_p");
-    _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_v");
-    _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_f");
+    if(use_go1_model == 1){
+        _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_p");
+        _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_v");
+        _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_f");
 
-    _jointid[3] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_p");
-    _jointid[4] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_v");
-    _jointid[5] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_f");
+        _jointid[3] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_p");
+        _jointid[4] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_v");
+        _jointid[5] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_f");
 
-    _jointid[6] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_p");
-    _jointid[7] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_v");
-    _jointid[8] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_f");
+        _jointid[6] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_p");
+        _jointid[7] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_v");
+        _jointid[8] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_f");
 
-    _jointid[9] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_p");
-    _jointid[10] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_v");
-    _jointid[11] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_f");
+        _jointid[9] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_p");
+        _jointid[10] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_v");
+        _jointid[11] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_f");
 
-    _jointid[12] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_p");
-    _jointid[13] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_v");
-    _jointid[14] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_f");
+        _jointid[12] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_p");
+        _jointid[13] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_v");
+        _jointid[14] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_f");
 
-    _jointid[15] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_p");
-    _jointid[16] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_v");
-    _jointid[17] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_f");
+        _jointid[15] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_p");
+        _jointid[16] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_v");
+        _jointid[17] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_f");
 
-    _jointid[18] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_p");
-    _jointid[19] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_v");
-    _jointid[20] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_f");
+        _jointid[18] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_p");
+        _jointid[19] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_v");
+        _jointid[20] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_f");
 
-    _jointid[21] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_p");
-    _jointid[22] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_v");
-    _jointid[23] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_f");
+        _jointid[21] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_p");
+        _jointid[22] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_v");
+        _jointid[23] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_f");
 
-    _jointid[24] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_p");
-    _jointid[25] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_v");
-    _jointid[26] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_f");
+        _jointid[24] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_p");
+        _jointid[25] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_v");
+        _jointid[26] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_f");
 
-    _jointid[27] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_p");
-    _jointid[28] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_v");
-    _jointid[29] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_f");
+        _jointid[27] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_p");
+        _jointid[28] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_v");
+        _jointid[29] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_f");
 
-    _jointid[30] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_p");
-    _jointid[31] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_v");
-    _jointid[32] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_f");
+        _jointid[30] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_p");
+        _jointid[31] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_v");
+        _jointid[32] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_f");
 
-    _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_p");
-    _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_v");
-    _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_f");
+        _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_p");
+        _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_v");
+        _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_f");
+    }
+    else{
+        _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_p");
+        _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_v");
+        _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_f");
+
+        _jointid[3] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_p");
+        _jointid[4] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_v");
+        _jointid[5] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_f");
+
+        _jointid[6] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_p");
+        _jointid[7] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_v");
+        _jointid[8] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_f");
+
+        _jointid[9] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_p");
+        _jointid[10] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_v");
+        _jointid[11] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_f");
+
+        _jointid[12] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_p");
+        _jointid[13] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_v");
+        _jointid[14] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_f");
+
+        _jointid[15] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_p");
+        _jointid[16] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_v");
+        _jointid[17] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_f");
+
+        _jointid[18] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_p");
+        _jointid[19] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_v");
+        _jointid[20] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_f");
+
+        _jointid[21] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_p");
+        _jointid[22] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_v");
+        _jointid[23] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_f");
+
+        _jointid[24] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_p");
+        _jointid[25] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_v");
+        _jointid[26] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_f");
+
+        _jointid[27] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_p");
+        _jointid[28] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_v");
+        _jointid[29] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_f");
+
+        _jointid[30] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_p");
+        _jointid[31] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_v");
+        _jointid[32] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_f");
+
+        _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_p");
+        _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_v");
+        _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_f");
+    }
 }
 

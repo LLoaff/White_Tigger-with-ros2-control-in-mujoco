@@ -8,8 +8,8 @@ GaitGenerator::GaitGenerator(ControlComponent *ctrlComp)
     _firstRun = true;
 }
 
-void GaitGenerator::setGait(Vec2 vxyGoalBody, float dYawGoal, float gaitHeight,RotMat G2B){
-    _vxyGoal = vxyGoalBody;
+void GaitGenerator::setGait(Vec2 vxyGoalGlobal, float dYawGoal, float gaitHeight){
+    _vxyGoal = vxyGoalGlobal;
     _dYawGoal = dYawGoal;
     _gaitHeight = gaitHeight;
 }
@@ -17,8 +17,8 @@ void GaitGenerator::setGait(Vec2 vxyGoalBody, float dYawGoal, float gaitHeight,R
 void GaitGenerator::restart(){
     _firstRun = true;
     _vxyGoal.setZero();
-    _phasePast.setZero();
-    _contactPast.setOnes();
+    // _phasePast.setZero();
+    // _contactPast.setOnes();
 }
 
 void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio,FSMStateName state_name){
@@ -38,7 +38,7 @@ void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stan
         }
         else{
 
-            _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i), period, stancePhaseRatio);
+            _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i));
 
             
             feetPos.col(i) = getFootPos(i);
@@ -46,6 +46,7 @@ void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stan
         }
     }
     // std::cout<<"_endP:\n"<< _endP<<std::endl;
+    // std::cout<<"_dYawGoal:\n"<< _dYawGoal<<std::endl;
     // std::cout<<"_endP0x:\n"<< _endP(0,0) - _est->getPosition()(0)<<std::endl;
     // std::cout<<"_endP0y:\n"<< _endP(1,0) - _est->getPosition()(1)<<std::endl;
     // std::cout<<"_endP1x:\n"<< _endP(0,1) - _est->getPosition()(0)<<std::endl;

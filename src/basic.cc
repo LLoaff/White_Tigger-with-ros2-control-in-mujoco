@@ -1,7 +1,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <chrono>
 #include <iostream>
+#include <thread>
+#include <vector>
 #include <GLFW/glfw3.h>
 #include <mujoco/mujoco.h>
 #include "start.h"
@@ -13,6 +16,7 @@ mjvCamera cam;                      // abstract camera
 mjvOption opt;                      // visualization options
 mjvScene scn;                       // abstract scene
 mjrContext con;                     // custom GPU context
+int startup_key_id = -1;
 
 // mouse interaction
 bool button_left = false;
@@ -21,10 +25,18 @@ bool button_right =  false;
 double lastx = 0;
 double lasty = 0;
 
+void reset_to_startup_key() {
+  if (startup_key_id >= 0) {
+    mj_resetDataKeyframe(m, d, startup_key_id);
+  } else {
+    mj_resetData(m, d);
+  }
+  mj_forward(m, d);
+}
+
 void keyboard(GLFWwindow* window, int key, int scancode, int act, int mods) {
   if (act==GLFW_PRESS && key==GLFW_KEY_BACKSPACE) {
-    mj_resetData(m, d);
-    mj_forward(m, d);
+    reset_to_startup_key();
   }
 }
 
@@ -87,7 +99,12 @@ void Init(){
 int main(int argc, const char** argv) {
 
   char error[1000] = "Could not load binary model";
-  m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger.xml", 0, error, 1000);
+  if(use_go1_model == 1){
+    m = mj_loadXML("/home/loaf/WT_MPC/model/urdf/go1.xml", 0, error, 1000);
+  }
+  else{
+    m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger.xml", 0, error, 1000);
+  }
   
   if (!m) {
     mju_error("Load model error: %s", error);
@@ -95,6 +112,11 @@ int main(int argc, const char** argv) {
 
   // make data
   d = mj_makeData(m);
+  startup_key_id = mj_name2id(m, mjOBJ_KEY, "sit_down_pose");
+  if (startup_key_id == -1) {
+    startup_key_id = mj_name2id(m, mjOBJ_KEY, "init_pose");
+  }
+  reset_to_startup_key();
 
   // init GLFW
   if (!glfwInit()) {
@@ -117,13 +139,24 @@ int main(int argc, const char** argv) {
   glfwSetCursorPosCallback(window, mouse_move);
   glfwSetMouseButtonCallback(window, mouse_button);
   glfwSetScrollCallback(window, scroll);
-  
+
+  using clock_type = std::chrono::steady_clock;
   start _start(m,d);
+  const double render_dt = 1.0 / 90.0;
+  const double realtime_factor = 1.0;
+
+  double next_ctrl_time = d->time;
+  const double sim_time0 = d->time;
+  const auto wall_time0 = clock_type::now();
+  glfwSwapInterval(0);
   while (!glfwWindowShouldClose(window)) {
 
     mjtNum simstart = d->time;
     while (d->time - simstart < 1.0/90.0) {
-      _start.run();
+      if (d->time + 1e-12 >= next_ctrl_time) {
+      _start.run();                  // 控制器 500Hz, ctrl->dt = 0.002
+      next_ctrl_time += _start.ctrl->dt;
+      }
       mj_step(m, d);
     }
     
@@ -140,6 +173,11 @@ int main(int argc, const char** argv) {
 
     // process pending GUI events, call GLFW callbacks
     glfwPollEvents();
+    auto target_wall_time =
+      wall_time0 + std::chrono::duration<double>(
+          (d->time - sim_time0) / realtime_factor);
+
+    std::this_thread::sleep_until(target_wall_time);
   }
 
   //free visualization storage

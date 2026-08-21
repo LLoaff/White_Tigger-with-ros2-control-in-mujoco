@@ -72,6 +72,7 @@ def normalize_sample(raw):
             "accel": as_float_list(pick(raw, ("imu", "accel"), ("imu", "accelerometer"), ("accel",), ("accelerometer",)), 3),
             "gyro": as_float_list(pick(raw, ("imu", "gyro"), ("imu", "gyroscope"), ("gyro",), ("gyroscope",)), 3),
             "quat": as_float_list(pick(raw, ("imu", "quat"), ("imu", "quaternion"), ("quat",), ("quaternion",)), 4),
+            "rpy": as_float_list(pick(raw, ("imu", "rpy"), ("rpy",)), 3),
         },
         "com": {
             "pos": as_float_list(pick(raw, ("com", "pos"), ("com_pos",), ("pcom",)), 3),
@@ -208,6 +209,7 @@ def flatten_for_csv(sample):
     accel = imu.get("accel") or [None, None, None]
     gyro = imu.get("gyro") or [None, None, None]
     quat = imu.get("quat") or [None, None, None, None]
+    rpy = imu.get("rpy") or [None, None, None]
     com = sample.get("com", {})
     com_pos = com.get("pos") or [None, None, None]
     params = sample.get("params") or {}
@@ -228,6 +230,9 @@ def flatten_for_csv(sample):
         "quat_x": quat[1],
         "quat_y": quat[2],
         "quat_z": quat[3],
+        "roll": rpy[0],
+        "pitch": rpy[1],
+        "yaw": rpy[2],
         "com_x": com_pos[0],
         "com_y": com_pos[1],
         "com_z": com_pos[2],
@@ -286,7 +291,8 @@ class Handler(BaseHTTPRequestHandler):
                     "imu": {
                         "accel": [0.0, 0.0, -9.81],
                         "gyro": [0.0, 0.0, 0.0],
-                        "quat": [1.0, 0.0, 0.0, 0.0]
+                        "quat": [1.0, 0.0, 0.0, 0.0],
+                        "rpy": [0.0, 0.0, 0.0]
                     },
                     "com": {"pos": [0.0, 0.0, 0.25]},
                     "params": {"kp": 14.0, "kd": 1.2},

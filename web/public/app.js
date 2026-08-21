@@ -254,6 +254,11 @@ function render() {
     { color: colors.y, get: (s) => s.imu?.gyro?.[1] },
     { color: colors.z, get: (s) => s.imu?.gyro?.[2] },
   ]);
+  drawChart($("rpyChart"), samples, [
+    { color: colors.x, get: (s) => s.imu?.rpy?.[0] },
+    { color: colors.y, get: (s) => s.imu?.rpy?.[1] },
+    { color: colors.z, get: (s) => s.imu?.rpy?.[2] },
+  ]);
   renderComCharts(samples);
   drawChart($("quatChart"), samples, [
     { color: colors.w, get: (s) => s.imu?.quat?.[0] },
@@ -412,6 +417,7 @@ async function sendSample() {
         accel: [Math.sin(t) * 0.4, Math.cos(t * 0.6) * 0.3, -9.81 + Math.sin(t * 1.8) * 0.2],
         gyro: [Math.sin(t * 1.4) * 0.05, Math.cos(t * 1.2) * 0.04, Math.sin(t * 0.7) * 0.1],
         quat: [1, Math.sin(t) * 0.02, Math.cos(t) * 0.02, Math.sin(t * 0.5) * 0.03],
+        rpy: [Math.sin(t) * 0.08, Math.cos(t * 0.8) * 0.06, Math.sin(t * 0.5) * 0.2],
       },
       com: {
         pos: [Math.sin(t * 0.4) * 0.1, Math.cos(t * 0.3) * 0.05, 0.25 + Math.sin(t * 0.5) * 0.02],

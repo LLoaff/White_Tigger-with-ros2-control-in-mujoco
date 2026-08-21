@@ -15,7 +15,7 @@ FSM::FSM(ControlComponent *_ctrlcomp):_fsm_ctrl(_ctrlcomp){
 
 void FSM::initialize(){
 
-    _current_state = _fsm_state_list.sit_down;
+    _current_state = _fsm_state_list.passive;
     _current_state->enter();
     _next_state = _current_state;
     _mode = FSMMode::NORMAL;
@@ -30,7 +30,11 @@ void FSM::run(){
     _fsm_ctrl->_estimator->run();
     
     _mj_box->BoxUpdate(_fsm_ctrl->_estimator->getPosition(),_fsm_ctrl->_ioros->_state->_imu.GetQuat());
-    // _fsm_ctrl->_analyze.sendComPos(_fsm_ctrl->_mjdata->time,);
+    _fsm_ctrl->_analyze.sendComPos(
+        _fsm_ctrl->_mjdata->time,
+        _fsm_ctrl->_estimator->getPosition(),
+        rotMatToRPY(_fsm_ctrl->_ioros->_state->_imu.GetRotMat())
+    );
     if(_mode == FSMMode::NORMAL){
         _current_state->run();          // 当前 状态执行一次run 
 

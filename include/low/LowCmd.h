@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include "low/LowState.h"
 #include <mujoco/mujoco.h>
-
+#include "math/mathtool.h"
 class LowCmd
 {
     public:

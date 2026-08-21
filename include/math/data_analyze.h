@@ -9,11 +9,11 @@ class data_analyze
 {
 public:
     data_analyze(/* args */);
-    void sendComPos(double sim_time, const Eigen::Vector3d& pcom);
+    void sendComPos(double sim_time, const Eigen::Vector3d& pcom, const Eigen::Vector3d& rpy);
 
     ~data_analyze();
 private:
-
+    double _lastSendTime;
 };
 
 

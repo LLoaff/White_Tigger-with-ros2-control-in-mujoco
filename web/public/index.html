@@ -59,6 +59,14 @@
         </article>
         <article class="panel wide">
           <div class="panel-head">
+            <h2>RPY Attitude</h2>
+            <span>rad</span>
+          </div>
+          <canvas id="rpyChart" width="1200" height="280"></canvas>
+          <div class="legend"><b class="x"></b>Roll <b class="y"></b>Pitch <b class="z"></b>Yaw</div>
+        </article>
+        <article class="panel wide">
+          <div class="panel-head">
             <h2>COM Position</h2>
             <span>m</span>
           </div>
@@ -131,7 +139,8 @@ Content-Type: application/json
 	  "imu": {
 	    "accel": [0, 0, -9.81],
 	    "gyro": [0, 0, 0],
-	    "quat": [1, 0, 0, 0]
+	    "quat": [1, 0, 0, 0],
+	    "rpy": [0, 0, 0]
 	  },
 	  "com": {"pos": [0.1, 0.0, 0.25]},
 	  "params": {"kp": 14, "kd": 1.2},

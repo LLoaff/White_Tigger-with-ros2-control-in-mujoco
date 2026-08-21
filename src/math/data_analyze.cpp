@@ -1,16 +1,25 @@
 #include "math/data_analyze.h"
 
-data_analyze::data_analyze(/* args */)
+data_analyze::data_analyze(/* args */): _lastSendTime(-1.0)
 {
 }
 
-void data_analyze::sendComPos(double sim_time, const Eigen::Vector3d& pcom) {
+void data_analyze::sendComPos(double sim_time, const Eigen::Vector3d& pcom, const Eigen::Vector3d& rpy) {
+    constexpr double sendInterval = 0.02;  // 50 Hz telemetry
+    if (_lastSendTime >= 0.0 && sim_time >= _lastSendTime && sim_time - _lastSendTime < sendInterval) {
+        return;
+    }
+    _lastSendTime = sim_time;
+
     CURL* curl = curl_easy_init();
     if (!curl) return;
 
     std::ostringstream ss;
     ss << "{"
        << "\"sim_time\":" << sim_time << ","
+       << "\"imu\":{\"rpy\":["
+       << rpy(0) << "," << rpy(1) << "," << rpy(2)
+       << "]},"
        << "\"com\":{\"pos\":["
        << pcom(0) << "," << pcom(1) << "," << pcom(2)
        << "]}"
