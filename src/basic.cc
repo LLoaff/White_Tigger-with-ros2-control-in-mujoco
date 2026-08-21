@@ -17,6 +17,7 @@ mjvOption opt;                      // visualization options
 mjvScene scn;                       // abstract scene
 mjrContext con;                     // custom GPU context
 int startup_key_id = -1;
+bool reset_requested = false;
 
 // mouse interaction
 bool button_left = false;
@@ -35,8 +36,8 @@ void reset_to_startup_key() {
 }
 
 void keyboard(GLFWwindow* window, int key, int scancode, int act, int mods) {
-  if (act==GLFW_PRESS && key==GLFW_KEY_BACKSPACE) {
-    reset_to_startup_key();
+  if (act == GLFW_PRESS && (key == GLFW_KEY_ESCAPE || key == GLFW_KEY_BACKSPACE)) {
+    reset_requested = true;
   }
 }
 
@@ -141,21 +142,29 @@ int main(int argc, const char** argv) {
   glfwSetScrollCallback(window, scroll);
 
   using clock_type = std::chrono::steady_clock;
-  start _start(m,d);
+  start sim_start(m, d);
   const double render_dt = 1.0 / 90.0;
   const double realtime_factor = 1.0;
 
   double next_ctrl_time = d->time;
-  const double sim_time0 = d->time;
-  const auto wall_time0 = clock_type::now();
+  double sim_time0 = d->time;
+  auto wall_time0 = clock_type::now();
   glfwSwapInterval(0);
   while (!glfwWindowShouldClose(window)) {
+    if (reset_requested) {
+      reset_requested = false;
+      reset_to_startup_key();
+      sim_start.reset();
+      next_ctrl_time = d->time;
+      sim_time0 = d->time;
+      wall_time0 = clock_type::now();
+    }
 
     mjtNum simstart = d->time;
     while (d->time - simstart < 1.0/90.0) {
       if (d->time + 1e-12 >= next_ctrl_time) {
-      _start.run();                  // 控制器 500Hz, ctrl->dt = 0.002
-      next_ctrl_time += _start.ctrl->dt;
+      sim_start.run();                  // 控制器 500Hz, ctrl->dt = 0.002
+      next_ctrl_time += sim_start.ctrl->dt;
       }
       mj_step(m, d);
     }

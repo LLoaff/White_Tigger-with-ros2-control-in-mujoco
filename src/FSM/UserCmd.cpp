@@ -2,16 +2,16 @@
 
 UserCmd::UserCmd()
 {
-        std::cout<<"User Open Success!!!"<<std::endl;
+    std::cout<<"User Open Success!!!"<<std::endl;
 
-        _lcm = new lcm::LCM();
-        if(!_lcm->good())        {
-            std::cerr<<"LCM init failed!"<<std::endl;
-            exit(-1);
-        }
-        _lcm->subscribe("cmd_vel", &UserCmd::handleMessage, this);
+    _lcm = new lcm::LCM();
+    if(!_lcm->good())        {
+        std::cerr<<"LCM init failed!"<<std::endl;
+        exit(-1);
+    }
+    _lcm->subscribe("cmd_vel", &UserCmd::handleMessage, this);
 
-         pthread_create(&_thread,NULL,UserCmd::KeyBoardInit,this);
+    pthread_create(&_thread,NULL,UserCmd::KeyBoardInit,this);
 }
 
 void* UserCmd::KeyBoardInit(void * arg){
@@ -21,7 +21,7 @@ void* UserCmd::KeyBoardInit(void * arg){
 }
 
 void UserCmd::KeyBoardGet(){
-    while(true){
+    while(_running){
         _lcm->handleTimeout(1);
     }
 }
@@ -60,5 +60,7 @@ UserValue UserCmd::GetUserValue()
 }
 
 UserCmd::~UserCmd(){
+    _running = false;
     pthread_join(_thread, NULL);
+    delete _lcm;
 }

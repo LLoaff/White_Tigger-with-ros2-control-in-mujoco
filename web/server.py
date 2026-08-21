@@ -19,14 +19,39 @@ ROOT = Path(__file__).resolve().parent
 PUBLIC_DIR = ROOT / "public"
 DATA_DIR = ROOT / "data"
 LOG_FILE = DATA_DIR / "telemetry.jsonl"
+DEBUG_PARAMS_FILE = DATA_DIR / "debug_params.json"
 MAX_MEMORY_SAMPLES = 20000
 
 SAMPLES = deque(maxlen=MAX_MEMORY_SAMPLES)
 NEXT_ID = 1
 SAMPLE_LOCK = threading.Lock()
+PARAM_LOCK = threading.Lock()
 WS_CLIENTS = {}
 WS_LOCK = threading.Lock()
 WS_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+
+DEFAULT_DEBUG_PARAMS = {
+    "joint_gains": {
+        "swing": {
+            "go1": {"kp": 5.5, "kd": 1.0},
+            "white_tigger": {"kp": 2.5, "kd": 0.3},
+        },
+        "stable": {
+            "go1": {"kp": 7.0, "kd": 2.0},
+            "white_tigger": {"kp": 3.5, "kd": 1.1},
+        },
+    },
+    "trotting": {
+        "Kpp": [45.0, 45.0, 45.0],
+        "Kdp": [5.0, 5.0, 5.0],
+        "kpw": 230.0,
+        "Kdw": [22.0, 22.0, 22.0],
+        "KpSwing": [90.0, 90.0, 90.0],
+        "KdSwing": [2.0, 2.0, 2.0],
+    },
+}
+
+DEBUG_PARAMS = {}
 
 
 def as_float_list(value, length):
@@ -40,6 +65,96 @@ def as_float_list(value, length):
             raise ValueError("list values must be numbers")
         out.append(float(item))
     return out
+
+
+def clone_json(value):
+    return json.loads(json.dumps(value))
+
+
+def merge_dict(base, updates):
+    out = clone_json(base)
+    if not isinstance(updates, dict):
+        return out
+    for key, value in updates.items():
+        if isinstance(value, dict) and isinstance(out.get(key), dict):
+            out[key] = merge_dict(out[key], value)
+        else:
+            out[key] = value
+    return out
+
+
+def require_number(value, path):
+    if not isinstance(value, (int, float)):
+        raise ValueError(f"{path} must be a number")
+    return float(value)
+
+
+def validate_gain_pair(value, path):
+    if not isinstance(value, dict):
+        raise ValueError(f"{path} must be an object")
+    return {
+        "kp": require_number(value.get("kp"), f"{path}.kp"),
+        "kd": require_number(value.get("kd"), f"{path}.kd"),
+    }
+
+
+def validate_vec3(value, path):
+    return as_float_list(value, 3)
+
+
+def validate_debug_params(raw):
+    if not isinstance(raw, dict):
+        raise ValueError("debug params must be a JSON object")
+
+    merged = merge_dict(DEFAULT_DEBUG_PARAMS, raw)
+    joint = merged.get("joint_gains")
+    trotting = merged.get("trotting")
+    if not isinstance(joint, dict):
+        raise ValueError("joint_gains must be an object")
+    if not isinstance(trotting, dict):
+        raise ValueError("trotting must be an object")
+
+    clean = clone_json(DEFAULT_DEBUG_PARAMS)
+    for phase in ("swing", "stable"):
+        phase_value = joint.get(phase)
+        if not isinstance(phase_value, dict):
+            raise ValueError(f"joint_gains.{phase} must be an object")
+        for model_name in ("go1", "white_tigger"):
+            clean["joint_gains"][phase][model_name] = validate_gain_pair(
+                phase_value.get(model_name),
+                f"joint_gains.{phase}.{model_name}",
+            )
+
+    for name in ("Kpp", "Kdp", "Kdw", "KpSwing", "KdSwing"):
+        clean["trotting"][name] = validate_vec3(trotting.get(name), f"trotting.{name}")
+    clean["trotting"]["kpw"] = require_number(trotting.get("kpw"), "trotting.kpw")
+    clean["updated_at"] = time.time()
+    return clean
+
+
+def load_debug_params():
+    global DEBUG_PARAMS
+    if DEBUG_PARAMS_FILE.exists():
+        try:
+            loaded = json.loads(DEBUG_PARAMS_FILE.read_text(encoding="utf-8"))
+            DEBUG_PARAMS = validate_debug_params(loaded)
+            return
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            print(f"Failed to load debug params, using defaults: {exc}")
+    DEBUG_PARAMS = validate_debug_params(DEFAULT_DEBUG_PARAMS)
+
+
+def store_debug_params(params):
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    DEBUG_PARAMS_FILE.write_text(
+        json.dumps(params, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def get_debug_params():
+    with PARAM_LOCK:
+        return clone_json(DEBUG_PARAMS)
 
 
 def pick(raw, *paths):
@@ -281,7 +396,13 @@ class Handler(BaseHTTPRequestHandler):
                 sample_count = len(SAMPLES)
             with WS_LOCK:
                 ws_count = len(WS_CLIENTS)
-            self.send_json(200, {"ok": True, "samples": sample_count, "websocket_clients": ws_count, "log_file": str(LOG_FILE)})
+            self.send_json(200, {
+                "ok": True,
+                "samples": sample_count,
+                "websocket_clients": ws_count,
+                "log_file": str(LOG_FILE),
+                "debug_params_file": str(DEBUG_PARAMS_FILE),
+            })
             return
         if parsed.path == "/api/schema":
             self.send_json(200, {
@@ -300,8 +421,16 @@ class Handler(BaseHTTPRequestHandler):
                 },
                 "batch": {"samples": ["same shape as single_sample"]},
                 "get": "GET /api/telemetry?limit=500",
+                "debug_params": {
+                    "get": "GET /api/debug-params",
+                    "post": "POST /api/debug-params",
+                    "delete": "DELETE /api/debug-params"
+                },
                 "export": "GET /api/export?format=jsonl or csv"
             })
+            return
+        if parsed.path == "/api/debug-params":
+            self.send_json(200, {"ok": True, "params": get_debug_params(), "defaults": clone_json(DEFAULT_DEBUG_PARAMS)})
             return
         if parsed.path == "/api/telemetry":
             query = parse_qs(parsed.query)
@@ -365,7 +494,7 @@ class Handler(BaseHTTPRequestHandler):
             WS_CLIENTS[self.connection] = threading.Lock()
         with SAMPLE_LOCK:
             initial_samples = list(SAMPLES)[-MAX_MEMORY_SAMPLES:]
-        send_ws(self.connection, {"type": "init", "samples": initial_samples})
+        send_ws(self.connection, {"type": "init", "samples": initial_samples, "debug_params": get_debug_params()})
 
         try:
             while True:
@@ -407,6 +536,21 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         parsed = urlparse(self.path)
+        if parsed.path == "/api/debug-params":
+            try:
+                payload = self.read_json()
+                params_payload = payload.get("params") if isinstance(payload, dict) and isinstance(payload.get("params"), dict) else payload
+                params = validate_debug_params(params_payload)
+                with PARAM_LOCK:
+                    global DEBUG_PARAMS
+                    DEBUG_PARAMS = params
+                    store_debug_params(DEBUG_PARAMS)
+                broadcast_ws({"type": "debug_params", "params": params})
+            except (json.JSONDecodeError, ValueError) as exc:
+                self.send_json(400, {"error": str(exc)})
+                return
+            self.send_json(200, {"ok": True, "params": params})
+            return
         if parsed.path != "/api/telemetry":
             self.send_json(404, {"error": "not found"})
             return
@@ -426,6 +570,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         parsed = urlparse(self.path)
+        if parsed.path == "/api/debug-params":
+            params = validate_debug_params(DEFAULT_DEBUG_PARAMS)
+            with PARAM_LOCK:
+                global DEBUG_PARAMS
+                DEBUG_PARAMS = params
+                store_debug_params(DEBUG_PARAMS)
+            broadcast_ws({"type": "debug_params", "params": params})
+            self.send_json(200, {"ok": True, "params": params})
+            return
         if parsed.path != "/api/telemetry":
             self.send_json(404, {"error": "not found"})
             return
@@ -461,6 +614,7 @@ def main():
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     load_existing()
+    load_debug_params()
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"Telemetry dashboard: http://{args.host}:{args.port}")
     print(f"API endpoint: http://{args.host}:{args.port}/api/telemetry")

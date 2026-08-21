@@ -92,6 +92,51 @@ Clears in-memory samples and the JSONL log.
 
 Data is appended to `web/data/telemetry.jsonl`.
 
+## Online debug params
+
+The dashboard has a **Trotting 在线参数** panel for tuning the six Trotting gain groups. The web server stores the latest values in:
+
+```text
+web/data/debug_params.json
+```
+
+Read current values:
+
+```bash
+curl http://127.0.0.1:8765/api/debug-params
+```
+
+Apply values:
+
+```bash
+curl -X POST http://127.0.0.1:8765/api/debug-params \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "params": {
+      "trotting": {
+        "Kpp": [45.0, 45.0, 45.0],
+        "Kdp": [5.0, 5.0, 5.0],
+        "kpw": 230.0,
+        "Kdw": [22.0, 22.0, 22.0],
+        "KpSwing": [90.0, 90.0, 90.0],
+        "KdSwing": [2.0, 2.0, 2.0]
+      }
+    }
+  }'
+```
+
+Reset to defaults:
+
+```bash
+curl -X DELETE http://127.0.0.1:8765/api/debug-params
+```
+
+The server also broadcasts updated params over WebSocket:
+
+```json
+{"type":"debug_params","params":{...}}
+```
+
 ## WebSocket messages
 
 Connect the browser or a client to:

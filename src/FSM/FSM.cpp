@@ -30,11 +30,11 @@ void FSM::run(){
     _fsm_ctrl->_estimator->run();
     
     _mj_box->BoxUpdate(_fsm_ctrl->_estimator->getPosition(),_fsm_ctrl->_ioros->_state->_imu.GetQuat());
-    _fsm_ctrl->_analyze.sendComPos(
-        _fsm_ctrl->_mjdata->time,
-        _fsm_ctrl->_estimator->getPosition(),
-        rotMatToRPY(_fsm_ctrl->_ioros->_state->_imu.GetRotMat())
-    );
+    // _fsm_ctrl->_analyze.sendComPos(
+    //     _fsm_ctrl->_mjdata->time,
+    //     _fsm_ctrl->_estimator->getPosition(),
+    //     rotMatToRPY(_fsm_ctrl->_ioros->_state->_imu.GetRotMat())
+    // );
     if(_mode == FSMMode::NORMAL){
         _current_state->run();          // 当前 状态执行一次run 
 

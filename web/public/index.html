@@ -40,6 +40,82 @@
         </div>
       </section>
 
+      <section class="debug-panel panel">
+        <div class="panel-head">
+          <div>
+            <h2>Trotting 在线参数</h2>
+            <p>保存到 Web 端，下次进入 Trotting_State::enter() 时由控制程序读取。</p>
+          </div>
+          <span id="paramStatus">loading...</span>
+        </div>
+
+        <div class="debug-actions">
+          <button id="applyParamsBtn" class="primary" type="button">保存参数</button>
+          <button id="reloadParamsBtn" type="button">重新读取</button>
+          <button id="resetParamsBtn" type="button">恢复默认</button>
+        </div>
+
+        <div class="gain-grid">
+          <fieldset class="gain-group">
+            <legend>Body Position Kp</legend>
+            <code>Kpp</code>
+            <div class="gain-values">
+              <label>X <input id="KppX" type="number" step="any"></label>
+              <label>Y <input id="KppY" type="number" step="any"></label>
+              <label>Z <input id="KppZ" type="number" step="any"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="gain-group">
+            <legend>Body Position Kd</legend>
+            <code>Kdp</code>
+            <div class="gain-values">
+              <label>X <input id="KdpX" type="number" step="any"></label>
+              <label>Y <input id="KdpY" type="number" step="any"></label>
+              <label>Z <input id="KdpZ" type="number" step="any"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="gain-group">
+            <legend>Body Attitude Kp</legend>
+            <code>kpw</code>
+            <div class="gain-values scalar-gain">
+              <label>Value <input id="kpw" type="number" step="any"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="gain-group">
+            <legend>Angular Velocity Kd</legend>
+            <code>Kdw</code>
+            <div class="gain-values">
+              <label>X <input id="KdwX" type="number" step="any"></label>
+              <label>Y <input id="KdwY" type="number" step="any"></label>
+              <label>Z <input id="KdwZ" type="number" step="any"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="gain-group">
+            <legend>Swing Foot Kp</legend>
+            <code>KpSwing</code>
+            <div class="gain-values">
+              <label>X <input id="KpSwingX" type="number" step="any"></label>
+              <label>Y <input id="KpSwingY" type="number" step="any"></label>
+              <label>Z <input id="KpSwingZ" type="number" step="any"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="gain-group">
+            <legend>Swing Foot Kd</legend>
+            <code>KdSwing</code>
+            <div class="gain-values">
+              <label>X <input id="KdSwingX" type="number" step="any"></label>
+              <label>Y <input id="KdSwingY" type="number" step="any"></label>
+              <label>Z <input id="KdSwingZ" type="number" step="any"></label>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+
       <section class="grid">
         <article class="panel">
           <div class="panel-head">

@@ -1,6 +1,7 @@
 #ifndef USER_CMD_H
 #define USER_CMD_H
 
+#include <atomic>
 #include <pthread.h>
 #include <iostream>  
 #include <unistd.h> 
@@ -38,6 +39,7 @@ public:
     float               _vy;
     float               _wz;
 private:
+    std::atomic<bool>  _running{true};
     lcm::LCM *          _lcm;
     void handleMessage(const lcm::ReceiveBuffer* rbuf, const std::string& chan, const lcm_msg::lcm_vel_cmd* msg);
 

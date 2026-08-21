@@ -4,19 +4,49 @@ Trotting_State::Trotting_State(ControlComponent * ctrlComp):FSMState(ctrlComp,FS
 _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact),_lowstate(ctrlComp->_ioros->_state)
 ,_balCtrl(ctrlComp->_balCtrl),_robModel(ctrlComp->robotModel){
     _gait = new GaitGenerator(ctrlComp);
-    _gaitHeight = 0.08;
+    if(use_go1_model == 1){
+        _gaitHeight = 0.08;
+        _vxLim << -0.8, 0.8;
+        _vyLim << -0.8, 0.8;
+        _wyawLim << -0.5, 0.5;
 
-    _vxLim << -0.8, 0.8;
-    _vyLim << -0.8, 0.8;
-    _wyawLim << -0.5, 0.5;
+        _Kpp = Vec3(90, 90, 90).asDiagonal();
+        _Kdp = Vec3(10, 10, 10).asDiagonal();
+        _kpw = 780;
+        _Kdw = Vec3(70, 70, 70).asDiagonal();
 
-    _Kpp = Vec3(90, 90, 90).asDiagonal();
-    _Kdp = Vec3(10, 10, 10).asDiagonal();
-    _kpw = 780;
-    _Kdw = Vec3(70, 70, 70).asDiagonal();
+        _KpSwing = Vec3(400, 400, 400).asDiagonal();
+        _KdSwing = Vec3(10, 10, 10).asDiagonal();
+    }else{
+        _gaitHeight = 0.04;
+        _vxLim << -0.4, 0.4;
+        _vyLim << -0.4, 0.4;
+        _wyawLim << -0.5, 0.5;
 
-    _KpSwing = Vec3(400, 400, 400).asDiagonal();
-    _KdSwing = Vec3(10, 10, 10).asDiagonal();
+        // _Kpp = Vec3(15, 15, 15).asDiagonal();
+        // _Kdp = Vec3(1.5, 1.5, 1.5).asDiagonal();
+        // _kpw = 120;
+        // _Kdw = Vec3(15, 15, 15).asDiagonal();
+
+        // _KpSwing = Vec3(25, 25, 25).asDiagonal();
+        // _KdSwing = Vec3(0.6, 0.6, 0.6).asDiagonal();
+        _Kpp = Vec3(45, 45, 45).asDiagonal();
+        _Kdp = Vec3(5, 5, 5).asDiagonal();
+        _kpw = 230;
+        _Kdw = Vec3(22, 22, 22).asDiagonal();
+
+        _KpSwing = Vec3(90, 90, 90).asDiagonal();
+        _KdSwing = Vec3(2, 2, 2).asDiagonal();
+    }
+    
+    // 向网端发送param数据
+    _fstate_ctrl->_analyze._param._Kpp = _Kpp;
+    _fstate_ctrl->_analyze._param._Kdp = _Kdp;
+    _fstate_ctrl->_analyze._param._kpw = _kpw;
+    _fstate_ctrl->_analyze._param._Kdw = _Kdw;
+    _fstate_ctrl->_analyze._param._KpSwing = _KpSwing;
+    _fstate_ctrl->_analyze._param._KdSwing = _KdSwing;
+    _fstate_ctrl->_analyze.sendParamData(_fstate_ctrl->_analyze._param);
 
     _lcm = new lcm::LCM();
     _lcm2 = new lcm::LCM();
@@ -47,6 +77,25 @@ void Trotting_State::enter(){
         _fstate_ctrl->_mjdata->time
     );
     _gait->restart();
+    if (_fstate_ctrl->_analyze.getParamData(_fstate_ctrl->_analyze._param)){
+        _Kpp = _fstate_ctrl->_analyze._param._Kpp;
+        _Kdp = _fstate_ctrl->_analyze._param._Kdp;
+        _kpw = _fstate_ctrl->_analyze._param._kpw;
+        _Kdw = _fstate_ctrl->_analyze._param._Kdw;
+
+        _KpSwing = _fstate_ctrl->_analyze._param._KpSwing;
+        _KdSwing = _fstate_ctrl->_analyze._param._KdSwing;
+        std::cout<<"参数读取成功"<<std::endl;
+        std::cout<<"当前 _Kpp:\n"
+        << _Kpp 
+        <<"\n_Kdp:\n"<<_Kdp
+        <<"\n_kpw:\n"<<_kpw
+        <<"\n_Kdw:\n"<<_Kdw
+        <<"\n_KpSwing:\n"<<_KpSwing
+        <<"\n_KdSwing:\n"<<_KdSwing
+        <<std::endl;
+    }
+    
 
     std::cout<<"trotting"<<std::endl;
 }
@@ -186,15 +235,17 @@ void Trotting_State::calcTau(){
     _dWbd(0) = saturation(_dWbd(0), Vec2(-40, 40));
     _dWbd(1) = saturation(_dWbd(1), Vec2(-40, 40));
     _dWbd(2) = saturation(_dWbd(2), Vec2(-60, 60));
+    Vec3 werror;
+    _fstate_ctrl->_analyze.sendComPos(_fstate_ctrl->_mjdata->time,_posError,_dWbd);
     // std::cout<<"_dWbd:\n"<< _dWbd <<std::endl;
-    std::cout
+    // std::cout
     // << " yawCmd=" << _yawCmd
     // << " dYawCmd=" << _dYawCmd
     // << " _wCmdGlobal=" << _wCmdGlobal(2)
     // << " getGyroGlobal=" << _lowstate->_imu.getGyroGlobal()(2)
     // << " _dWbd=" << _dWbd(2)
     // << " _Rd = \n" << _Rd
-    << std::endl;
+    // << std::endl;
     _forceFeetGlobal = - _balCtrl->calF(_ddPcd, _dWbd, _B2G_RotMat, _posFeet2BGlobal, *_contact);
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){

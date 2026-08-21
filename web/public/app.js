@@ -4,6 +4,7 @@ const state = {
   wsConnected: false,
   samples: [],
   maxSamples: 20000,
+  debugParams: null,
   com: {
     followLatest: true,
     viewEnd: null,
@@ -21,6 +22,30 @@ const colors = {
 
 const $ = (id) => document.getElementById(id);
 const chartPad = { left: 46, right: 14, top: 12, bottom: 28 };
+const chartMetadata = new WeakMap();
+const chartTooltip = document.createElement("div");
+chartTooltip.className = "chart-tooltip";
+chartTooltip.hidden = true;
+document.body.appendChild(chartTooltip);
+
+const paramInputs = {
+  KppX: ["trotting", "Kpp", 0],
+  KppY: ["trotting", "Kpp", 1],
+  KppZ: ["trotting", "Kpp", 2],
+  KdpX: ["trotting", "Kdp", 0],
+  KdpY: ["trotting", "Kdp", 1],
+  KdpZ: ["trotting", "Kdp", 2],
+  kpw: ["trotting", "kpw"],
+  KdwX: ["trotting", "Kdw", 0],
+  KdwY: ["trotting", "Kdw", 1],
+  KdwZ: ["trotting", "Kdw", 2],
+  KpSwingX: ["trotting", "KpSwing", 0],
+  KpSwingY: ["trotting", "KpSwing", 1],
+  KpSwingZ: ["trotting", "KpSwing", 2],
+  KdSwingX: ["trotting", "KdSwing", 0],
+  KdSwingY: ["trotting", "KdSwing", 1],
+  KdSwingZ: ["trotting", "KdSwing", 2],
+};
 
 const comAxes = [
   {
@@ -59,12 +84,123 @@ function fmt(value, digits = 3) {
   return typeof value === "number" && Number.isFinite(value) ? value.toFixed(digits) : "-";
 }
 
+function formatAxisTick(value, step) {
+  const magnitude = Math.abs(step);
+  const digits = magnitude > 0
+    ? Math.min(6, Math.max(0, Math.ceil(-Math.log10(magnitude)) + 1))
+    : 2;
+  const text = value.toFixed(digits);
+  return Number(text) === 0 ? (0).toFixed(digits) : text;
+}
+
+function formatTooltipValue(value) {
+  if (!Number.isFinite(value)) return "-";
+  const magnitude = Math.abs(value);
+  if (magnitude >= 10000 || (magnitude > 0 && magnitude < 0.0001)) {
+    return value.toExponential(4);
+  }
+  return value.toFixed(6).replace(/\.?0+$/, "");
+}
+
 function sampleTime(sample) {
   return typeof sample.sim_time === "number" ? sample.sim_time : sample.received_at;
 }
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
+}
+
+function getPath(obj, path) {
+  return path.reduce((cur, key) => (cur == null ? undefined : cur[key]), obj);
+}
+
+function setPath(obj, path, value) {
+  let cur = obj;
+  for (let i = 0; i < path.length - 1; i++) {
+    const key = path[i];
+    const nextKey = path[i + 1];
+    if (cur[key] == null) cur[key] = typeof nextKey === "number" ? [] : {};
+    cur = cur[key];
+  }
+  cur[path[path.length - 1]] = value;
+}
+
+function setParamStatus(text, isError = false) {
+  const el = $("paramStatus");
+  if (!el) return;
+  el.textContent = text;
+  el.classList.toggle("error", isError);
+}
+
+function showDebugParams(params) {
+  state.debugParams = params;
+  for (const [id, path] of Object.entries(paramInputs)) {
+    const input = $(id);
+    if (!input) continue;
+    const value = getPath(params, path);
+    input.value = typeof value === "number" && Number.isFinite(value) ? value : "";
+  }
+  const updated = params?.updated_at ? new Date(params.updated_at * 1000).toLocaleTimeString() : "loaded";
+  setParamStatus(`current · ${updated}`);
+}
+
+function readNumberInput(id) {
+  const input = $(id);
+  const value = Number(input?.value);
+  if (!Number.isFinite(value)) {
+    throw new Error(`${id} must be a number`);
+  }
+  return value;
+}
+
+function collectDebugParams() {
+  const params = {};
+  for (const [id, path] of Object.entries(paramInputs)) {
+    setPath(params, path, readNumberInput(id));
+  }
+  return params;
+}
+
+async function fetchDebugParams() {
+  try {
+    const res = await fetch("/api/debug-params");
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    showDebugParams(data.params);
+  } catch (err) {
+    setParamStatus(`load failed · ${err.message}`, true);
+  }
+}
+
+async function applyDebugParams() {
+  try {
+    const params = collectDebugParams();
+    setParamStatus("applying...");
+    const res = await fetch("/api/debug-params", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ params }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    showDebugParams(data.params);
+    setParamStatus(`applied · ${new Date().toLocaleTimeString()}`);
+  } catch (err) {
+    setParamStatus(`apply failed · ${err.message}`, true);
+  }
+}
+
+async function resetDebugParams() {
+  try {
+    setParamStatus("resetting...");
+    const res = await fetch("/api/debug-params", { method: "DELETE" });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    showDebugParams(data.params);
+    setParamStatus(`reset · ${new Date().toLocaleTimeString()}`);
+  } catch (err) {
+    setParamStatus(`reset failed · ${err.message}`, true);
+  }
 }
 
 function readComWindowSeconds() {
@@ -80,13 +216,41 @@ function getTimedSamples(samples) {
   return samples.filter((sample) => Number.isFinite(sampleTime(sample)));
 }
 
+function latestSimulationRun(samples) {
+  let start = 0;
+  let previousTime = null;
+
+  for (let i = 0; i < samples.length; i++) {
+    const time = samples[i]?.sim_time;
+    if (!Number.isFinite(time)) continue;
+    if (previousTime !== null && time < previousTime - 1e-9) start = i;
+    previousTime = time;
+  }
+
+  return samples.slice(start);
+}
+
+function resetComView() {
+  state.com.followLatest = true;
+  state.com.viewEnd = null;
+  state.com.drag = null;
+}
+
+function setSamples(samples) {
+  const source = Array.isArray(samples) ? samples : [];
+  const currentRun = latestSimulationRun(source);
+  if (currentRun.length < source.length) resetComView();
+  state.samples = currentRun.slice(-state.maxSamples);
+}
+
 function getComWindow(samples) {
   const timed = getTimedSamples(samples);
   if (timed.length < 2) return null;
 
   const times = timed.map(sampleTime);
-  const earliest = Math.min(...times);
+  const firstSampleTime = Math.min(...times);
   const latest = Math.max(...times);
+  const earliest = firstSampleTime >= 0 ? 0 : firstSampleTime;
   const fullSpan = Math.max(0, latest - earliest);
   const requestedSpan = readComWindowSeconds();
   const span = Math.max(1e-9, Math.min(requestedSpan, fullSpan || requestedSpan));
@@ -137,8 +301,18 @@ function drawChart(canvas, samples, series, chartOptions) {
   }
 
   const timedSamples = getTimedSamples(samples);
+  if (timedSamples.length < 2) {
+    chartMetadata.delete(canvas);
+    ctx.fillStyle = "#657184";
+    ctx.font = "14px sans-serif";
+    ctx.fillText("waiting for telemetry", pad.left, pad.top + 28);
+    return;
+  }
+
   const timeRange = Array.isArray(options.timeRange) ? options.timeRange : null;
-  const t0 = timeRange ? timeRange[0] : sampleTime(timedSamples[0]);
+  const firstTime = sampleTime(timedSamples[0]);
+  const startsAtZero = Number.isFinite(timedSamples[0]?.sim_time) && firstTime >= 0;
+  const t0 = timeRange ? timeRange[0] : (startsAtZero ? 0 : firstTime);
   const t1 = timeRange ? timeRange[1] : sampleTime(timedSamples[timedSamples.length - 1]);
   const visibleSamples = timedSamples.filter((sample) => {
     const t = sampleTime(sample);
@@ -153,11 +327,14 @@ function drawChart(canvas, samples, series, chartOptions) {
   }
 
   if (visibleSamples.length < 2) {
+    chartMetadata.delete(canvas);
     ctx.fillStyle = "#657184";
     ctx.font = "14px sans-serif";
-    ctx.fillText(samples.length < 2 ? "waiting for telemetry" : "no data in window", pad.left, pad.top + 28);
+    ctx.fillText("no data in window", pad.left, pad.top + 28);
     return;
   }
+
+  chartMetadata.set(canvas, { samples: visibleSamples, series, t0, t1 });
 
   let values = [];
   for (const sample of visibleSamples) {
@@ -188,8 +365,16 @@ function drawChart(canvas, samples, series, chartOptions) {
 
   ctx.fillStyle = "#657184";
   ctx.font = "11px sans-serif";
-  ctx.fillText(max.toFixed(2), 8, pad.top + 4);
-  ctx.fillText(min.toFixed(2), 8, height - pad.bottom);
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+  const yTickStep = (max - min) / 4;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + (plotH * i) / 4;
+    const value = max - yTickStep * i;
+    ctx.fillText(formatAxisTick(value, yTickStep), pad.left - 6, y);
+  }
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
   if (!timeRange) {
     ctx.fillText(fmt(t0, 2), pad.left, height - 8);
     ctx.fillText(fmt(t1, 2), width - 70, height - 8);
@@ -216,12 +401,79 @@ function drawChart(canvas, samples, series, chartOptions) {
   }
 }
 
+function nearestSample(samples, targetTime) {
+  let low = 0;
+  let high = samples.length - 1;
+
+  while (low < high) {
+    const mid = Math.floor((low + high) / 2);
+    if (sampleTime(samples[mid]) < targetTime) low = mid + 1;
+    else high = mid;
+  }
+
+  if (low === 0) return samples[0];
+  const before = samples[low - 1];
+  const after = samples[low];
+  return targetTime - sampleTime(before) <= sampleTime(after) - targetTime ? before : after;
+}
+
+function showChartTooltip(event) {
+  const canvas = event.currentTarget;
+  const metadata = chartMetadata.get(canvas);
+  if (!metadata) {
+    chartTooltip.hidden = true;
+    return;
+  }
+
+  const rect = canvas.getBoundingClientRect();
+  const canvasX = (event.clientX - rect.left) * canvas.width / rect.width;
+  if (canvasX < chartPad.left || canvasX > canvas.width - chartPad.right) {
+    chartTooltip.hidden = true;
+    return;
+  }
+
+  const ratio = (canvasX - chartPad.left) / (canvas.width - chartPad.left - chartPad.right);
+  const targetTime = metadata.t0 + ratio * (metadata.t1 - metadata.t0);
+  const sample = nearestSample(metadata.samples, targetTime);
+
+  chartTooltip.replaceChildren();
+  const timeLine = document.createElement("strong");
+  timeLine.textContent = `Time  ${formatTooltipValue(sampleTime(sample))} s`;
+  chartTooltip.appendChild(timeLine);
+
+  for (const item of metadata.series) {
+    const value = item.get(sample);
+    if (!Number.isFinite(value)) continue;
+    const row = document.createElement("div");
+    const color = document.createElement("i");
+    color.style.background = item.color;
+    const label = document.createElement("span");
+    label.textContent = `${item.label || "Value"}: ${formatTooltipValue(value)}`;
+    row.append(color, label);
+    chartTooltip.appendChild(row);
+  }
+
+  chartTooltip.hidden = false;
+  const tooltipRect = chartTooltip.getBoundingClientRect();
+  chartTooltip.style.left = `${Math.min(event.clientX + 14, window.innerWidth - tooltipRect.width - 8)}px`;
+  chartTooltip.style.top = `${Math.min(event.clientY + 14, window.innerHeight - tooltipRect.height - 8)}px`;
+}
+
+function setupChartTooltips() {
+  document.querySelectorAll("canvas").forEach((canvas) => {
+    canvas.addEventListener("pointermove", showChartTooltip);
+    canvas.addEventListener("pointerleave", () => {
+      chartTooltip.hidden = true;
+    });
+  });
+}
+
 function renderComCharts(samples) {
   const windowRange = getComWindow(samples);
   const timeRange = windowRange ? [windowRange.start, windowRange.end] : null;
   for (const axis of comAxes) {
     drawChart($(axis.canvasId), samples, [
-      { color: axis.color, get: axis.get },
+      { label: axis.label, color: axis.color, get: axis.get },
     ], {
       fixedRange: readYRange(axis),
       timeRange,
@@ -245,26 +497,26 @@ function render() {
   const samples = state.samples.slice(-state.maxSamples);
   updateMetrics(samples);
   drawChart($("accelChart"), samples, [
-    { color: colors.x, get: (s) => s.imu?.accel?.[0] },
-    { color: colors.y, get: (s) => s.imu?.accel?.[1] },
-    { color: colors.z, get: (s) => s.imu?.accel?.[2] },
+    { label: "X", color: colors.x, get: (s) => s.imu?.accel?.[0] },
+    { label: "Y", color: colors.y, get: (s) => s.imu?.accel?.[1] },
+    { label: "Z", color: colors.z, get: (s) => s.imu?.accel?.[2] },
   ]);
   drawChart($("gyroChart"), samples, [
-    { color: colors.x, get: (s) => s.imu?.gyro?.[0] },
-    { color: colors.y, get: (s) => s.imu?.gyro?.[1] },
-    { color: colors.z, get: (s) => s.imu?.gyro?.[2] },
+    { label: "X", color: colors.x, get: (s) => s.imu?.gyro?.[0] },
+    { label: "Y", color: colors.y, get: (s) => s.imu?.gyro?.[1] },
+    { label: "Z", color: colors.z, get: (s) => s.imu?.gyro?.[2] },
   ]);
   drawChart($("rpyChart"), samples, [
-    { color: colors.x, get: (s) => s.imu?.rpy?.[0] },
-    { color: colors.y, get: (s) => s.imu?.rpy?.[1] },
-    { color: colors.z, get: (s) => s.imu?.rpy?.[2] },
+    { label: "Roll", color: colors.x, get: (s) => s.imu?.rpy?.[0] },
+    { label: "Pitch", color: colors.y, get: (s) => s.imu?.rpy?.[1] },
+    { label: "Yaw", color: colors.z, get: (s) => s.imu?.rpy?.[2] },
   ]);
   renderComCharts(samples);
   drawChart($("quatChart"), samples, [
-    { color: colors.w, get: (s) => s.imu?.quat?.[0] },
-    { color: colors.x, get: (s) => s.imu?.quat?.[1] },
-    { color: colors.y, get: (s) => s.imu?.quat?.[2] },
-    { color: colors.z, get: (s) => s.imu?.quat?.[3] },
+    { label: "W", color: colors.w, get: (s) => s.imu?.quat?.[0] },
+    { label: "X", color: colors.x, get: (s) => s.imu?.quat?.[1] },
+    { label: "Y", color: colors.y, get: (s) => s.imu?.quat?.[2] },
+    { label: "Z", color: colors.z, get: (s) => s.imu?.quat?.[3] },
   ], [-1, 1]);
 }
 
@@ -273,7 +525,7 @@ async function fetchSamples() {
   try {
     const res = await fetch(`/api/telemetry?limit=${state.maxSamples}`);
     const data = await res.json();
-    state.samples = data.samples || [];
+    setSamples(data.samples);
     $("status").textContent = `Connected · ${new Date().toLocaleTimeString()}`;
     render();
   } catch (err) {
@@ -283,10 +535,7 @@ async function fetchSamples() {
 
 function appendSamples(samples) {
   if (!Array.isArray(samples) || state.paused) return;
-  state.samples.push(...samples);
-  if (state.samples.length > state.maxSamples) {
-    state.samples = state.samples.slice(-state.maxSamples);
-  }
+  setSamples([...state.samples, ...samples]);
   render();
 }
 
@@ -383,12 +632,16 @@ function connectWebSocket() {
   ws.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
     if (message.type === "init") {
-      state.samples = message.samples || [];
+      setSamples(message.samples);
+      if (message.debug_params) showDebugParams(message.debug_params);
       render();
     } else if (message.type === "samples") {
       appendSamples(message.samples);
+    } else if (message.type === "debug_params") {
+      showDebugParams(message.params);
     } else if (message.type === "clear") {
-      state.samples = [];
+      setSamples([]);
+      resetComView();
       render();
     }
   });
@@ -434,8 +687,13 @@ $("pauseBtn").addEventListener("click", () => {
   $("pauseBtn").textContent = state.paused ? "Resume" : "Pause";
 });
 $("sampleBtn").addEventListener("click", sendSample);
+$("applyParamsBtn").addEventListener("click", applyDebugParams);
+$("reloadParamsBtn").addEventListener("click", fetchDebugParams);
+$("resetParamsBtn").addEventListener("click", resetDebugParams);
 setupComControls();
+setupChartTooltips();
 
 connectWebSocket();
 fetchSamples();
+fetchDebugParams();
 setInterval(fetchSamples, 500);

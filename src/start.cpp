@@ -12,12 +12,27 @@ start::start(mjModel *model, mjData *data):mjmodel(model),mjdata(data){
 }
 start::~start(){
     // this->_isruning=false;
-    delete ctrl;
     delete fsm;
+    delete ctrl;
     // pthread_join(pthread, NULL);
 }
 void start::run(){
     fsm->run();
+}
+
+void start::reset(){
+    ctrl->setAllStance();
+    ctrl->_ioros->SetZeroTau();
+    ctrl->_ioros->SetZeroDq();
+    ctrl->_ioros->SetZeroP();
+    ctrl->_ioros->_state->_imu.Imu_Initial();
+    ctrl->waveGen->reset(
+        ctrl->_period,
+        ctrl->_stancePhaseRatio,
+        Vec4(0, 0.5, 0.5, 0),
+        mjdata->time
+    );
+    fsm->initialize();
 }
 
 // void*start::lets_start(void * arg){
@@ -36,4 +51,3 @@ void start::run(){
 //     }
 //     return NULL;
 // }
-

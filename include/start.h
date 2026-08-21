@@ -9,6 +9,7 @@ public:
     start(mjModel *model, mjData *data);
     ~start();
     void run();
+    void reset();
 
     ControlComponent * ctrl;
 

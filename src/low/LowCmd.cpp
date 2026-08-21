@@ -255,23 +255,25 @@ Eigen::Matrix<double,12,1> LowCmd::getW12(){
 }
 
 void LowCmd::setStableGain(int legID){
-    // _cmd[legID*3+0].kp = 4.5;
-    // _cmd[legID*3+0].kd = 2.0;
+    if(use_go1_model ==1 ){
+        _cmd[legID*3+0].kp = 7;
+        _cmd[legID*3+0].kd = 2.0;
 
-    // _cmd[legID*3+1].kp = 4.5;
-    // _cmd[legID*3+1].kd = 2.0;
+        _cmd[legID*3+1].kp = 7;
+        _cmd[legID*3+1].kd = 2.0;
 
-    // _cmd[legID*3+2].kp = 4.9;
-    // _cmd[legID*3+2].kd = 2.0;
+        _cmd[legID*3+2].kp = 7;
+        _cmd[legID*3+2].kd = 2.0;
+    }else{
+        _cmd[legID*3+0].kp = 1.5;
+        _cmd[legID*3+0].kd = 1.1;
 
-    _cmd[legID*3+0].kp = 7;
-    _cmd[legID*3+0].kd = 2.0;
+        _cmd[legID*3+1].kp = 1.5;
+        _cmd[legID*3+1].kd = 1.1;
 
-    _cmd[legID*3+1].kp = 7;
-    _cmd[legID*3+1].kd = 2.0;
-
-    _cmd[legID*3+2].kp = 7;
-    _cmd[legID*3+2].kd = 2.0;
+        _cmd[legID*3+2].kp = 1.5;
+        _cmd[legID*3+2].kd = 1.1;
+    }
 }
 void LowCmd::setStableGain(){
     for(int i(0); i<4; ++i){
@@ -279,23 +281,25 @@ void LowCmd::setStableGain(){
     }
 }
 void LowCmd::setSwingGain(int legID){
-    // _cmd[legID*3+0].kp = 4.5;
-    // _cmd[legID*3+0].kd = 0.5;
+    if(use_go1_model ==1 ){
+        _cmd[legID*3+0].kp = 5.5;
+        _cmd[legID*3+0].kd = 1;
 
-    // _cmd[legID*3+1].kp = 4.8;
-    // _cmd[legID*3+1].kd = 0.5;
+        _cmd[legID*3+1].kp = 5.5;
+        _cmd[legID*3+1].kd = 1;
 
-    // _cmd[legID*3+2].kp = 4.8;
-    // _cmd[legID*3+2].kd = 0.5;
-    _cmd[legID*3+0].kp = 5.5;
-    _cmd[legID*3+0].kd = 1;
+        _cmd[legID*3+2].kp = 5.5;
+        _cmd[legID*3+2].kd = 1;
+    }else{
+        _cmd[legID*3+0].kp = 1.5;
+        _cmd[legID*3+0].kd = 0.3;
 
-    _cmd[legID*3+1].kp = 5.5;
-    _cmd[legID*3+1].kd = 1;
+        _cmd[legID*3+1].kp = 1.5;
+        _cmd[legID*3+1].kd = 0.3;
 
-    _cmd[legID*3+2].kp = 5.5;
-    _cmd[legID*3+2].kd = 1;
-
+        _cmd[legID*3+2].kp = 1.5;
+        _cmd[legID*3+2].kd = 0.3;
+    }
 }
 void LowCmd::setStableGain_JUMP(int legID){
     _cmd[legID*3+0].kp = 4.5;
