@@ -188,12 +188,12 @@ void Trotting_State::calcTau(){
     _dWbd(2) = saturation(_dWbd(2), Vec2(-60, 60));
     // std::cout<<"_dWbd:\n"<< _dWbd <<std::endl;
     std::cout
-    << " yawCmd=" << _yawCmd
+    // << " yawCmd=" << _yawCmd
     // << " dYawCmd=" << _dYawCmd
     // << " _wCmdGlobal=" << _wCmdGlobal(2)
     // << " getGyroGlobal=" << _lowstate->_imu.getGyroGlobal()(2)
-    << " _dWbd=" << _dWbd(2)
-    << " _Rd = \n" << _Rd
+    // << " _dWbd=" << _dWbd(2)
+    // << " _Rd = \n" << _Rd
     << std::endl;
     _forceFeetGlobal = - _balCtrl->calF(_ddPcd, _dWbd, _B2G_RotMat, _posFeet2BGlobal, *_contact);
     for(int i(0); i<4; ++i){
