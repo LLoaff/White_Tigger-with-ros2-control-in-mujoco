@@ -134,3 +134,33 @@ void WaveGenerator::calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,do
         phase << 0.5, 0.5, 0.5, 0.5;
     }
 }
+
+Vec4 WaveGenerator::getContactState(){
+    Vec4 state;
+    for(int i(0);i<4;++i){
+        if(_contact(i) == 1){
+            state(i) = _phase(i);
+        }
+        else{
+            state(i) = 0;
+        }
+    }
+    return state;
+}
+
+Vec4 WaveGenerator::getSwingState(){
+    Vec4 state;
+    for(int i(0);i<4;++i){
+        if(_contact(i) == 0){
+            state(i) = _phase(i);
+        }
+        else{
+            state(i) = 0;
+        }
+    }
+    return state;
+}
+
+int * WaveGenerator::getMpcTable(){
+    
+}

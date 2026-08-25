@@ -14,6 +14,9 @@ public:
     float getTstance();// 返回触地时长
     float getTswing(); // 返回腾空时长
     float getT();      // 返回步态周期P
+    Vec4 getContactState();
+    Vec4 getSwingState();
+    int* getMpcTable();
     void reset(double period, double stancePhaseRatio, Vec4 bias,double current_time);
 private:
     void calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,double current_time);
@@ -30,6 +33,8 @@ private:
 
     double _passT;                  // unit: second 从 初始化类开始到调用calcWave经过了的时间
     long long _startT;              // unit: us   记录类初始化的时间
+    int* _mpc_table;
+
 };
 
 #endif

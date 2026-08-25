@@ -23,8 +23,6 @@ public:
     Eigen::Matrix<double, 3, 4> getPosFeet2BGlobal();
     void run();
     LowState* getLowState();
-    Eigen::Vector3d getPcom();
-    Eigen::Vector3d getVcom();
 
     Eigen::Matrix<double,3,4>   iPb;
 private:

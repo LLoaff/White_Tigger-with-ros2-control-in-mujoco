@@ -6,7 +6,8 @@ start::start(mjModel *model, mjData *data):mjmodel(model),mjdata(data){
     ctrl->dt = 0.002;    
     ctrl->_period = 0.5;
     ctrl->_stancePhaseRatio = 0.5;
-    ctrl->waveGen = new WaveGenerator(ctrl->_period, ctrl->_stancePhaseRatio, Vec4(0, 0.5, 0.5, 0),mjdata->time); // Trot
+    ctrl->waveGen = new WaveGenerator(ctrl->_period, ctrl->_stancePhaseRatio, 
+                                        Vec4(0, 0.5, 0.5, 0),mjdata->time); // Trot
     ctrl->Estimator_Init();
     fsm = new FSM(ctrl);
 }
