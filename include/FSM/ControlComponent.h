@@ -20,7 +20,7 @@ public:
     void setAllSwing();
     void setStartWave();
     void Estimator_Init();
-    
+    WaveStatus getWaveStatus();
     UserCmd  *  user_cmd; // 获取单一实例
     Estimator * _estimator;
     BalanceCtrl* _balCtrl;

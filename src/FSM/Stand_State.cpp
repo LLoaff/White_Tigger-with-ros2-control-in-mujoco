@@ -114,6 +114,8 @@ FSMStateName Stand_State::CheckChange(){
         return FSMStateName::PASSIVE;
     else if ( user == UserValue::TROTTING)
         return FSMStateName::TROTTING;
+    else if ( user == UserValue::TROTTING_MPC)
+        return FSMStateName::TROTTING_MPC;
     else if ( user == UserValue::SIT_DOWN)
         return FSMStateName::SIT_DOWN;
     else if ( user == UserValue::BALANCE)

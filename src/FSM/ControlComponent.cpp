@@ -40,6 +40,9 @@ void ControlComponent::Estimator_Init(){
     _estimator = new Estimator(_ioros->_state, _contact,_phase,dt);
     _balCtrl = new BalanceCtrl();
 }
+WaveStatus ControlComponent::getWaveStatus(){
+    return _waveStatus;
+}   
 
 ControlComponent::~ControlComponent(){
     delete _estimator;

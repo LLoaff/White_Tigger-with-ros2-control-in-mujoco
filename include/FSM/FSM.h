@@ -11,6 +11,7 @@
 #include "FSM/FSMState.h"
 #include "math/TimeMaker.h"
 #include "FSM/Trotting_State.h"
+#include "FSM/Trotting_State_mpc.h"
 #include "FSM/Sit_Down_State.h"
 #include "math/Mujoco_box.h"
 struct FSMStateList
@@ -22,6 +23,7 @@ struct FSMStateList
     // Free_Stand_State *  free_stand;
     // Balance_State*      balance;
     Trotting_State*     trotting;
+    Trotting_State_MPC* trotting_mpc;
     Sit_Down_State*     sit_down;
 };
 

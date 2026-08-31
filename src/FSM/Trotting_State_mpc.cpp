@@ -1,19 +1,15 @@
-#include "FSM/Trotting_State.h"
+#include "FSM/Trotting_State_mpc.h"
 
-Trotting_State::Trotting_State(ControlComponent * ctrlComp):FSMState(ctrlComp,FSMStateName::TROTTING,"trotting"),
+Trotting_State_MPC::Trotting_State_MPC(ControlComponent * ctrlComp):FSMState(ctrlComp,FSMStateName::TROTTING_MPC,"trotting_mpc"),
 _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact),_lowstate(ctrlComp->_ioros->_state)
 ,_balCtrl(ctrlComp->_balCtrl),_robModel(ctrlComp->robotModel){
     _gait = new GaitGenerator(ctrlComp);
+    _mpc = new ConvexMPC(ctrlComp);
     if(use_go1_model == 1){
         _gaitHeight = 0.08;
         _vxLim << -0.8, 0.8;
         _vyLim << -0.8, 0.8;
         _wyawLim << -0.5, 0.5;
-
-        _Kpp = Vec3(90, 90, 90).asDiagonal();
-        _Kdp = Vec3(10, 10, 10).asDiagonal();
-        _kpw = 780;
-        _Kdw = Vec3(70, 70, 70).asDiagonal();
 
         _KpSwing = Vec3(400, 400, 400).asDiagonal();
         _KdSwing = Vec3(10, 10, 10).asDiagonal();
@@ -23,38 +19,17 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
         _vyLim << -0.4, 0.4;
         _wyawLim << -0.5, 0.5;
 
-        // _Kpp = Vec3(15, 15, 15).asDiagonal();
-        // _Kdp = Vec3(1.5, 1.5, 1.5).asDiagonal();
-        // _kpw = 120;
-        // _Kdw = Vec3(15, 15, 15).asDiagonal();
-
-        // _KpSwing = Vec3(25, 25, 25).asDiagonal();
-        // _KdSwing = Vec3(0.6, 0.6, 0.6).asDiagonal();
-        _Kpp = Vec3(30, 30, 30).asDiagonal();
-        _Kdp = Vec3(5, 5, 5).asDiagonal();
-        _kpw = 120;
-        _Kdw = Vec3(5, 5, 5).asDiagonal();
-
-        _KpSwing = Vec3(50, 50, 50).asDiagonal();
-        _KdSwing = Vec3(2, 2, 2).asDiagonal();
+        _KpSwing = Vec3(120, 120, 120).asDiagonal();
+        _KdSwing = Vec3(7, 7, 7).asDiagonal();
     }
     
     // 向网端发送param数据
-    _fstate_ctrl->_analyze._param._Kpp = _Kpp;
-    _fstate_ctrl->_analyze._param._Kdp = _Kdp;
-    _fstate_ctrl->_analyze._param._kpw = _kpw;
-    _fstate_ctrl->_analyze._param._Kdw = _Kdw;
     _fstate_ctrl->_analyze._param._KpSwing = _KpSwing;
     _fstate_ctrl->_analyze._param._KdSwing = _KdSwing;
     _fstate_ctrl->_analyze.sendParamData(_fstate_ctrl->_analyze._param);
-
-    // _lcm = new lcm::LCM();
-    // _lcm2 = new lcm::LCM();
-    // _lcm3 = new lcm::LCM();
-    // _lcm4 = new lcm::LCM();
 }
 
-void Trotting_State::enter(){
+void Trotting_State_MPC::enter(){
     _pcd = _est->getPosition();
     if(use_go1_model == 1){
         _pcd(2) = 0.32;
@@ -77,30 +52,10 @@ void Trotting_State::enter(){
         _fstate_ctrl->_mjdata->time
     );
     _gait->restart();
-    if (_fstate_ctrl->_analyze.getParamData(_fstate_ctrl->_analyze._param)){
-        _Kpp = _fstate_ctrl->_analyze._param._Kpp;
-        _Kdp = _fstate_ctrl->_analyze._param._Kdp;
-        _kpw = _fstate_ctrl->_analyze._param._kpw;
-        _Kdw = _fstate_ctrl->_analyze._param._Kdw;
-
-        _KpSwing = _fstate_ctrl->_analyze._param._KpSwing;
-        _KdSwing = _fstate_ctrl->_analyze._param._KdSwing;
-        std::cout<<"参数读取成功"<<std::endl;
-        std::cout<<"当前 _Kpp:\n"
-        << _Kpp 
-        <<"\n_Kdp:\n"<<_Kdp
-        <<"\n_kpw:\n"<<_kpw
-        <<"\n_Kdw:\n"<<_Kdw
-        <<"\n_KpSwing:\n"<<_KpSwing
-        <<"\n_KdSwing:\n"<<_KdSwing
-        <<std::endl;
-    }
-    
-
     std::cout<<"trotting"<<std::endl;
 }
 
-void Trotting_State::run(){
+void Trotting_State_MPC::run(){
     _posBody = _est->getPosition();
     _velBody = _est->getVelocity();
     _posFeet2BGlobal = _est->getPosFeet2BGlobal();
@@ -154,39 +109,39 @@ void Trotting_State::run(){
     }
 }
 
-bool Trotting_State::checkStepOrNot(){
+bool Trotting_State_MPC::checkStepOrNot(){
 
-    // static bool isStepping = false;
+    static bool isStepping = false;
 
-    // if(isStepping){
-    //     if( (fabs(_vCmdBody(0)) < 0.02) &&
-    //         (fabs(_vCmdBody(1)) < 0.02) &&
-    //         (fabs(_dYawCmd) < 0.03) ){
-    //         isStepping = false;
-    //     }
-    // }else{
-    //     if( (fabs(_vCmdBody(0)) > 0.05) ||
-    //         (fabs(_vCmdBody(1)) > 0.05) ||
-    //         (fabs(_dYawCmd) > 0.08) ){
-    //         isStepping = true;
-    //     }
-    // }
-
-    // return isStepping;
-    if( (fabs(_vCmdBody(0)) > 0.03) ||
-        (fabs(_vCmdBody(1)) > 0.03) ||
-        (fabs(_posError(0)) > 0.08) ||
-        (fabs(_posError(1)) > 0.08) ||
-        (fabs(_velError(0)) > 0.05) ||
-        (fabs(_velError(1)) > 0.05) ||
-        (fabs(_dYawCmd) > 0.20) ){
-        return true;
+    if(isStepping){
+        if( (fabs(_vCmdBody(0)) < 0.02) &&
+            (fabs(_vCmdBody(1)) < 0.02) &&
+            (fabs(_dYawCmd) < 0.03) ){
+            isStepping = false;
+        }
     }else{
-        return false;
+        if( (fabs(_vCmdBody(0)) > 0.05) ||
+            (fabs(_vCmdBody(1)) > 0.05) ||
+            (fabs(_dYawCmd) > 0.08) ){
+            isStepping = true;
+        }
     }
+    return isStepping;
+
+    // if( (fabs(_vCmdBody(0)) > 0.03) ||
+    //     (fabs(_vCmdBody(1)) > 0.03) ||
+    //     (fabs(_posError(0)) > 0.08) ||
+    //     (fabs(_posError(1)) > 0.08) ||
+    //     (fabs(_velError(0)) > 0.05) ||
+    //     (fabs(_velError(1)) > 0.05) ||
+    //     (fabs(_dYawCmd) > 0.20) ){
+    //     return true;
+    // }else{
+    //     return false;
+    // }
 }
 
-void Trotting_State::getUserCmd(){
+void Trotting_State_MPC::getUserCmd(){
     /* Movement */
     _vCmdBody(0) =  invNormalize(_userValue(0), _vxLim(0), _vxLim(1));// 换算x上期望速度
     _vCmdBody(1) = invNormalize(_userValue(1), _vyLim(0), _vyLim(1));// 换算y上期望速度
@@ -200,7 +155,7 @@ void Trotting_State::getUserCmd(){
 
 }
 
-void Trotting_State::calcCmd(){
+void Trotting_State_MPC::calcCmd(){
 
     _vCmdGlobal = _B2G_RotMat *_vCmdBody;
 
@@ -219,33 +174,11 @@ void Trotting_State::calcCmd(){
     _wCmdGlobal(2) = _dYawCmd;
 }
 
-void Trotting_State::calcTau(){
-    _posError = _pcd - _posBody;
-    _velError = _vCmdGlobal - _velBody;
-
-    _ddPcd = _Kpp * _posError + _Kdp * _velError;
-    _dWbd  = _kpw*rotMatToExp(_Rd*_G2B_RotMat) + _Kdw * (_wCmdGlobal - _lowstate->_imu.getGyroGlobal());
-    // _dWbd  =  _Kdw * (_wCmdGlobal - _lowstate->_imu.getGyroGlobal());
-
-    _ddPcd(0) = saturation(_ddPcd(0), Vec2(-3, 3));
-    _ddPcd(1) = saturation(_ddPcd(1), Vec2(-3, 3));
-    _ddPcd(2) = saturation(_ddPcd(2), Vec2(-5, 5));
-
-    _dWbd(0) = saturation(_dWbd(0), Vec2(-40, 40));
-    _dWbd(1) = saturation(_dWbd(1), Vec2(-40, 40));
-    _dWbd(2) = saturation(_dWbd(2), Vec2(-60, 60));
-    Vec3 werror;
-    _fstate_ctrl->_analyze.sendComPos(_fstate_ctrl->_mjdata->time,_posError,_dWbd);
-    // std::cout<<"_dWbd:\n"<< _dWbd <<std::endl;
-    // std::cout
-    // << " yawCmd=" << _yawCmd
-    // << " dYawCmd=" << _dYawCmd
-    // << " _wCmdGlobal=" << _wCmdGlobal(2)
-    // << " getGyroGlobal=" << _lowstate->_imu.getGyroGlobal()(2)
-    // << " _dWbd=" << _dWbd(2)
-    // << " _Rd = \n" << _Rd
-    // << std::endl;
-    _forceFeetGlobal = - _balCtrl->calF(_ddPcd, _dWbd, _B2G_RotMat, _posFeet2BGlobal, *_contact);
+void Trotting_State_MPC::calcTau(){
+    _mpc->MPCrun(_pcd,_vCmdGlobal,_wCmdGlobal,_yawCmd);
+    _forceFeetGlobal = - vec12ToVec34( _mpc->getResult());
+    auto mpcResult = _forceFeetGlobal;
+    // std::cout << "mpcResult\n" << mpcResult << std::endl;
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){
             _forceFeetGlobal.col(i) = _KpSwing*(_posFeetGlobalGoal.col(i) - _posFeetGlobal.col(i)) + _KdSwing*(_velFeetGlobalGoal.col(i)-_velFeetGlobal.col(i));
@@ -257,12 +190,10 @@ void Trotting_State::calcTau(){
     _q = vec34ToVec12(_fstate_ctrl->_ioros->getQ());
     _tau = getTau(_q, _forceFeetBody);
     // std::cout<<"_pcd\n"<<_pcd<<std::endl;
-
-    // std::cout<<"_tau\n"<<_tau<<std::endl;
-    // std::cout<<"_forceFeetBody\n"<<_forceFeetBody<<std::endl;
+    std::cout<<"_forceFeetBody\n"<<_forceFeetBody<<std::endl;
 }
 
-void Trotting_State::calcQQd(){
+void Trotting_State_MPC::calcQQd(){
     Vec34 _posFeet2B;
     _posFeet2B = GetFeetPos2BODY(*_lowstate,FrameType::BODY);
     for (int i(0); i < 4; ++i){
@@ -293,37 +224,37 @@ void Trotting_State::calcQQd(){
     // std::cout<<"_qdGoal:\n"<< _qdGoal <<std::endl;
 }
 
-void Trotting_State::sendPlot(float x,float y,float z){
+void Trotting_State_MPC::sendPlot(float x,float y,float z){
     _msg.x = x;
     _msg.y = y;
     _msg.z = z;
     _lcm->publish("plot_rf",&_msg);
 }
 
-void Trotting_State::sendPlot2(float x,float y,float z){
+void Trotting_State_MPC::sendPlot2(float x,float y,float z){
     _msg.x = x;
     _msg.y = y;
     _msg.z = z;
     _lcm->publish("plot_lf",&_msg);
 }
-void Trotting_State::sendPlot3(float x,float y,float z){
+void Trotting_State_MPC::sendPlot3(float x,float y,float z){
     _msg.x = x;
     _msg.y = y;
     _msg.z = z;
     _lcm->publish("plot_rr",&_msg);
 }
-void Trotting_State::sendPlot4(float x,float y,float z){
+void Trotting_State_MPC::sendPlot4(float x,float y,float z){
     _msg.x = x;
     _msg.y = y;
     _msg.z = z;
     _lcm->publish("plot_lr",&_msg);
 }
 
-void Trotting_State::exit(){
+void Trotting_State_MPC::exit(){
     _fstate_ctrl->setAllSwing();
 }
 
-FSMStateName Trotting_State::CheckChange(){
+FSMStateName Trotting_State_MPC::CheckChange(){
     UserValue user = _fstate_ctrl->user_cmd->GetUserValue();
     if( user == UserValue::PASSIVE)
         return FSMStateName::PASSIVE;
@@ -333,11 +264,11 @@ FSMStateName Trotting_State::CheckChange(){
         return FSMStateName::SIT_DOWN;
     else if ( user == UserValue::BALANCE)
         return FSMStateName::BALANCE;
-    return FSMStateName::TROTTING;
+    return FSMStateName::TROTTING_MPC;
 }
 
-Trotting_State::~Trotting_State(){
-    // delete _gait;
-    // delete _mpc;
+Trotting_State_MPC::~Trotting_State_MPC(){
+    delete _gait;
+    delete _mpc;
     // delete _feetCal;
 }

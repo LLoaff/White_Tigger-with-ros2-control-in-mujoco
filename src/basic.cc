@@ -104,7 +104,8 @@ int main(int argc, const char** argv) {
     m = mj_loadXML("/home/loaf/WT_MPC/model/urdf/go1.xml", 0, error, 1000);
   }
   else{
-    m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger.xml", 0, error, 1000);
+    // m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger.xml", 0, error, 1000);
+    m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger_go1style.xml", 0, error, 1000);
   }
   
   if (!m) {

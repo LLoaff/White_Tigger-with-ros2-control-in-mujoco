@@ -16,7 +16,7 @@ public:
     float getT();      // 返回步态周期P
     Vec4 getContactState();
     Vec4 getSwingState();
-    int* getMpcTable();
+    int* getMpcTable(WaveStatus status);
     void reset(double period, double stancePhaseRatio, Vec4 bias,double current_time);
     void setIterations(int iterationsPerMPC, int currentIteration);
     void set_nIterations(int nIterations);

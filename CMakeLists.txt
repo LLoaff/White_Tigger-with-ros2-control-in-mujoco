@@ -28,7 +28,7 @@ set(MUJOCO_LIB ${MUJOCO_PATH}/build/lib/libmujoco.so)
 
 add_executable(basic src/basic.cc
 src/FSM/ControlComponent.cpp src/FSM/Free_State.cpp src/FSM/FSM.cpp src/FSM/FSMState.cpp src/FSM/Passive_State.cpp
-src/FSM/Stand_State.cpp src/FSM/Trotting_State.cpp src/FSM/UserCmd.cpp src/FSM/Sit_Down_State.cpp
+src/FSM/Stand_State.cpp src/FSM/Trotting_State.cpp src/FSM/UserCmd.cpp src/FSM/Sit_Down_State.cpp src/FSM/Trotting_State_mpc.cpp
 
 src/Gait/FeetEndCal.cpp src/Gait/GaitGenerator.cpp src/Gait/WaveGenerator.cpp
 
@@ -40,6 +40,8 @@ src/math/data_analyze.cpp
 src/sensor/Imu.cpp
 
 src/WBC/BalanceCtrl.cpp src/WBC/Estimator.cpp src/WBC/mujocoEstimator.cpp
+
+src/MPC/ConvexMPC.cpp
 
 src/start.cpp
 )

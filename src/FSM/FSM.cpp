@@ -8,6 +8,7 @@ FSM::FSM(ControlComponent *_ctrlcomp):_fsm_ctrl(_ctrlcomp){
     // _fsm_state_list.free_stand  = new Free_Stand_State(_ctrlcomp);
     // _fsm_state_list.balance     = new Balance_State(_ctrlcomp,&_fsm_ctrl->_ioros->_state);
     _fsm_state_list.trotting    = new Trotting_State(_ctrlcomp);
+    _fsm_state_list.trotting_mpc    = new Trotting_State_MPC(_ctrlcomp);
     _fsm_state_list.sit_down    = new Sit_Down_State(_ctrlcomp);
     // _fsm_state_list.jump_state = new Jump_State(_ctrlcomp);
     initialize();
@@ -86,6 +87,9 @@ FSMState* FSM::GetNextState(FSMStateName fsm_state_name){
         case FSMStateName::TROTTING:
             return _fsm_state_list.trotting;
             break;
+        case FSMStateName::TROTTING_MPC:
+            return _fsm_state_list.trotting_mpc;
+            break;
         case FSMStateName::SIT_DOWN:
             return _fsm_state_list.sit_down;
         break;
@@ -107,6 +111,7 @@ FSM::~FSM()
     // delete _fsm_state_list.free_stand;
     // delete _fsm_state_list.balance;
     delete _fsm_state_list.trotting;
+    delete _fsm_state_list.trotting_mpc;
     delete _fsm_state_list.sit_down;
     delete _mj_box;
 //     delete _fsm_state_list.jump_state;

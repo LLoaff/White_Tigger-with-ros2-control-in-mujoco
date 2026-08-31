@@ -4,9 +4,17 @@
 #include <eigen3/Eigen/Dense>
 #include <QuadProg++/QuadProg++.hh>
 #include "math/mathtool.h"
+
 #ifdef inverse
 #undef inverse
+#endif
+#ifdef solve
+#undef solve
+#endif
 
+#ifdef det
+#undef det
+#endif
 class BalanceCtrl
 {
 public:

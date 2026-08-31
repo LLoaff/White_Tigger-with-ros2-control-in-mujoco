@@ -49,6 +49,8 @@ public:
     ~ConvexMPC();
 
     void MPCrun(Vec3& world_pos_des,Vec3 _vCmdGlobal,Vec3 _wCmdGlobal,float yaw_des);
+    Vec12 getResult();
+
 private:
     ControlComponent* _comp;
     void initSparseMPC();
@@ -82,7 +84,6 @@ private:
     u32 addConstraint(u32 size);
     void addConstraintTriple(double value, u32 row, u32 col);
 
-    Vec12 getResult();
 
     void sortAndSumTriples(std::vector<SparseTriple>& triples);
     void sortTriples(std::vector<SparseTriple>& triples, bool checkDuplicates);

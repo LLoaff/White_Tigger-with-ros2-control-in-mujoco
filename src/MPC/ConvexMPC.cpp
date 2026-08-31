@@ -3,15 +3,15 @@
 ConvexMPC::ConvexMPC(ControlComponent* comp):_comp(comp),_dt(comp->dt),iterationsBetweenMPC(25)
 ,horizonLength(10){
 
-    Kp << 700, 0, 0,
-        0, 700, 0,
-        0, 0, 150;
-    Kp_stance = 0*Kp;
+    // Kp << 700, 0, 0,
+    //     0, 700, 0,
+    //     0, 0, 150;
+    // Kp_stance = 0*Kp;
 
-    Kd << 7, 0, 0,
-        0, 7, 0,
-        0, 0, 7;
-    Kd_stance = Kd;
+    // Kd << 7, 0, 0,
+    //     0, 7, 0,
+    //     0, 0, 7;
+    // Kd_stance = Kd;
 
     iterationCounter = 0;
     world_position_desired.setZero();
@@ -24,11 +24,20 @@ ConvexMPC::ConvexMPC(ControlComponent* comp):_comp(comp),_dt(comp->dt),iteration
 }
 
 void ConvexMPC::initSparseMPC(){
-
-    _Ibody<<0.0792,0.0,0.0,
-            0.0,0.2085,0.0,
-            0.0,0.0,0.2265;
-    _mass = 12;
+    if(use_go1_model == 1){
+        _Ibody<<0.0792,0.0,0.0,
+                0.0,0.2085,0.0,
+                0.0,0.0,0.2265;
+        _mass = 12;
+    }
+    else{
+        _Ibody<<0.03316,0.0,0.0,
+                0.0,0.14005,0.0,
+                0.0,0.0,0.16444;
+        _mass = 6.408;
+    }
+    
+    
     _maxForce = 120;
     _dtTrajectory.clear();
 
@@ -50,12 +59,10 @@ void ConvexMPC::MPCrun(Vec3& world_pos_des,Vec3 _vCmdGlobal,Vec3 _wCmdGlobal,flo
     world_position_desired = world_pos_des;
     _comp->waveGen->setIterations(iterationsBetweenMPC, iterationCounter);
 
-
-
     Vec4 contactStates = _comp->waveGen->getContactState();
     Vec4 swingStates = _comp->waveGen->getSwingState();
 
-    int* mpcTable = _comp->waveGen->getMpcTable();
+    int* mpcTable = _comp->waveGen->getMpcTable(_comp->getWaveStatus());
 
     if((iterationCounter%iterationsBetweenMPC)==0){
         updateMPCIfNeeded(mpcTable,_vCmdGlobal,_wCmdGlobal,yaw_des); // mpc求解
@@ -71,7 +78,14 @@ void ConvexMPC::updateMPCIfNeeded(int *mpcTable,Vec3 _vCmdGlobal,Vec3 _wCmdGloba
 
     float xStart = world_position_desired[0];
     float yStart = world_position_desired[1];
-    float _body_height = 0.2;
+    float _body_height;
+    if(use_go1_model == 1){
+        _body_height = 0.32;
+    }
+    else{
+        _body_height = 0.2;
+    }
+    
     float trajInitial[12] ={
         0, //roll
         0, //pitch
@@ -115,7 +129,7 @@ void ConvexMPC::solveSparseMPC(int *mpcTable){
     Vec12 feet =vec34ToVec12( _comp->_estimator->getPosFeet2BGlobal() );
 
     /* 设置初始状态 */
-    setX0(_comp->_estimator->getPosition(),_comp->_estimator->getVelocity(),_comp->_ioros->_state->_imu.GetQuat(),rotMatToRPY( _comp->_ioros->_state->_imu.getGyroGlobal()));
+    setX0(_comp->_estimator->getPosition(),_comp->_estimator->getVelocity(),_comp->_ioros->_state->_imu.GetQuat(), _comp->_ioros->_state->_imu.getGyroGlobal());
     /* 设置接触状态 */
     setContactTrajectory(contactStates.data(),contactStates.size());
     /* 设置轨迹traj */

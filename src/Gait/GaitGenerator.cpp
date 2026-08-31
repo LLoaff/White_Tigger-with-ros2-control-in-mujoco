@@ -21,7 +21,7 @@ void GaitGenerator::restart(){
     // _contactPast.setOnes();
 }
 
-void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio,FSMStateName state_name){
+void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio){
     if(_firstRun){
         _startP = _est->getFeetPos();
         _firstRun = false;

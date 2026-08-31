@@ -52,6 +52,9 @@ UserValue UserCmd::GetUserValue()
     case 4:
         _user_value = UserValue::SIT_DOWN;
         break;
+    case 5:
+        _user_value = UserValue::TROTTING_MPC;
+        break;
     default:
         break;
     }

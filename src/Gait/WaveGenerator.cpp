@@ -176,23 +176,34 @@ Vec4 WaveGenerator::getSwingState(){
     return state;
 }
 
-int * WaveGenerator::getMpcTable(){
-    // 索引horizonLength
-    for(int iteration_idex=0;iteration_idex < _nIterations;iteration_idex++){
-        // 索引腿
-        for(int leg_index = 0;leg_index<4;leg_index++){
-            int iter = (_iteration + 1 + iteration_idex) % _nIterations;
-            Vec4 progress = (iter - _offsets).cast<double>();
-            // 如果有负数，就加一个周期
-            if(progress[leg_index] < 0) progress[leg_index] +=_nIterations;
+int * WaveGenerator::getMpcTable(WaveStatus status){
+    if(status == WaveStatus::STANCE_ALL || status == WaveStatus::SWING_ALL){
+        for(int iteration_idex=0;iteration_idex < _nIterations;iteration_idex++){
+            // 索引腿
+            for(int leg_index = 0;leg_index<4;leg_index++){
+                    _mpc_table[4*iteration_idex+leg_index] = 1; // 站立状态
+                }
+        }
+    }
+    else if(status == WaveStatus::WAVE_ALL){
+        // 索引horizonLength
+        for(int iteration_idex=0;iteration_idex < _nIterations;iteration_idex++){
+            // 索引腿
+            for(int leg_index = 0;leg_index<4;leg_index++){
+                int iter = (_iteration + 1 + iteration_idex) % _nIterations;
+                Vec4 progress = (iter - _offsets).cast<double>();
+                // 如果有负数，就加一个周期
+                if(progress[leg_index] < 0) progress[leg_index] +=_nIterations;
 
-            if(progress[leg_index] < _durations[leg_index]){
-                _mpc_table[4*iteration_idex+leg_index] = 1; // 站立状态
-            }
-            else{
-                 _mpc_table[4*iteration_idex+leg_index] = 0; // 摆动状态
+                if(progress[leg_index] < _durations[leg_index]){
+                    _mpc_table[4*iteration_idex+leg_index] = 1; // 站立状态
+                }
+                else{
+                    _mpc_table[4*iteration_idex+leg_index] = 0; // 摆动状态
+                }
             }
         }
     }
+    
     return _mpc_table;
 }

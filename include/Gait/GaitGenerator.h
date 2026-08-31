@@ -1,4 +1,3 @@
-
 #ifndef GAITGENERATOR_H
 #define GAITGENERATOR_H
 
@@ -12,7 +11,7 @@ class GaitGenerator{
 public:
     GaitGenerator(ControlComponent *ctrlComp);
     void setGait(Vec2 vxyGoalGlobal, float dYawGoal, float gaitHeight);
-    void run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio,FSMStateName state_name);
+    void run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio);
     Vec3 getFootPos(int i);
     Vec3 getFootVel(int i);
     void restart();

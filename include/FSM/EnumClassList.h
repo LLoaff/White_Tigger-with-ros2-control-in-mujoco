@@ -10,6 +10,7 @@ enum class UserValue
     FREE_STAND,
     BALANCE,
     TROTTING,
+    TROTTING_MPC,
     SIT_DOWN,
     JUMP,
 };
@@ -27,6 +28,7 @@ enum class FSMStateName{
     FREE_STAND,
     BALANCE,
     TROTTING,
+    TROTTING_MPC,
     SIT_DOWN,
     JUMP,
 };

@@ -265,13 +265,13 @@ void LowCmd::setStableGain(int legID){
         _cmd[legID*3+2].kp = 7;
         _cmd[legID*3+2].kd = 2.0;
     }else{
-        _cmd[legID*3+0].kp = 1.5;
+        _cmd[legID*3+0].kp = 4.5;
         _cmd[legID*3+0].kd = 1.1;
 
-        _cmd[legID*3+1].kp = 1.5;
+        _cmd[legID*3+1].kp = 4.5;
         _cmd[legID*3+1].kd = 1.1;
 
-        _cmd[legID*3+2].kp = 1.5;
+        _cmd[legID*3+2].kp = 4.5;
         _cmd[legID*3+2].kd = 1.1;
     }
 }
@@ -291,14 +291,14 @@ void LowCmd::setSwingGain(int legID){
         _cmd[legID*3+2].kp = 5.5;
         _cmd[legID*3+2].kd = 1;
     }else{
-        _cmd[legID*3+0].kp = 1.5;
-        _cmd[legID*3+0].kd = 0.3;
+        _cmd[legID*3+0].kp = 3.5;
+        _cmd[legID*3+0].kd = 0.7;
 
-        _cmd[legID*3+1].kp = 1.5;
-        _cmd[legID*3+1].kd = 0.3;
+        _cmd[legID*3+1].kp = 3.5;
+        _cmd[legID*3+1].kd = 0.7;
 
-        _cmd[legID*3+2].kp = 1.5;
-        _cmd[legID*3+2].kd = 0.3;
+        _cmd[legID*3+2].kp = 3.5;
+        _cmd[legID*3+2].kd = 0.7;
     }
 }
 void LowCmd::setStableGain_JUMP(int legID){
