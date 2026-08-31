@@ -116,7 +116,6 @@ void Trotting_State::run(){
     _userValue(2) = 0;
     _userValue(3) = _fstate_ctrl->user_cmd->_wz;
 
-
     getUserCmd(); // 计算 期望速度
     calcCmd();    // 计算位移、转动角度，获取全局速度
 

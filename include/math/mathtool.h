@@ -3,6 +3,7 @@
 
 #include "FSM/EnumClassList.h"
 #include "eigen3/Eigen/Dense"
+#include <eigen3/Eigen/LU>
 #include <iostream>
 #define use_go1_model 1
 #define REDUCTION 1.0  // 电机减速比

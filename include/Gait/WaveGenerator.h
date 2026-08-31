@@ -18,6 +18,9 @@ public:
     Vec4 getSwingState();
     int* getMpcTable();
     void reset(double period, double stancePhaseRatio, Vec4 bias,double current_time);
+    void setIterations(int iterationsPerMPC, int currentIteration);
+    void set_nIterations(int nIterations);
+    void set_leg_periods(Eigen::Array<int, 4, 1> leg_periods);
 private:
     void calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,double current_time);
 
@@ -33,8 +36,14 @@ private:
 
     double _passT;                  // unit: second 从 初始化类开始到调用calcWave经过了的时间
     long long _startT;              // unit: us   记录类初始化的时间
-    int* _mpc_table;
 
+    float _duty_cycle;              // 触地时间
+    int* _mpc_table;
+    int _nIterations;               // horizonLength
+    int _iteration;                 // 当前时刻处在一个 gait 周期的第几段
+    Eigen::Array<int, 4, 1>   _leg_periods; // 每条腿的步态周期包含多少个 MPC segment
+    Eigen::Array<int, 4, 1>  _offsets;      // 每条腿的偏移系数
+    VecInt4                  _durations;    // 
 };
 
 #endif

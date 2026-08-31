@@ -6,6 +6,8 @@
 
 #include <eigen3/Eigen/Dense>
 
+typedef uint32_t u32;
+typedef uint64_t u64;
 /************************/
 /******** Vector ********/
 /************************/
@@ -71,6 +73,8 @@ using Mat12 = typename Eigen::Matrix<double, 12, 12>;
 
 // Dynamic Size Matrix
 using MatX = typename Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>;
+template <typename T>
+using vectorAligned = typename std::vector<T, Eigen::aligned_allocator<T>>;
 
 /************************/
 /****** Functions *******/

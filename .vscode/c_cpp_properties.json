@@ -7,8 +7,11 @@
                 "/home/loaf/mujoco/include",
                 "/usr/include/glib-2.0",
                 "/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+                "${workspaceFolder}/libs/osqp/include"
             ],
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "compileCommands": [
+                "${workspaceFolder}/build/compile_commands.json"
+            ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",

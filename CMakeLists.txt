@@ -11,11 +11,16 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 
 set(MUJOCO_PATH "/home/loaf/mujoco")
+
 find_package(CURL REQUIRED)
+
+add_subdirectory(libs/osqp)
+
 
 include_directories(${MUJOCO_PATH}/include ${PROJECT_SOURCE_DIR}/include 
 /usr/include/glib-2.0
 /usr/lib/x86_64-linux-gnu/glib-2.0/include
+libs/osqp/include
 )
 
 link_directories(${MUJOCO_PATH}/build/bin)
@@ -41,6 +46,7 @@ src/start.cpp
 
 target_link_libraries(basic ${MUJOCO_LIB} glut GL GLU glfw
 quadprog
+osqp
 pthread
 CURL::libcurl
 /usr/lib/x86_64-linux-gnu/liblcm.so

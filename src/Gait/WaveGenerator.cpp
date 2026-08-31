@@ -1,6 +1,6 @@
 #include "Gait/WaveGenerator.h"
 
-                                  // 0.4              0.5                 0 ,0.5 ,0.5,0 
+                                  // 0.5              0.5                 0 ,0.5 ,0.5,0 
 WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias,double current_time)
 : _period(period), _stRatio(stancePhaseRatio), _bias(bias){
     if ((_stRatio >= 1) || (_stRatio <= 0))
@@ -42,7 +42,6 @@ void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias,doub
     _period = period;
     _stRatio = stancePhaseRatio;
     _bias = bias;
-
     // _startT = getSystemTime();
     _startT = current_time;
 
@@ -134,6 +133,22 @@ void WaveGenerator::calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,do
         phase << 0.5, 0.5, 0.5, 0.5;
     }
 }
+void WaveGenerator::set_nIterations(int nIterations){
+    _nIterations = nIterations;
+    _mpc_table = new int[_nIterations*4];
+    _offsets= (_bias*_nIterations).cast<int>();
+
+    _durations<< _stRatio*_nIterations,_stRatio*_nIterations,_stRatio*_nIterations,_stRatio*_nIterations;
+
+}
+void WaveGenerator::set_leg_periods(Eigen::Array<int, 4, 1> leg_periods){
+    _leg_periods = leg_periods;
+}
+
+void WaveGenerator::setIterations(int iterationsPerMPC, int currentIteration){
+  _iteration = (currentIteration / iterationsPerMPC) % _nIterations;
+
+}
 
 Vec4 WaveGenerator::getContactState(){
     Vec4 state;
@@ -162,5 +177,22 @@ Vec4 WaveGenerator::getSwingState(){
 }
 
 int * WaveGenerator::getMpcTable(){
-    
+    // 索引horizonLength
+    for(int iteration_idex=0;iteration_idex < _nIterations;iteration_idex++){
+        // 索引腿
+        for(int leg_index = 0;leg_index<4;leg_index++){
+            int iter = (_iteration + 1 + iteration_idex) % _nIterations;
+            Vec4 progress = (iter - _offsets).cast<double>();
+            // 如果有负数，就加一个周期
+            if(progress[leg_index] < 0) progress[leg_index] +=_nIterations;
+
+            if(progress[leg_index] < _durations[leg_index]){
+                _mpc_table[4*iteration_idex+leg_index] = 1; // 站立状态
+            }
+            else{
+                 _mpc_table[4*iteration_idex+leg_index] = 0; // 摆动状态
+            }
+        }
+    }
+    return _mpc_table;
 }
