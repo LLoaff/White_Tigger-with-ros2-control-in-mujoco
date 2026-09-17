@@ -24,19 +24,18 @@ ConvexMPC::ConvexMPC(ControlComponent* comp):_comp(comp),_dt(comp->dt),iteration
 }
 
 void ConvexMPC::initSparseMPC(){
-    if(use_go1_model == 1){
+    #ifdef USE_GO1_MODEL
         _Ibody<<0.0792,0.0,0.0,
                 0.0,0.2085,0.0,
                 0.0,0.0,0.2265;
         _mass = 12;
-    }
-    else{
+    #else
         _Ibody<<0.03316,0.0,0.0,
                 0.0,0.14005,0.0,
                 0.0,0.0,0.16444;
         _mass = 6.408;
-    }
-    
+    #endif
+
     
     _maxForce = 120;
     _dtTrajectory.clear();
@@ -63,7 +62,11 @@ void ConvexMPC::MPCrun(Vec3& world_pos_des,Vec3 _vCmdGlobal,Vec3 _wCmdGlobal,flo
     Vec4 swingStates = _comp->waveGen->getSwingState();
 
     int* mpcTable = _comp->waveGen->getMpcTable(_comp->getWaveStatus());
-
+    // std::cout << "waveStatus " << (int)_comp->getWaveStatus() << std::endl;
+    // std::cout << "contact " << (*_comp->_contact) << std::endl;
+    // std::cout << "mpc table row0 "
+    //         << mpcTable[0] << " " << mpcTable[1] << " "
+    //         << mpcTable[2] << " " << mpcTable[3] << std::endl;
     if((iterationCounter%iterationsBetweenMPC)==0){
         updateMPCIfNeeded(mpcTable,_vCmdGlobal,_wCmdGlobal,yaw_des); // mpc求解
     }
@@ -79,12 +82,11 @@ void ConvexMPC::updateMPCIfNeeded(int *mpcTable,Vec3 _vCmdGlobal,Vec3 _wCmdGloba
     float xStart = world_position_desired[0];
     float yStart = world_position_desired[1];
     float _body_height;
-    if(use_go1_model == 1){
+    #ifdef USE_GO1_MODEL
         _body_height = 0.32;
-    }
-    else{
+    #else
         _body_height = 0.2;
-    }
+    #endif
     
     float trajInitial[12] ={
         0, //roll

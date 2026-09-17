@@ -90,6 +90,7 @@ void LowCmd::PDController(int id,float q,float vel,float kp,float kd,float tau){
         printf("  输入: q_des=%.6f, q_cur=%.6f, dq_des=%.6f, dq_cur=%.6f\n", 
                q, q_cur, vel, dq_cur);
         printf("  参数: kp=%.6f, kd=%.6f, tau_ff=%.6f\n", kp, kd, tau);
+        return; // 避免发送非法控制量
     }
     this->_mjdata->ctrl[id] = out_tau;
 }
@@ -255,7 +256,7 @@ Eigen::Matrix<double,12,1> LowCmd::getW12(){
 }
 
 void LowCmd::setStableGain(int legID){
-    if(use_go1_model ==1 ){
+    #ifdef USE_GO1_MODEL
         _cmd[legID*3+0].kp = 7;
         _cmd[legID*3+0].kd = 2.0;
 
@@ -264,24 +265,25 @@ void LowCmd::setStableGain(int legID){
 
         _cmd[legID*3+2].kp = 7;
         _cmd[legID*3+2].kd = 2.0;
-    }else{
-        _cmd[legID*3+0].kp = 4.5;
-        _cmd[legID*3+0].kd = 1.1;
+    #else
+        _cmd[legID*3+0].kp = 7;
+        _cmd[legID*3+0].kd = 2.0;
 
-        _cmd[legID*3+1].kp = 4.5;
-        _cmd[legID*3+1].kd = 1.1;
+        _cmd[legID*3+1].kp = 7;
+        _cmd[legID*3+1].kd = 2.0;
 
-        _cmd[legID*3+2].kp = 4.5;
-        _cmd[legID*3+2].kd = 1.1;
-    }
+        _cmd[legID*3+2].kp = 7;
+        _cmd[legID*3+2].kd = 2.0;
+    #endif
 }
 void LowCmd::setStableGain(){
     for(int i(0); i<4; ++i){
         setStableGain(i);
+        // setZeroGain(i);
     }
 }
 void LowCmd::setSwingGain(int legID){
-    if(use_go1_model ==1 ){
+    #ifdef USE_GO1_MODEL
         _cmd[legID*3+0].kp = 5.5;
         _cmd[legID*3+0].kd = 1;
 
@@ -290,16 +292,16 @@ void LowCmd::setSwingGain(int legID){
 
         _cmd[legID*3+2].kp = 5.5;
         _cmd[legID*3+2].kd = 1;
-    }else{
-        _cmd[legID*3+0].kp = 3.5;
-        _cmd[legID*3+0].kd = 0.7;
+    #else
+        _cmd[legID*3+0].kp = 5.5;
+        _cmd[legID*3+0].kd = 1;
 
-        _cmd[legID*3+1].kp = 3.5;
-        _cmd[legID*3+1].kd = 0.7;
+        _cmd[legID*3+1].kp = 5.5;
+        _cmd[legID*3+1].kd = 1;
 
-        _cmd[legID*3+2].kp = 3.5;
-        _cmd[legID*3+2].kd = 0.7;
-    }
+        _cmd[legID*3+2].kp = 5.5;
+        _cmd[legID*3+2].kd = 1;
+    #endif
 }
 void LowCmd::setStableGain_JUMP(int legID){
     _cmd[legID*3+0].kp = 4.5;
@@ -351,7 +353,7 @@ LowCmd::~LowCmd() {
 }    
 
 void LowCmd::idInit(){
-    if(use_go1_model == 1){
+    #ifdef USE_GO1_MODEL
         _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_p");
         _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_v");
         _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_f");
@@ -399,8 +401,7 @@ void LowCmd::idInit(){
         _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_p");
         _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_v");
         _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_f");
-    }
-    else{
+    #else
         _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_p");
         _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_v");
         _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_f");
@@ -448,6 +449,7 @@ void LowCmd::idInit(){
         _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_p");
         _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_v");
         _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_f");
-    }
+    #endif
+
 }
 

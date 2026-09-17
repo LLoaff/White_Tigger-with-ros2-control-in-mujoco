@@ -17,5 +17,5 @@ Vec12 Reversal_GetQ(const Vec34 &vecP, FrameType frame);
 // Eigen::Matrix<double,3,3> calcJaco(int legid , Eigen::Matrix<float,3,1> q);
 Vec3 calcQd(int legid,Vec3 pEe, Vec3 vEe, FrameType frame);
 Vec12 Reversal_GetQd(const Vec34 &pos, const Vec34 &vel, FrameType frame);
-
+bool limitFootTargetBody(int legId, Vec3& pBody);
 #endif

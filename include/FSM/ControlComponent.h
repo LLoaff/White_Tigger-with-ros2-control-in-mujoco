@@ -38,6 +38,7 @@ public:
     mjData* _mjdata;
     LowCmd * _ioros;
     int root_body_id =-1;
+    bool _Safety = true;
 private:
     WaveStatus _waveStatus = WaveStatus::SWING_ALL;
 };

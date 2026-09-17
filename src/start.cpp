@@ -4,6 +4,8 @@ start::start(mjModel *model, mjData *data):mjmodel(model),mjdata(data){
     // pthread_create(&pthread,NULL,start::lets_start,this);
     ctrl = new ControlComponent(mjmodel,mjdata);
     ctrl->dt = 0.002;    
+    // ctrl->_period = 0.5;
+    // ctrl->_stancePhaseRatio = 0.5;
     ctrl->_period = 0.5;
     ctrl->_stancePhaseRatio = 0.5;
     ctrl->waveGen = new WaveGenerator(ctrl->_period, ctrl->_stancePhaseRatio, 

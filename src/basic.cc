@@ -18,7 +18,7 @@ mjvScene scn;                       // abstract scene
 mjrContext con;                     // custom GPU context
 int startup_key_id = -1;
 bool reset_requested = false;
-
+double sim_speed = 1.0;
 // mouse interaction
 bool button_left = false;
 bool button_middle = false;
@@ -38,6 +38,27 @@ void reset_to_startup_key() {
 void keyboard(GLFWwindow* window, int key, int scancode, int act, int mods) {
   if (act == GLFW_PRESS && (key == GLFW_KEY_ESCAPE || key == GLFW_KEY_BACKSPACE)) {
     reset_requested = true;
+  }
+  if (act == GLFW_PRESS) {
+    if (key == GLFW_KEY_EQUAL || key == GLFW_KEY_KP_ADD) {
+        sim_speed *= 2.0;
+
+        if (sim_speed > 8.0) {
+            sim_speed = 8.0;
+        }
+
+        std::printf("仿真速度：%.2fx\n", sim_speed);
+    }
+
+    if (key == GLFW_KEY_MINUS || key == GLFW_KEY_KP_SUBTRACT) {
+        sim_speed *= 0.5;
+
+        if (sim_speed < 0.125) {
+            sim_speed = 0.125;
+        }
+
+        std::printf("仿真速度：%.3fx\n", sim_speed);
+    }
   }
 }
 
@@ -100,14 +121,11 @@ void Init(){
 int main(int argc, const char** argv) {
 
   char error[1000] = "Could not load binary model";
-  if(use_go1_model == 1){
+  #ifdef USE_GO1_MODEL
     m = mj_loadXML("/home/loaf/WT_MPC/model/urdf/go1.xml", 0, error, 1000);
-  }
-  else{
-    // m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger.xml", 0, error, 1000);
-    m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger_go1style.xml", 0, error, 1000);
-  }
-  
+  #else
+    m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger_simple_longleg.xml", 0, error, 1000);
+  #endif
   if (!m) {
     mju_error("Load model error: %s", error);
   }
@@ -142,34 +160,88 @@ int main(int argc, const char** argv) {
   glfwSetMouseButtonCallback(window, mouse_button);
   glfwSetScrollCallback(window, scroll);
 
+  // using clock_type = std::chrono::steady_clock;
+  // start sim_start(m, d);
+  // const double render_dt = 1.0 / 90.0;
+  // const double realtime_factor = 1.0;
+
+  // double next_ctrl_time = d->time;
+  // double sim_time0 = d->time;
+  // auto wall_time0 = clock_type::now();
+  // glfwSwapInterval(0);
   using clock_type = std::chrono::steady_clock;
   start sim_start(m, d);
-  const double render_dt = 1.0 / 90.0;
-  const double realtime_factor = 1.0;
 
   double next_ctrl_time = d->time;
-  double sim_time0 = d->time;
-  auto wall_time0 = clock_type::now();
-  glfwSwapInterval(0);
+
+  // 尚未执行的仿真时间，单位是秒
+  double sim_accumulator = 0.0;
+
+  // 上一次进入主循环时的现实时间
+  auto last_wall_time = clock_type::now();
+
   while (!glfwWindowShouldClose(window)) {
+    // if (reset_requested) {
+    //   reset_requested = false;
+    //   reset_to_startup_key();
+    //   sim_start.reset();
+    //   next_ctrl_time = d->time;
+    //   sim_time0 = d->time;
+    //   wall_time0 = clock_type::now();
+    // }
     if (reset_requested) {
-      reset_requested = false;
-      reset_to_startup_key();
-      sim_start.reset();
-      next_ctrl_time = d->time;
-      sim_time0 = d->time;
-      wall_time0 = clock_type::now();
+        reset_requested = false;
+
+        reset_to_startup_key();
+        sim_start.reset();
+
+        next_ctrl_time = d->time;
+
+        // 丢弃重置前积攒的仿真时间
+        sim_accumulator = 0.0;
+        last_wall_time = clock_type::now();
+    }
+    // mjtNum simstart = d->time;
+    // while (d->time - simstart < sim_speed/90.0) {
+    //   if (d->time + 1e-12 >= next_ctrl_time) {
+    //     sim_start.run();                  // 控制器 500Hz, ctrl->dt = 0.002
+    //     next_ctrl_time += sim_start.ctrl->dt;
+    //   }
+    //   mj_step(m, d);
+    // }
+    // 获取当前现实时间
+    auto current_wall_time = clock_type::now();
+
+    // 计算从上一帧到现在，现实世界经过了多少秒
+    double wall_dt =
+        std::chrono::duration<double>(
+            current_wall_time - last_wall_time
+        ).count();
+
+    last_wall_time = current_wall_time;
+
+    // 防止拖动窗口、调试断点或程序卡顿后一次性补算太久
+    if (wall_dt > 0.1) {
+        wall_dt = 0.1;
     }
 
-    mjtNum simstart = d->time;
-    while (d->time - simstart < 1.0/90.0) {
-      if (d->time + 1e-12 >= next_ctrl_time) {
-      sim_start.run();                  // 控制器 500Hz, ctrl->dt = 0.002
-      next_ctrl_time += sim_start.ctrl->dt;
-      }
-      mj_step(m, d);
+    // 根据速度倍率，计算应该推进多少仿真时间
+    sim_accumulator += wall_dt * sim_speed;
+
+    // 每次循环只推进一个固定物理步：0.002 秒
+    while (sim_accumulator + 1e-12 >= m->opt.timestep) {
+        // 控制器必须放在 mj_step() 前面
+        if (d->time + 1e-12 >= next_ctrl_time) {
+            sim_start.run();
+            next_ctrl_time += sim_start.ctrl->dt;
+        }
+
+        // 使用刚刚计算出的控制量，推进一次物理仿真
+        mj_step(m, d);
+
+        // 消耗一个物理步的仿真时间
+        sim_accumulator -= m->opt.timestep;
     }
-    
     // get framebuffer viewport
     mjrRect viewport = {0, 0, 0, 0};
     glfwGetFramebufferSize(window, &viewport.width, &viewport.height);
@@ -183,11 +255,11 @@ int main(int argc, const char** argv) {
 
     // process pending GUI events, call GLFW callbacks
     glfwPollEvents();
-    auto target_wall_time =
-      wall_time0 + std::chrono::duration<double>(
-          (d->time - sim_time0) / realtime_factor);
+    // auto target_wall_time =
+    //   wall_time0 + std::chrono::duration<double>(
+    //       (d->time - sim_time0) / realtime_factor);
 
-    std::this_thread::sleep_until(target_wall_time);
+    // std::this_thread::sleep_until(target_wall_time);
   }
 
   //free visualization storage

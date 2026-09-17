@@ -5,25 +5,32 @@
 #include "eigen3/Eigen/Dense"
 #include <eigen3/Eigen/LU>
 #include <iostream>
-#define use_go1_model 1
 #define REDUCTION 1.0  // 电机减速比
 
-// White_Tigger
-// #define _labad_   0.08785 // l1
-// // #define _labad_   0.0265
-// #define _lhip_    0.12    // l2
-// #define _lknee_   0.1358  // l3
-
-// #define _length_  0.1842  // hx
-// #define _weigh_   0.04    // hy
-
+#ifdef USE_GO1_MODEL
 // go1:
-#define _labad_   0.08 // l1
-#define _lhip_    0.213    // l2
-#define _lknee_   0.213  // l3
+    #define _labad_   0.08 // l1
+    #define _lhip_    0.213    // l2
+    #define _lknee_   0.213    // l3
 
-#define _length_  0.1881  // hx
-#define _weigh_   0.04675    // hy
+    #define _length_  0.1881  // hx
+    #define _weigh_   0.04675    // hy
+#else
+// White_Tigger
+    // #define _labad_   0.0265
+    #define _labad_   0.08785 // l1
+
+    // #define _lhip_    0.12    // l2
+    // #define _lknee_   0.1358  // l3
+    #define _lhip_    0.209    // l2: MIT Mini Cheetah thigh
+    #define _lknee_   0.195    // l3: MIT Mini Cheetah calf
+
+    #define _length_  0.1842  // hx
+    #define _weigh_   0.04    // hy
+#endif
+
+
+
 /*反归一化*/
 template<typename T0, typename T1, typename T2>
 inline T1 invNormalize(const T0 value, const T1 min, const T2 max, const float minLim = -1, const float maxLim = 1){

@@ -5,7 +5,7 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
 ,_balCtrl(ctrlComp->_balCtrl),_robModel(ctrlComp->robotModel){
     _gait = new GaitGenerator(ctrlComp);
     _mpc = new ConvexMPC(ctrlComp);
-    if(use_go1_model == 1){
+    #ifdef USE_GO1_MODEL
         _gaitHeight = 0.08;
         _vxLim << -0.8, 0.8;
         _vyLim << -0.8, 0.8;
@@ -13,15 +13,16 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
 
         _KpSwing = Vec3(400, 400, 400).asDiagonal();
         _KdSwing = Vec3(10, 10, 10).asDiagonal();
-    }else{
+    #else
         _gaitHeight = 0.04;
         _vxLim << -0.4, 0.4;
         _vyLim << -0.4, 0.4;
         _wyawLim << -0.5, 0.5;
 
-        _KpSwing = Vec3(120, 120, 120).asDiagonal();
+        _KpSwing = Vec3(400, 400, 400).asDiagonal();
         _KdSwing = Vec3(7, 7, 7).asDiagonal();
-    }
+    #endif
+
     
     // 向网端发送param数据
     _fstate_ctrl->_analyze._param._KpSwing = _KpSwing;
@@ -31,11 +32,11 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
 
 void Trotting_State_MPC::enter(){
     _pcd = _est->getPosition();
-    if(use_go1_model == 1){
+    #ifdef USE_GO1_MODEL
         _pcd(2) = 0.32;
-    }else{
+    #else
         _pcd(2) = 0.2;
-    }
+    #endif
 
     _vCmdBody.setZero();
     _wCmdGlobal.setZero();
@@ -80,6 +81,7 @@ void Trotting_State_MPC::run(){
     // std::cout<<"_velFeetGlobalGoal:\n"<< _velFeetGlobalGoal <<std::endl;
     // std::cout<<"next_pos:\n"<< _posFeet2BGoal<<std::endl;
     // std::cout<<"_yaw:\n"<< _yaw<<std::endl;
+    // std::cout<<"_posFeet2BGlobal:\n"<< _posFeet2BGlobal<<std::endl;
     calcTau();
     calcQQd(); // 计算机身坐标系下 足端坐标、速度
 
@@ -100,11 +102,11 @@ void Trotting_State_MPC::run(){
 
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){
-            _fstate_ctrl->_ioros->setSwingGain(i);
-            // _fstate_ctrl->_ioros->setZeroGain(i);
+            // _fstate_ctrl->_ioros->setSwingGain(i);
+            _fstate_ctrl->_ioros->setZeroGain(i);
         }else{
-            _fstate_ctrl->_ioros->setStableGain(i);
-            // _fstate_ctrl->_ioros->setZeroGain(i);
+            // _fstate_ctrl->_ioros->setStableGain(i);
+            _fstate_ctrl->_ioros->setZeroGain(i);
         }
     }
 }

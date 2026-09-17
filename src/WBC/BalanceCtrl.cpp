@@ -3,14 +3,14 @@
 BalanceCtrl::BalanceCtrl(){
     Eigen::Matrix<double, 6 , 1> s;
     Eigen::Matrix<double, 12 , 1> w,u;
-    if(use_go1_model == 1){
+    #ifdef USE_GO1_MODEL
         _mass = 12;
         _pcb<< 0,0,0;
 
         _Ib<< 0.0792,0.0,0.0,
             0.0,0.2085,0.0,
             0.0,0.0,0.2265;
-    }else{
+    #else
         _mass = 6.408;
         // _pcb<< 0,0,0;
         _pcb<< -0.00154,0.00034,-0.00080;
@@ -18,7 +18,7 @@ BalanceCtrl::BalanceCtrl(){
         _Ib<< 0.03316,0.0,0.0,
             0.0,0.14005,0.0,
             0.0,0.0,0.16444;
-    }
+    #endif
 
     _g << 0, 0, -9.81;
 

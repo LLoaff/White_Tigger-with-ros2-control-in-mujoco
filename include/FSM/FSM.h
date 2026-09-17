@@ -6,8 +6,8 @@
 #include "FSM/Passive_State.h"
 #include "FSM/Free_State.h"
 #include "FSM/Stand_State.h"
-// #include "Free_Stand_State.h"
-// #include "Balance_State.h"
+#include "FSM/Free_Stand_State.h"
+#include "FSM/State_BalanceTest.h"
 #include "FSM/FSMState.h"
 #include "math/TimeMaker.h"
 #include "FSM/Trotting_State.h"
@@ -20,8 +20,8 @@ struct FSMStateList
     Passive_State *     passive;
     Free_State    *     free;
     Stand_State   *     stand;
-    // Free_Stand_State *  free_stand;
-    // Balance_State*      balance;
+    Free_Stand_State *  free_stand;
+    State_BalanceTest*      balance;
     Trotting_State*     trotting;
     Trotting_State_MPC* trotting_mpc;
     Sit_Down_State*     sit_down;
@@ -36,6 +36,7 @@ public:
     void run();
 private:
     FSMState         * GetNextState(FSMStateName fsm_state_name);
+    void CheckSafety();
     Mujoco_box       *_mj_box;
     ControlComponent * _fsm_ctrl;
     FSMStateList       _fsm_state_list;

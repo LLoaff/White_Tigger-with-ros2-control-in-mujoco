@@ -22,12 +22,12 @@ class LCMTeleopKeyboard:
         self.msg.turn = 0
         
         # 速度步长和限制（新增vy相关参数）
-        self.vx_step = 0.1    # 每次w/s调整的vx增量
-        self.vy_step = 0.1    # 每次z/c调整的vy增量
-        self.vw_step = 0.1    # 每次a/d调整的vw增量
+        self.vx_step = 0.2    # 每次w/s调整的vx增量
+        self.vy_step = 0.2    # 每次z/c调整的vy增量
+        self.vw_step = 0.12    # 每次a/d调整的vw增量
         self.vx_max = 1.0      # vx最大限制
         self.vy_max = 1.0      # vy最大限制
-        self.vw_max = 2.0      # vw最大限制
+        self.vw_max = 1.0      # vw最大限制
         
         # 发布频率 (Hz)
         self.publish_rate = 10.0

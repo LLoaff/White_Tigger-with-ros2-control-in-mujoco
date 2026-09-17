@@ -7,10 +7,21 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #gdb调试
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+# set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 
+# 用户参数：
+set(USE_REAL_ROBOT OFF)
+set(USE_GO1_MODEL OFF)
 set(MUJOCO_PATH "/home/loaf/mujoco")
+
+if(USE_REAL_ROBOT)
+    add_definitions(-DUSE_REAL_ROBOT)
+endif()
+
+if(USE_GO1_MODEL)
+    add_definitions(-DUSE_GO1_MODEL)
+endif()
 
 find_package(CURL REQUIRED)
 
@@ -29,6 +40,7 @@ set(MUJOCO_LIB ${MUJOCO_PATH}/build/lib/libmujoco.so)
 add_executable(basic src/basic.cc
 src/FSM/ControlComponent.cpp src/FSM/Free_State.cpp src/FSM/FSM.cpp src/FSM/FSMState.cpp src/FSM/Passive_State.cpp
 src/FSM/Stand_State.cpp src/FSM/Trotting_State.cpp src/FSM/UserCmd.cpp src/FSM/Sit_Down_State.cpp src/FSM/Trotting_State_mpc.cpp
+src/FSM/State_BalanceTest.cpp src/FSM/Free_Stand_State.cpp
 
 src/Gait/FeetEndCal.cpp src/Gait/GaitGenerator.cpp src/Gait/WaveGenerator.cpp
 

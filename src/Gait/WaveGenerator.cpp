@@ -45,9 +45,9 @@ void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias,doub
     // _startT = getSystemTime();
     _startT = current_time;
 
-    _contactPast.setZero();
+    _contactPast.setOnes();
     _phasePast << 0.5, 0.5, 0.5, 0.5;
-    _statusPast = WaveStatus::SWING_ALL;
+    _statusPast = WaveStatus::STANCE_ALL;
     _switchStatus.setZero();
 }
 // 步态切换控制器 
@@ -190,7 +190,7 @@ int * WaveGenerator::getMpcTable(WaveStatus status){
         for(int iteration_idex=0;iteration_idex < _nIterations;iteration_idex++){
             // 索引腿
             for(int leg_index = 0;leg_index<4;leg_index++){
-                int iter = (_iteration + 1 + iteration_idex) % _nIterations;
+                int iter = (_iteration  + iteration_idex) % _nIterations;
                 Vec4 progress = (iter - _offsets).cast<double>();
                 // 如果有负数，就加一个周期
                 if(progress[leg_index] < 0) progress[leg_index] +=_nIterations;
