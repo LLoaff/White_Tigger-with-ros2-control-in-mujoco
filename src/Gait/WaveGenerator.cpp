@@ -17,10 +17,11 @@ WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias,d
             exit(-1);
         }
     }
-
-    // _startT = getSystemTime();
+#ifdef USE_SIM
     _startT = current_time;
-
+#else 
+    _startT = getSystemTime();
+#endif
     _contactPast.setZero();
     _phasePast << 0.5, 0.5, 0.5, 0.5;
     _statusPast = WaveStatus::SWING_ALL;

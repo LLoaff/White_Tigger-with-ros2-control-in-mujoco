@@ -1,3 +1,5 @@
+#ifdef USE_SIM
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -124,7 +126,8 @@ int main(int argc, const char** argv) {
   #ifdef USE_GO1_MODEL
     m = mj_loadXML("/home/loaf/WT_MPC/model/urdf/go1.xml", 0, error, 1000);
   #else
-    m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger_simple_longleg.xml", 0, error, 1000);
+    // m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger_simple_longleg.xml", 0, error, 1000);
+    m = mj_loadXML("/home/loaf/WT_MPC/model/White_Tigger.xml", 0, error, 1000);
   #endif
   if (!m) {
     mju_error("Load model error: %s", error);
@@ -277,3 +280,25 @@ int main(int argc, const char** argv) {
 
   return EXIT_SUCCESS;
 }
+#else
+#include "start.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <chrono>
+#include <iostream>
+#include <thread>
+#include <vector>
+start *_starter;
+bool isrunning = true;
+int main(int argc, const char** argv) {
+    _starter = new start();
+    while(isrunning){
+        _starter->run();
+    }
+    return 0;
+
+}
+
+
+#endif

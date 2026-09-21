@@ -11,9 +11,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 
 # 用户参数：
-set(USE_REAL_ROBOT OFF)
+set(USE_SIM OFF)
+set(USE_ARM64 OFF)
 set(USE_GO1_MODEL OFF)
 set(MUJOCO_PATH "/home/loaf/mujoco")
+set(CSERIALPORT_INCLUDE_DIR "/usr/local/include/CSerialPort")
+set(CSERIALPORT_LIBRARY "/usr/local/lib/libcserialport.so")
 
 if(USE_REAL_ROBOT)
     add_definitions(-DUSE_REAL_ROBOT)
@@ -21,6 +24,9 @@ endif()
 
 if(USE_GO1_MODEL)
     add_definitions(-DUSE_GO1_MODEL)
+endif()
+if(USE_SIM)
+    add_definitions(-DUSE_SIM)
 endif()
 
 find_package(CURL REQUIRED)
@@ -66,4 +72,5 @@ CURL::libcurl
 /usr/lib/x86_64-linux-gnu/liblcm.so
 /usr/lib/x86_64-linux-gnu/libgthread-2.0.so
 /usr/lib/x86_64-linux-gnu/libglib-2.0.so
+cserialport
 )

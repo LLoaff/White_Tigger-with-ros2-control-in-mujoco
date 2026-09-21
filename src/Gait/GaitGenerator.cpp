@@ -38,7 +38,8 @@ void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stan
         }
         else{
 
-            _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i));
+            // _endP.col(i) = _feetCal->calFootPos(i, _vxyGoal, _dYawGoal, (*_phase)(i));
+            _endP.col(i) = _feetCal->calFootPos_MIT(i, _vxyGoal, _dYawGoal, (*_phase)(i));
 
             
             feetPos.col(i) = getFootPos(i);

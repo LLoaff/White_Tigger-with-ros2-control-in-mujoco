@@ -1,6 +1,7 @@
 #ifndef MUJOCO_BOX_H
 #define MUJOCO_BOX_H
 
+#ifdef USE_SIM
 #include "FSM/ControlComponent.h"
 #include "math/mathTypes.h"
 
@@ -28,7 +29,7 @@ private:
     ControlComponent* _comp;
 };
 
-
+#endif
 
 
 #endif

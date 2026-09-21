@@ -3,7 +3,7 @@
 // #define LOWSTATE_DEBUG
 //  #define LOWCMD_DEBUG
 
-
+#ifdef USE_SIM
 LowCmd::LowCmd(mjModel *model, mjData *data):_mjmodel(model),_mjdata(data){
     idInit();
     _state = new LowState(model,data);
@@ -95,6 +95,312 @@ void LowCmd::PDController(int id,float q,float vel,float kp,float kd,float tau){
     this->_mjdata->ctrl[id] = out_tau;
 }
 
+void LowCmd::idInit(){
+    #ifdef USE_GO1_MODEL
+        _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_p");
+        _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_v");
+        _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_f");
+
+        _jointid[3] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_p");
+        _jointid[4] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_v");
+        _jointid[5] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_f");
+
+        _jointid[6] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_p");
+        _jointid[7] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_v");
+        _jointid[8] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_f");
+
+        _jointid[9] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_p");
+        _jointid[10] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_v");
+        _jointid[11] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_f");
+
+        _jointid[12] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_p");
+        _jointid[13] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_v");
+        _jointid[14] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_f");
+
+        _jointid[15] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_p");
+        _jointid[16] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_v");
+        _jointid[17] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_f");
+
+        _jointid[18] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_p");
+        _jointid[19] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_v");
+        _jointid[20] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_f");
+
+        _jointid[21] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_p");
+        _jointid[22] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_v");
+        _jointid[23] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_f");
+
+        _jointid[24] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_p");
+        _jointid[25] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_v");
+        _jointid[26] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_f");
+
+        _jointid[27] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_p");
+        _jointid[28] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_v");
+        _jointid[29] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_f");
+
+        _jointid[30] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_p");
+        _jointid[31] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_v");
+        _jointid[32] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_f");
+
+        _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_p");
+        _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_v");
+        _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_f");
+    #else
+        _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_p");
+        _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_v");
+        _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_f");
+
+        _jointid[3] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_p");
+        _jointid[4] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_v");
+        _jointid[5] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_f");
+
+        _jointid[6] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_p");
+        _jointid[7] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_v");
+        _jointid[8] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_f");
+
+        _jointid[9] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_p");
+        _jointid[10] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_v");
+        _jointid[11] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_f");
+
+        _jointid[12] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_p");
+        _jointid[13] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_v");
+        _jointid[14] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_f");
+
+        _jointid[15] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_p");
+        _jointid[16] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_v");
+        _jointid[17] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_f");
+
+        _jointid[18] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_p");
+        _jointid[19] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_v");
+        _jointid[20] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_f");
+
+        _jointid[21] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_p");
+        _jointid[22] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_v");
+        _jointid[23] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_f");
+
+        _jointid[24] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_p");
+        _jointid[25] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_v");
+        _jointid[26] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_f");
+
+        _jointid[27] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_p");
+        _jointid[28] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_v");
+        _jointid[29] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_f");
+
+        _jointid[30] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_p");
+        _jointid[31] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_v");
+        _jointid[32] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_f");
+
+        _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_p");
+        _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_v");
+        _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_f");
+    #endif
+
+}
+#else
+LowCmd::LowCmd():serial(std::make_shared<SerialPort>("/dev/ttyACM0", B921600)),_motor_cmd(serial){
+
+    _state = new LowState();
+    for(int i = 0; i < 12; ++i){
+        _motor_cmd.addMotor(&this->_state->_motor_data[i]);
+        // _motor_cmd.switchControlMode(this->_state->_motor_data[i],damiao::MIT_MODE);
+        // _motor_cmd.set_zero_position(this->_state->_motor_data[i]); // 设置当前角度为零点
+        // _motor_cmd.control_mit(this->_state->_motor_data[i], 0, 0, 0, 0, 0);
+        this->_state->_motor_state[i].id = i;
+        _cmd[i].id = i;
+        _cmd[i].dq = 0;
+        _cmd[i].tau = 0;
+        _cmd[i].kp = 0;
+        _cmd[i].kd = 0;
+
+        switch (i)
+        {
+            case 0:
+                _cmd[i].q = _state->Angle_Initialization_Variable.fr_hip_joint;
+                break;
+            case 1:
+                _cmd[i].q = _state->Angle_Initialization_Variable.fr_thigh_joint;
+                break;
+            case 2:
+                _cmd[i].q = _state->Angle_Initialization_Variable.fr_calf_joint;
+                break;
+            case 3:
+                _cmd[i].q = _state->Angle_Initialization_Variable.fl_hip_joint;
+                break;
+            case 4:
+                _cmd[i].q = _state->Angle_Initialization_Variable.fl_thigh_joint;
+                break;
+            case 5:
+                _cmd[i].q = _state->Angle_Initialization_Variable.fl_calf_joint;
+                break;
+            case 6:
+                _cmd[i].q = _state->Angle_Initialization_Variable.br_hip_joint;
+                break;
+            case 7:
+                _cmd[i].q = _state->Angle_Initialization_Variable.br_thigh_joint;
+                break;
+            case 8:
+                _cmd[i].q = _state->Angle_Initialization_Variable.br_calf_joint;
+                break;
+            case 9:
+                _cmd[i].q = _state->Angle_Initialization_Variable.bl_hip_joint;
+                break;
+            case 10:
+                _cmd[i].q = _state->Angle_Initialization_Variable.bl_thigh_joint;
+                break;
+            case 11:
+                _cmd[i].q = _state->Angle_Initialization_Variable.bl_calf_joint;
+                break;
+            default:
+                break;
+        }
+    }
+    for(int i = 0; i < 12; ++i){
+        _motor_cmd.enable(this->_state->_motor_data[i]); // 使能
+    }
+    std::cout<<"LowCmd Init Success!"<<std::endl;
+}
+
+void LowCmd::Update(){
+    struct Motor_State tmp_cmd[12];
+    for(int i = 0; i < 12; ++i){
+        tmp_cmd[i].id = i;
+        tmp_cmd[i].q = _cmd[i].q;
+        tmp_cmd[i].dq = _cmd[i].dq;
+        tmp_cmd[i].tau = _cmd[i].tau;
+        tmp_cmd[i].kp = _cmd[i].kp;
+        tmp_cmd[i].kd = _cmd[i].kd;
+        switch (i){
+            case 0:
+                tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.fr_hip_joint)*REDUCTION;
+                tmp_cmd[i].dq = _cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = _cmd[i].tau;
+                break;
+            case 1:
+                tmp_cmd[i].q = -(_cmd[i].q - _state->Angle_Initialization_Variable.fr_thigh_joint)*REDUCTION;
+                tmp_cmd[i].dq = -_cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = -_cmd[i].tau;
+                break;
+            case 2:
+                tmp_cmd[i].q = -(_cmd[i].q - _state->Angle_Initialization_Variable.fr_calf_joint)*REDUCTION;
+                tmp_cmd[i].dq = -_cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau =-_cmd[i].tau;
+                break;
+            case 3:
+                tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.fl_hip_joint)*REDUCTION;
+                tmp_cmd[i].dq = _cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = _cmd[i].tau;
+                break;
+            case 4:
+                tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.fl_thigh_joint)*REDUCTION;
+                tmp_cmd[i].dq = _cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = _cmd[i].tau;
+                break;
+            case 5:
+                tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.fl_calf_joint)*REDUCTION;
+                tmp_cmd[i].dq = _cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = _cmd[i].tau;
+                break;
+            case 6:
+                tmp_cmd[i].q = -(_cmd[i].q - _state->Angle_Initialization_Variable.br_hip_joint)*REDUCTION;
+                tmp_cmd[i].dq = -_cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau =-_cmd[i].tau;
+                break;
+            case 7:
+                tmp_cmd[i].q = -(_cmd[i].q - _state->Angle_Initialization_Variable.br_thigh_joint)*REDUCTION;
+                tmp_cmd[i].dq = -_cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = -_cmd[i].tau;
+                break;
+            case 8:
+                tmp_cmd[i].q = -(_cmd[i].q - _state->Angle_Initialization_Variable.br_calf_joint)*REDUCTION;
+                tmp_cmd[i].dq = -_cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = -_cmd[i].tau;
+                break;
+            case 9:
+                tmp_cmd[i].q = -(_cmd[i].q - _state->Angle_Initialization_Variable.bl_hip_joint)*REDUCTION;
+                tmp_cmd[i].dq = -_cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = -_cmd[i].tau;
+                break;
+            case 10:
+                tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.bl_thigh_joint)*REDUCTION;
+                tmp_cmd[i].dq = _cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = _cmd[i].tau;
+                break;
+            case 11:
+                tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.bl_calf_joint)*REDUCTION;
+                tmp_cmd[i].dq = _cmd[i].dq*REDUCTION;
+                tmp_cmd[i].tau = _cmd[i].tau;
+                break;
+            default:
+                break;
+            }
+            // std::cout<<"id: "<< i << "cmd_q: "<<tmp_cmd[i].q<<std::endl;
+            _motor_cmd.control_mit(this->_state->_motor_data[i], tmp_cmd[i].kp, tmp_cmd[i].kd, tmp_cmd[i].q, tmp_cmd[i].dq, tmp_cmd[i].tau);
+            switch (i){
+            case 0:
+                this->_state->_motor_state[i].q = _state->Angle_Initialization_Variable.fr_hip_joint+ this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = this->_state->_motor_data[i].Get_tau();
+                break;
+            case 1:
+                this->_state->_motor_state[i].q = _state->Angle_Initialization_Variable.fr_thigh_joint - this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq =- this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau =- this->_state->_motor_data[i].Get_tau();
+                break;
+            case 2:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.fr_calf_joint - this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = -this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = -this->_state->_motor_data[i].Get_tau();
+                break;
+            case 3:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.fl_hip_joint + this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = this->_state->_motor_data[i].Get_tau();
+                break;
+            case 4:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.fl_thigh_joint + this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = this->_state->_motor_data[i].Get_tau();
+                break;
+            case 5:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.fl_calf_joint + this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = this->_state->_motor_data[i].Get_tau();
+                break;
+            case 6:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.br_hip_joint - this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq =- this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau =- this->_state->_motor_data[i].Get_tau();
+                break;
+            case 7:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.br_thigh_joint - this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq =- this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau =- this->_state->_motor_data[i].Get_tau();
+                break;
+            case 8:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.br_calf_joint - this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = -this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = -this->_state->_motor_data[i].Get_tau();
+                break;
+            case 9:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.bl_hip_joint - this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq =- this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau =- this->_state->_motor_data[i].Get_tau();
+                break;
+            case 10:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.bl_thigh_joint + this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = this->_state->_motor_data[i].Get_tau();
+                break;
+            case 11:
+                this->_state->_motor_state[i].q =_state->Angle_Initialization_Variable.bl_calf_joint + this->_state->_motor_data[i].Get_Position();
+                this->_state->_motor_state[i].dq = this->_state->_motor_data[i].Get_Velocity();
+                this->_state->_motor_state[i].tau = this->_state->_motor_data[i].Get_tau();
+                break;
+            default:
+                break;
+        }
+    }
+}
+#endif
 void LowCmd::SetQ(Eigen::Matrix<double,12,1> q){
     for(int i(0); i<12; ++i){
         _cmd[i].q = q(i);
@@ -352,104 +658,4 @@ Eigen::Matrix<double,12,1> LowCmd::getInitialQ12(){
 LowCmd::~LowCmd() {
 }    
 
-void LowCmd::idInit(){
-    #ifdef USE_GO1_MODEL
-        _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_p");
-        _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_v");
-        _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_hip_joint_f");
-
-        _jointid[3] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_p");
-        _jointid[4] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_v");
-        _jointid[5] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_thigh_joint_f");
-
-        _jointid[6] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_p");
-        _jointid[7] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_v");
-        _jointid[8] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FR_calf_joint_f");
-
-        _jointid[9] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_p");
-        _jointid[10] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_v");
-        _jointid[11] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_hip_joint_f");
-
-        _jointid[12] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_p");
-        _jointid[13] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_v");
-        _jointid[14] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_thigh_joint_f");
-
-        _jointid[15] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_p");
-        _jointid[16] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_v");
-        _jointid[17] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"FL_calf_joint_f");
-
-        _jointid[18] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_p");
-        _jointid[19] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_v");
-        _jointid[20] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_hip_joint_f");
-
-        _jointid[21] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_p");
-        _jointid[22] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_v");
-        _jointid[23] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_thigh_joint_f");
-
-        _jointid[24] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_p");
-        _jointid[25] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_v");
-        _jointid[26] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RR_calf_joint_f");
-
-        _jointid[27] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_p");
-        _jointid[28] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_v");
-        _jointid[29] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_hip_joint_f");
-
-        _jointid[30] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_p");
-        _jointid[31] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_v");
-        _jointid[32] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_thigh_joint_f");
-
-        _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_p");
-        _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_v");
-        _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"RL_calf_joint_f");
-    #else
-        _jointid[0] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_p");
-        _jointid[1] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_v");
-        _jointid[2] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_hip_joint_f");
-
-        _jointid[3] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_p");
-        _jointid[4] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_v");
-        _jointid[5] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_thigh_joint_f");
-
-        _jointid[6] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_p");
-        _jointid[7] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_v");
-        _jointid[8] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fr_calf_joint_f");
-
-        _jointid[9] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_p");
-        _jointid[10] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_v");
-        _jointid[11] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_hip_joint_f");
-
-        _jointid[12] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_p");
-        _jointid[13] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_v");
-        _jointid[14] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_thigh_joint_f");
-
-        _jointid[15] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_p");
-        _jointid[16] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_v");
-        _jointid[17] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"fl_calf_joint_f");
-
-        _jointid[18] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_p");
-        _jointid[19] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_v");
-        _jointid[20] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_hip_joint_f");
-
-        _jointid[21] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_p");
-        _jointid[22] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_v");
-        _jointid[23] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_thigh_joint_f");
-
-        _jointid[24] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_p");
-        _jointid[25] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_v");
-        _jointid[26] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"br_calf_joint_f");
-
-        _jointid[27] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_p");
-        _jointid[28] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_v");
-        _jointid[29] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_hip_joint_f");
-
-        _jointid[30] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_p");
-        _jointid[31] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_v");
-        _jointid[32] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_thigh_joint_f");
-
-        _jointid[33] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_p");
-        _jointid[34] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_v");
-        _jointid[35] = mj_name2id(_mjmodel,mjOBJ_SENSOR,"bl_calf_joint_f");
-    #endif
-
-}
 

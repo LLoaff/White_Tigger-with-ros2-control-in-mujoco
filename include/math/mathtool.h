@@ -20,13 +20,15 @@
     // #define _labad_   0.0265
     #define _labad_   0.08785 // l1
 
-    // #define _lhip_    0.12    // l2
-    // #define _lknee_   0.1358  // l3
-    #define _lhip_    0.209    // l2: MIT Mini Cheetah thigh
-    #define _lknee_   0.195    // l3: MIT Mini Cheetah calf
+    #define _lhip_    0.12    // l2
+    #define _lknee_   0.1358  // l3
+
+    // #define _lhip_    0.209    // l2: MIT Mini Cheetah thigh
+    // #define _lknee_   0.195    // l3: MIT Mini Cheetah calf
 
     #define _length_  0.1842  // hx
     #define _weigh_   0.04    // hy
+    #define _height_  0.19    // hz
 #endif
 
 

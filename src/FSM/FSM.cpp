@@ -1,6 +1,8 @@
 #include "FSM/FSM.h"
 FSM::FSM(ControlComponent *_ctrlcomp):_fsm_ctrl(_ctrlcomp){
+#ifdef USE_SIM
     _mj_box = new Mujoco_box(_ctrlcomp);
+#endif
     _fsm_state_list.invalid     = nullptr;
     _fsm_state_list.passive     = new Passive_State(_ctrlcomp);
     _fsm_state_list.free        = new Free_State(_ctrlcomp);
@@ -15,7 +17,6 @@ FSM::FSM(ControlComponent *_ctrlcomp):_fsm_ctrl(_ctrlcomp){
 }
 
 void FSM::initialize(){
-
     _current_state = _fsm_state_list.passive;
     _current_state->enter();
     _next_state = _current_state;
@@ -24,7 +25,9 @@ void FSM::initialize(){
 
 void FSM::run(){
     // std::cout<<"FSM::run: "<<std::endl;
-    // _start_time = getSystemTime();
+#ifndef USE_SIM
+    _start_time = getSystemTime();
+#endif
     CheckSafety();
     if(!_fsm_ctrl->_Safety){
         _fsm_ctrl->_ioros->SetZeroDq();
@@ -38,7 +41,9 @@ void FSM::run(){
     _fsm_ctrl->_ioros->_state->_imu.Imu_Update();
     _fsm_ctrl->_estimator->run();
     
+#ifdef USE_SIM 
     _mj_box->BoxUpdate(_fsm_ctrl->_estimator->getPosition(),_fsm_ctrl->_ioros->_state->_imu.GetQuat());
+#endif
     // _fsm_ctrl->_analyze.sendComPos(
     //     _fsm_ctrl->_mjdata->time,
     //     _fsm_ctrl->_estimator->getPosition(),
@@ -66,8 +71,9 @@ void FSM::run(){
         _mode = FSMMode::NORMAL;
         _current_state->run();
     }
-
-    // absoluteWait(_start_time, (long long)(_fsm_ctrl->dt * 1000000));       // dt 需初始化时手动赋值
+#ifndef USE_SIM
+    absoluteWait(_start_time, (long long)(_fsm_ctrl->dt * 1000000));       // dt 需初始化时手动赋值
+#endif
 }
 void FSM::CheckSafety(){
     if(_fsm_ctrl->_ioros->_state->_imu.GetRotMat()(2,2) < 0.5){
@@ -128,6 +134,8 @@ FSM::~FSM()
     delete _fsm_state_list.trotting;
     delete _fsm_state_list.trotting_mpc;
     delete _fsm_state_list.sit_down;
+#ifdef USE_SIM
     delete _mj_box;
+#endif
 //     delete _fsm_state_list.jump_state;
 }

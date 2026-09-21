@@ -10,6 +10,7 @@
 #include "WBC/BalanceCtrl.h"
 #include "WBC/Estimator.h"
 #include "math/data_analyze.h"
+#ifdef USE_SIM
 class ControlComponent{
 public:
     ControlComponent(mjModel *model, mjData *data);
@@ -42,5 +43,38 @@ public:
 private:
     WaveStatus _waveStatus = WaveStatus::SWING_ALL;
 };
+#else
+class ControlComponent{
+public:
+    ControlComponent();
+    ~ControlComponent();
+
+    void runWaveGen();
+    void setAllStance();
+    void setAllSwing();
+    void setStartWave();
+    void Estimator_Init();
+    WaveStatus getWaveStatus();
+    UserCmd  *  user_cmd; // 获取单一实例
+    Estimator * _estimator;
+    BalanceCtrl* _balCtrl;
+    QuadrupedRobot *robotModel;
+    data_analyze _analyze;
+
+    double dt;
+    double _period;
+    double _stancePhaseRatio;
+    Eigen::Matrix<int,4,1> * _contact;
+    Eigen::Matrix<double, 4, 1>* _phase;
+    WaveGenerator *waveGen;
+
+    LowCmd * _ioros;
+    int root_body_id =-1;
+    bool _Safety = true;
+private:
+    WaveStatus _waveStatus = WaveStatus::SWING_ALL;
+};
+
+#endif
 
 #endif

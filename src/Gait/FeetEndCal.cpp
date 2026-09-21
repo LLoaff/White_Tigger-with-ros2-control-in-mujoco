@@ -55,3 +55,30 @@ Vec3 FeetEndCal::calFootPos(int legID, Vec2 vxyGoalGlobal, float dYawGoal, float
 
     return _footPos;
 }
+
+Vec3 FeetEndCal::calFootPos_MIT(int legID, Vec2 vxyGoalGlobal, float dYawGoal, float phase){
+
+    Vec3 postion = _est->getPosition();
+    Vec3 vWorld = _est->getVelocity();
+    Vec3 vGoalWorld,vGoalBody;
+    vGoalWorld << vxyGoalGlobal(0), vxyGoalGlobal(1), 0.0;
+    vGoalBody =  _lowState->_imu.GetRotMat().transpose() * vGoalWorld;
+    Vec3 _offset(0,_robModel->getOffset()(legID),0); 
+
+    Vec3 pRobotFrame = _robModel->getHipPos().col(legID) + _offset; // 获取这个腿hip的xyz Body系
+    Vec3 pYawCorrected = rotz(-dYawGoal*_Tstance/2) * pRobotFrame;    
+
+    Vec3 Pf = postion + _lowState->_imu.GetRotMat() * (pYawCorrected+vGoalBody*(1-phase)*_Tswing);
+    
+    float p_rel_max = 0.15; // 最大修正值
+    float pfx_rel = vWorld(0)*_Tstance/2 + 0.03* (vWorld(0) - vGoalWorld(0))+(0.5*postion(2)/9.81)*vWorld(1)*dYawGoal;
+    float pfy_rel = vWorld(1)*_Tstance/2  + 0.03* (vWorld(1) - vGoalWorld(1))+(0.5*postion(2)/9.81)*-vWorld(0)*dYawGoal;
+    
+    pfx_rel = fminf(fmaxf(pfx_rel, -p_rel_max), p_rel_max);
+    pfy_rel = fminf(fmaxf(pfy_rel, -p_rel_max), p_rel_max);
+
+    Pf(0) += pfx_rel;
+    Pf(1) += pfy_rel;
+    Pf(2) = 0.002;
+    return Pf;
+}

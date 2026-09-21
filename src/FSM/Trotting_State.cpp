@@ -18,13 +18,13 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
         _KpSwing = Vec3(400, 400, 400).asDiagonal();
         _KdSwing = Vec3(10, 10, 10).asDiagonal();
     #else
-        _gaitHeight = 0.08;
+        _gaitHeight = 0.03;
         // _vxLim << -0.05, 0.05;
         // _vyLim << -0.05, 0.05;
         // _wyawLim << -0.25, 0.25;
-        _vxLim << -0.3, 0.3;
-        _vyLim << -0.3, 0.3;
-        _wyawLim << -0.3, 0.3;
+        _vxLim << -0.2, 0.2;
+        _vyLim << -0.2, 0.2;
+        _wyawLim << -0.2, 0.2;
         // _Kpp = Vec3(15, 15, 15).asDiagonal();
         // _Kdp = Vec3(1.5, 1.5, 1.5).asDiagonal();
         // _kpw = 120;
@@ -62,7 +62,7 @@ void Trotting_State::enter(){
     #ifdef USE_GO1_MODEL
         _pcd(2) = 0.32;
     #else
-        _pcd(2) = 0.29;
+        _pcd(2) = _height_;
     #endif
 
     _vCmdBody.setZero();

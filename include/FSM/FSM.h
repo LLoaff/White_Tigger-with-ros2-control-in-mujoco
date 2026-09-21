@@ -37,7 +37,9 @@ public:
 private:
     FSMState         * GetNextState(FSMStateName fsm_state_name);
     void CheckSafety();
+#ifdef USE_SIM
     Mujoco_box       *_mj_box;
+#endif
     ControlComponent * _fsm_ctrl;
     FSMStateList       _fsm_state_list;
     FSMState         * _current_state;

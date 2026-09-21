@@ -1,5 +1,5 @@
 #include "math/Mujoco_box.h"
-
+#ifdef USE_SIM
 Mujoco_box::Mujoco_box(ControlComponent* comp):_comp(comp){
     box_body_id = mj_name2id(_comp->_mjmodel , mjOBJ_BODY, "estimator_box");
     if (box_body_id == -1) {
@@ -38,3 +38,4 @@ Mujoco_box::~Mujoco_box(){
 
 
 }
+#endif

@@ -1,5 +1,5 @@
 #include "FSM/ControlComponent.h"
-
+#ifdef USE_SIM
 ControlComponent::ControlComponent(mjModel *model, mjData *data):_mjmodel(model)
 ,_mjdata(data){
     root_body_id = mj_name2id(_mjmodel, mjOBJ_BODY, "root");
@@ -23,7 +23,26 @@ ControlComponent::ControlComponent(mjModel *model, mjData *data):_mjmodel(model)
 void ControlComponent::runWaveGen(){
     waveGen->calcContactPhase(*_phase, *_contact, _waveStatus,_mjdata->time );
 }
+#else 
+ControlComponent::ControlComponent(){
 
+    _contact = new Eigen::Matrix<int,4,1>();
+    _phase = new Eigen::Matrix<double,4,1>();
+    *_contact = Eigen::Matrix<int,4,1>(0,0,0,0);
+    *_phase = Eigen::Matrix<double,4,1>(0.5,0.5,0.5,0.5);
+    robotModel = new QuadrupedRobot();     
+
+    _ioros = new LowCmd();
+    user_cmd = new UserCmd();
+    _ioros->_state->_imu.Imu_Initial();
+
+
+}
+
+void ControlComponent::runWaveGen(){
+    waveGen->calcContactPhase(*_phase, *_contact, _waveStatus,(double)getSystemTime() );
+}
+#endif
 void ControlComponent::setAllStance(){
     _waveStatus = WaveStatus::STANCE_ALL;
 }

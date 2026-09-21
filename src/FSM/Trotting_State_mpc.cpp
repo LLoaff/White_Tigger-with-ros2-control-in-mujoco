@@ -45,13 +45,21 @@ void Trotting_State_MPC::enter(){
     _yawCmd = _lowstate->_imu.getYaw();
     _Rd = rotz(_yawCmd);
 
-
+#ifdef USE_SIM
     _fstate_ctrl->waveGen->reset(
         0.5,        
         0.5,        
         Vec4(0, 0.5, 0.5, 0),
         _fstate_ctrl->_mjdata->time
     );
+#else
+    _fstate_ctrl->waveGen->reset(
+        0.5,        
+        0.5,        
+        Vec4(0, 0.5, 0.5, 0),
+        (double)getSystemTime()
+    );
+#endif
     _gait->restart();
     std::cout<<"trotting"<<std::endl;
 }

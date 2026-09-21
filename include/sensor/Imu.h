@@ -6,6 +6,8 @@
 #include "eigen3/Eigen/Dense"
 #include "math/mathtool.h"
 #include <syslog.h>
+
+#ifdef USE_SIM
 #include <mujoco/mujoco.h>
 
 class Imu
@@ -37,5 +39,34 @@ private:
     mjModel*  _model;
     mjData*   _data;
 };
+#else
+#include "CSerialPort/SerialPort.h"
 
+class Imu
+{
+public:
+    Imu();
+    ~Imu();
+    void Imu_Initial();
+    void Imu_Update();
+    Eigen::Matrix<double,3,3> GetRotMat();
+    Eigen::Matrix<double,3,1> GetAcc();
+    Eigen::Matrix<double,3,1> GetGyro();
+    Eigen::Matrix<double,4,1> GetQuat();
+    Eigen::Matrix<double,3,1> getAccGlobal();
+    Eigen::Matrix<double,3,1> getGyroGlobal();
+    double getPitch();
+    double getRoll();
+    double getYaw();
+    double getDYaw();
+
+    double quaternion[4];    // w, x, y, z
+    double gyroscope[3];
+    double accelerometer[3];
+private:
+    itas109::CSerialPort _serial;
+    std::vector<uint8_t> recv_buffer;
+
+};
+#endif
 #endif
