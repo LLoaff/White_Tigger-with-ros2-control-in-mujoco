@@ -17,7 +17,7 @@ start::start(mjModel *model, mjData *data):mjmodel(model),mjdata(data){
 start::start(){
     // pthread_create(&pthread,NULL,start::lets_start,this);
     ctrl = new ControlComponent();
-    ctrl->dt = 0.002;    
+    ctrl->dt = 0.009;    
     // ctrl->_period = 0.5;
     // ctrl->_stancePhaseRatio = 0.5;
     ctrl->_period = 0.5;

@@ -15,7 +15,7 @@
 #include <lcm/lcm-cpp.hpp>
 #include "lcm_msg_cpp/lcm_vel_cmd.hpp"
 
-#define JOYTRICK_DEVICE "/dev/input/event22"
+#define JOYTRICK_DEVICE "/dev/input/event1"
 #define JOYTRICK_Y 288
 #define JOYTRICK_B 289
 #define JOYTRICK_A 290

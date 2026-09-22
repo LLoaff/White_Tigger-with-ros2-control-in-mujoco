@@ -25,9 +25,9 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
 
     
     // 向网端发送param数据
-    _fstate_ctrl->_analyze._param._KpSwing = _KpSwing;
-    _fstate_ctrl->_analyze._param._KdSwing = _KdSwing;
-    _fstate_ctrl->_analyze.sendParamData(_fstate_ctrl->_analyze._param);
+    // _fstate_ctrl->_analyze._param._KpSwing = _KpSwing;
+    // _fstate_ctrl->_analyze._param._KdSwing = _KdSwing;
+    // _fstate_ctrl->_analyze.sendParamData(_fstate_ctrl->_analyze._param);
 }
 
 void Trotting_State_MPC::enter(){

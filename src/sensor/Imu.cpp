@@ -36,7 +36,7 @@ void Imu::Imu_Update(){
 }
 #else
 Imu::Imu(){
-    _serial.init("/dev/ttyUSB0",
+    _serial.init("/dev/ttyimu",
         921600 ,
         itas109::ParityNone,
         itas109::DataBits8,

@@ -9,7 +9,7 @@ QuadrupedRobot::QuadrupedRobot(){
     #else
         _feetPosNormalStand << _length_, _length_, -_length_, -_length_,
                           -_weigh_ - _labad_ , _weigh_ + _labad_, -_weigh_ - _labad_, _weigh_ + _labad_,
-                          -0.29, -0.29, -0.29, -0.29;
+                          -_height_, -_height_, -_height_, -_height_;
         _HipPos<< _length_, _length_, -_length_, -_length_,
                   -_weigh_, _weigh_, -_weigh_, _weigh_,
                   0.0, 0.0, 0.0, 0.0;

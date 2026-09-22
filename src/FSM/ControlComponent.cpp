@@ -40,7 +40,7 @@ ControlComponent::ControlComponent(){
 }
 
 void ControlComponent::runWaveGen(){
-    waveGen->calcContactPhase(*_phase, *_contact, _waveStatus,(double)getSystemTime() );
+    waveGen->calcContactPhase(*_phase, *_contact, _waveStatus,getTimeSecond() );
 }
 #endif
 void ControlComponent::setAllStance(){

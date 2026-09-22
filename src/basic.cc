@@ -289,10 +289,21 @@ int main(int argc, const char** argv) {
 #include <iostream>
 #include <thread>
 #include <vector>
+void setProcessScheduler()
+{
+    pid_t pid = getpid();
+    sched_param param;
+    param.sched_priority = sched_get_priority_max(SCHED_FIFO);
+    if (sched_setscheduler(pid, SCHED_FIFO, &param) == -1){
+        std::cout << "[ERROR] Function setProcessScheduler failed." << std::endl;
+    }
+}
 start *_starter;
 bool isrunning = true;
 int main(int argc, const char** argv) {
     _starter = new start();
+    setProcessScheduler();
+
     while(isrunning){
         _starter->run();
     }

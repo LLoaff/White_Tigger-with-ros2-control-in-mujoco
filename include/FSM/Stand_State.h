@@ -21,11 +21,10 @@ private:
     Eigen::Matrix<double,12,1>    _target_speed;
     Eigen::Matrix<double,12,1>    _target_angle;
     Eigen::Matrix<double,12,1>    _start_angle;
-    // BalanceCtrl*                 _balance;
     Eigen::Matrix<int,4,1>*      _conact;
     Eigen::Matrix<double,3,3>     _KP;
     Eigen::Matrix<double,3,3>     _KD;
-    float                        _duration = 700;
+    float                        _duration = 300;
     double                        _percent  = 0;
 };
 #endif

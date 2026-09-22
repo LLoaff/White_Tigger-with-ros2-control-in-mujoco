@@ -196,7 +196,7 @@ void LowCmd::idInit(){
 
 }
 #else
-LowCmd::LowCmd():serial(std::make_shared<SerialPort>("/dev/ttyACM0", B921600)),_motor_cmd(serial){
+LowCmd::LowCmd():serial(std::make_shared<SerialPort>("/dev/ttycan", B921600)),_motor_cmd(serial){
 
     _state = new LowState();
     for(int i = 0; i < 12; ++i){
@@ -268,6 +268,15 @@ void LowCmd::Update(){
         tmp_cmd[i].tau = _cmd[i].tau;
         tmp_cmd[i].kp = _cmd[i].kp;
         tmp_cmd[i].kd = _cmd[i].kd;
+        float out_tau = _cmd[i].tau + _cmd[i].kp*(tmp_cmd[i].q-tmp_cmd[i].q)+_cmd[i].kd*(tmp_cmd[i].dq-tmp_cmd[i].dq);
+        if (std::isnan(out_tau) || std::isinf(out_tau) || fabs(out_tau) > 9) {
+            printf("[ERROR] 电机%d 控制量非法! out_tau=%.6f\n", i, out_tau);
+            printf("  输入: q_des=%.6f, q_cur=%.6f, dq_des=%.6f, dq_cur=%.6f\n", 
+                tmp_cmd[i].q, tmp_cmd[i].q, tmp_cmd[i].dq, tmp_cmd[i].dq);
+            printf("  参数: kp=%.6f, kd=%.6f, tau_ff=%.6f\n", _cmd[i].kp, _cmd[i].kd, _cmd[i].tau);
+            _motor_cmd.control_mit(this->_state->_motor_data[i], 0, 0, 0, 0, 0);
+            return; // 避免发送非法控制量
+        }
         switch (i){
             case 0:
                 tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.fr_hip_joint)*REDUCTION;
@@ -572,14 +581,14 @@ void LowCmd::setStableGain(int legID){
         _cmd[legID*3+2].kp = 7;
         _cmd[legID*3+2].kd = 2.0;
     #else
-        _cmd[legID*3+0].kp = 7;
-        _cmd[legID*3+0].kd = 2.0;
+        _cmd[legID*3+0].kp = 5;
+        _cmd[legID*3+0].kd = 1.5;
 
-        _cmd[legID*3+1].kp = 7;
-        _cmd[legID*3+1].kd = 2.0;
+        _cmd[legID*3+1].kp = 5;
+        _cmd[legID*3+1].kd = 1.5;
 
-        _cmd[legID*3+2].kp = 7;
-        _cmd[legID*3+2].kd = 2.0;
+        _cmd[legID*3+2].kp = 5;
+        _cmd[legID*3+2].kd = 1.5;
     #endif
 }
 void LowCmd::setStableGain(){
@@ -599,13 +608,13 @@ void LowCmd::setSwingGain(int legID){
         _cmd[legID*3+2].kp = 5.5;
         _cmd[legID*3+2].kd = 1;
     #else
-        _cmd[legID*3+0].kp = 5.5;
+        _cmd[legID*3+0].kp = 4.5;
         _cmd[legID*3+0].kd = 1;
 
-        _cmd[legID*3+1].kp = 5.5;
+        _cmd[legID*3+1].kp = 4.5;
         _cmd[legID*3+1].kd = 1;
 
-        _cmd[legID*3+2].kp = 5.5;
+        _cmd[legID*3+2].kp = 4.5;
         _cmd[legID*3+2].kd = 1;
     #endif
 }

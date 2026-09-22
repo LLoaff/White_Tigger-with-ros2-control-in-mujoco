@@ -9,8 +9,9 @@
 #include "low/LowCmd.h"
 #include "WBC/BalanceCtrl.h"
 #include "WBC/Estimator.h"
-#include "math/data_analyze.h"
 #ifdef USE_SIM
+#include "math/data_analyze.h"
+
 class ControlComponent{
 public:
     ControlComponent(mjModel *model, mjData *data);
@@ -59,7 +60,7 @@ public:
     Estimator * _estimator;
     BalanceCtrl* _balCtrl;
     QuadrupedRobot *robotModel;
-    data_analyze _analyze;
+    // data_analyze _analyze;
 
     double dt;
     double _period;

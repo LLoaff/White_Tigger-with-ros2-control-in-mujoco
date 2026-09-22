@@ -23,11 +23,11 @@ State_BalanceTest::State_BalanceTest(ControlComponent *ctrlComp)
         _kpw = 200;
         _Kdw = Vec3(30, 30, 30).asDiagonal();
     #else
-        _Kpp = Vec3(150, 150, 150).asDiagonal();
-        _Kdp = Vec3(25, 25, 25).asDiagonal();
+        _Kpp = Vec3(45, 45, 45).asDiagonal();
+        _Kdp = Vec3(5, 5, 5).asDiagonal();
 
-        _kpw = 200;
-        _Kdw = Vec3(30, 30, 30).asDiagonal();
+        _kpw = 420;
+        _Kdw = Vec3(35, 35, 35).asDiagonal();
     #endif
     
 }
@@ -43,7 +43,7 @@ void State_BalanceTest::enter(){
 
 void State_BalanceTest::run(){
 
-    _userValue(0) = _fstate_ctrl->user_cmd->_lx ;// 实际是质心偏移位移
+    _userValue(0) = -_fstate_ctrl->user_cmd->_lx ;// 实际是质心偏移位移
     _userValue(1) = -_fstate_ctrl->user_cmd->_ly;
     _userValue(2) = 0;
     _userValue(3) = _fstate_ctrl->user_cmd->_rx;
