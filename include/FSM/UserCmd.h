@@ -14,8 +14,11 @@
 
 #include <lcm/lcm-cpp.hpp>
 #include "lcm_msg_cpp/lcm_vel_cmd.hpp"
-
+#ifdef USE_SIM
+#define JOYTRICK_DEVICE "/dev/input/event22"
+#else
 #define JOYTRICK_DEVICE "/dev/input/event1"
+#endif
 #define JOYTRICK_Y 288
 #define JOYTRICK_B 289
 #define JOYTRICK_A 290

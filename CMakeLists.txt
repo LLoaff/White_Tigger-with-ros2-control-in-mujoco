@@ -11,8 +11,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 
 # 用户参数：
-set(USE_SIM OFF)
-set(USE_ARM64 OFF)
+set(USE_SIM ON)
 set(USE_GO1_MODEL OFF)
 set(MUJOCO_PATH "/home/loaf/mujoco")
 set(CSERIALPORT_INCLUDE_DIR "/usr/local/include/CSerialPort")
