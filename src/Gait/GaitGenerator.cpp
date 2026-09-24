@@ -24,13 +24,13 @@ void GaitGenerator::restart(){
 void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio){
     if(_firstRun){
         _startP = _est->getFeetPos();
-        _firstRun = false;
+        _firstRun = false; 
     }
 
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 1){
 
-            if((*_phase)(i) < 0.5){
+            if((*_phase)(i) <= 0.5){ // 这里的等号必加
                 _startP.col(i) = _est->getFootPos(i);
             }
             feetPos.col(i) = _startP.col(i);
@@ -46,7 +46,7 @@ void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stan
             feetVel.col(i) = getFootVel(i);
         }
     }
-    // std::cout<<"_endP:\n"<< _endP<<std::endl;
+    std::cout<<"_endP:\n"<< _endP<<std::endl;
     // std::cout<<"_dYawGoal:\n"<< _dYawGoal<<std::endl;
     // std::cout<<"_endP0x:\n"<< _endP(0,0) - _est->getPosition()(0)<<std::endl;
     // std::cout<<"_endP0y:\n"<< _endP(1,0) - _est->getPosition()(1)<<std::endl;
@@ -71,6 +71,7 @@ Vec3 GaitGenerator::getFootPos(int i){
     footPos(0) = cycloidXYPosition(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
     footPos(1) = cycloidXYPosition(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
     footPos(2) =  cycloidZPosition(_startP.col(i)(2), _gaitHeight, (*_phase)(i));
+    // footPos(2) =(1.0 - (*_phase)(i)) * _startP(2, i)+ (*_phase)(i) * _endP(2, i)+ _gaitHeight * (1.0 - cos(2.0 * M_PI * (*_phase)(i))) / 2.0;
     return footPos;
 }
 
@@ -79,6 +80,7 @@ Vec3 GaitGenerator::getFootVel(int i){
     footVel(0) = cycloidXYVelocity(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
     footVel(1) = cycloidXYVelocity(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
     footVel(2) =  cycloidZVelocity(_gaitHeight, (*_phase)(i));
+    // footVel(2) =(_endP(2, i) - _startP(2, i)) / _waveG->getTswing()+ _gaitHeight * M_PI* sin(2.0 * M_PI * (*_phase)(i))/ _waveG->getTswing();
     return footVel;
 }
 

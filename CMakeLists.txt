@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(WT_MPC)
 
-
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -17,9 +16,6 @@ set(MUJOCO_PATH "/home/loaf/mujoco")
 set(CSERIALPORT_INCLUDE_DIR "/usr/local/include/CSerialPort")
 set(CSERIALPORT_LIBRARY "/usr/local/lib/libcserialport.so")
 
-if(USE_REAL_ROBOT)
-    add_definitions(-DUSE_REAL_ROBOT)
-endif()
 
 if(USE_GO1_MODEL)
     add_definitions(-DUSE_GO1_MODEL)

@@ -18,17 +18,17 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
         _KpSwing = Vec3(400, 400, 400).asDiagonal();
         _KdSwing = Vec3(10, 10, 10).asDiagonal();
     #else
-        _gaitHeight = 0.03;
+        _gaitHeight = 0.04;
         // _vxLim << -0.05, 0.05;
         // _vyLim << -0.05, 0.05;
         // _wyawLim << -0.25, 0.25;
         _vxLim << -0.3, 0.3;
         _vyLim << -0.2, 0.2;
-        _wyawLim << -0.2, 0.2;
+        _wyawLim << -0.3, 0.3;
 
-        _Kpp = Vec3(20, 20, 20).asDiagonal();
+        _Kpp = Vec3(35, 35, 35).asDiagonal();
         _Kdp = Vec3(5, 5, 5).asDiagonal();
-        _kpw = 320;
+        _kpw = 780;
         _Kdw = Vec3(35, 35, 35).asDiagonal();
 
         _KpSwing = Vec3(220, 220, 220).asDiagonal();
@@ -157,36 +157,36 @@ void Trotting_State::run(){
 
 bool Trotting_State::checkStepOrNot(){
 
-    static bool isStepping = false;
+    // static bool isStepping = false;
 
-    if(isStepping){
-        if( (fabs(_vCmdBody(0)) < 0.01) &&
-            (fabs(_vCmdBody(1)) < 0.01) &&
-            (fabs(_dYawCmd) < 0.01) ){
-            isStepping = false;
-        }
-    }else{
-        if( (fabs(_vCmdBody(0)) > 0.03) ||
-            (fabs(_vCmdBody(1)) > 0.03) ||
-            (fabs(_dYawCmd) > 0.05) ){
-            isStepping = true;
-        }
-    }
-    return isStepping;
-
-    // if( (fabs(_vCmdBody(0)) > 0.03) ||
-    //     (fabs(_vCmdBody(1)) > 0.03) ||
-    //     (fabs(_posError(0)) > 0.08) ||
-    //     (fabs(_posError(1)) > 0.08) ||
-    //     (fabs(_velError(0)) > 0.08) ||
-    //     (fabs(_velError(1)) > 0.08) ||
-    //     (fabs(_dYawCmd) > 0.2) ){
-    //     std::cout<<"_posError\n"<<_posError<<std::endl;
-    //     std::cout<<"_velError\n"<<_velError<<std::endl;
-    //     return true;
+    // if(isStepping){
+    //     if( (fabs(_vCmdBody(0)) < 0.01) &&
+    //         (fabs(_vCmdBody(1)) < 0.01) &&
+    //         (fabs(_dYawCmd) < 0.01) ){
+    //         isStepping = false;
+    //     }
     // }else{
-    //     return false;
+    //     if( (fabs(_vCmdBody(0)) > 0.03) ||
+    //         (fabs(_vCmdBody(1)) > 0.03) ||
+    //         (fabs(_dYawCmd) > 0.05) ){
+    //         isStepping = true;
+    //     }
     // }
+    // return isStepping;
+
+    if( (fabs(_vCmdBody(0)) > 0.03) ||
+        (fabs(_vCmdBody(1)) > 0.03) ||
+        (fabs(_posError(0)) > 0.08) ||
+        (fabs(_posError(1)) > 0.08) ||
+        (fabs(_velError(0)) > 0.08) ||
+        (fabs(_velError(1)) > 0.08) ||
+        (fabs(_dYawCmd) > 0.1) ){
+        // std::cout<<"_posError\n"<<_posError<<std::endl;
+        // std::cout<<"_velError\n"<<_velError<<std::endl;
+        return true;
+    }else{
+        return false;
+    }
 }
 
 void Trotting_State::getUserCmd(){

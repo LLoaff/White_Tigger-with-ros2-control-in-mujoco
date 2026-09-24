@@ -66,7 +66,7 @@ Vec3 FeetEndCal::calFootPos_MIT(int legID, Vec2 vxyGoalGlobal, float dYawGoal, f
     Vec3 _offset(0,_robModel->getOffset()(legID),0); 
 
     Vec3 pRobotFrame = _robModel->getHipPos().col(legID) + _offset; // 获取这个腿hip的xyz Body系
-    Vec3 pYawCorrected = rotz(-dYawGoal*_Tstance/2) * pRobotFrame;    
+    Vec3 pYawCorrected = rotz(dYawGoal*_Tstance/2) * pRobotFrame;    
 
     Vec3 Pf = postion + _lowState->_imu.GetRotMat() * (pYawCorrected+vGoalBody*(1-phase)*_Tswing);
     
@@ -79,6 +79,6 @@ Vec3 FeetEndCal::calFootPos_MIT(int legID, Vec2 vxyGoalGlobal, float dYawGoal, f
 
     Pf(0) += pfx_rel;
     Pf(1) += pfy_rel;
-    Pf(2) = 0.002;
+    Pf(2) = 0.000;
     return Pf;
 }

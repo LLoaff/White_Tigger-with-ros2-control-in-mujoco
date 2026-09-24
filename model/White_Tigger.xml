@@ -5,7 +5,7 @@
 
   <default>
     <joint limited="true" damping="0.01" armature="0.01" frictionloss="0.01" />
-    <geom condim="4" contype="1" conaffinity="15" friction="0.9 0.2 0.2" solref="0.001 2" />
+    <geom condim="4" contype="1" conaffinity="15" friction="0.9 0.005 0.0001" solref="0.001 2" />
     <motor ctrllimited="true" />
     <equality solref="0.001 2" />
     <default class="visualgeom">
@@ -42,12 +42,12 @@
   <worldbody>
     <light directional="true" diffuse="0.6 0.6 0.7" specular="0.2 0.2 0.3" pos="0 0 5.0" dir="0 0 -1" castshadow="false" />
     <light directional="true" diffuse="0.8 0.8 0.9" specular="0.3 0.3 0.4" pos="0 0 4" dir="0 0 -1" />
-    <geom name="ground" type="plane" pos="0 0 0" size="100 100 0.001" quat="1 0 0 0" material="matplane" condim="4" conaffinity="15" friction="0.8 0.8 0.5" solref="0.0005 2" solimp="0.95 0.99 0.001"/>
+    <geom name="ground" type="plane" pos="0 0 0" size="100 100 0.001" quat="1 0 0 0" material="matplane" condim="3" conaffinity="15" friction="0.8 0.005 0.0001" solref="0.0005 2" solimp="0.95 0.99 0.001" priority="1"/>
     <camera name="fixed" pos="0 -3.0 0.8296554229594946" xyaxes="1 0 0 0 0 1" />
     <camera name="track" mode="trackcom" pos="0 -3.0 0.8296554229594946" xyaxes="1 0 0 0 0 1" />
     <body name="root" pos="0 0 0.32965542295949457" quat="1 0 0 0">
       <freejoint name="root" />
-      <inertial pos="0 0 0" mass="3.5" diaginertia="0.0129 0.0428 0.0488" />
+      <inertial pos="0 0 0" mass="3.9" diaginertia="0.0129 0.0428 0.0488" />
       <site name="imu_sensor" size="0.01" pos="0 0 0" />
       <geom type="mesh" rgba="1 0.360784 0.968627 1" mesh="base_link" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
       <geom type="mesh" rgba="1 0.360784 0.968627 1" mesh="base_link" density="0"/>
