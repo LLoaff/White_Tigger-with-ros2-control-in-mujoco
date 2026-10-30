@@ -1,4 +1,5 @@
 #include"sensor/Imu.h"
+
 #ifdef USE_SIM
 Imu::Imu(mjModel *model, mjData *data):_model(model),_data(data){
     _imu_acc_id = mj_name2id(_model,mjOBJ_SENSOR,"imu_acc");
@@ -32,6 +33,13 @@ void Imu::Imu_Update(){
     quaternion[2] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 2];
     quaternion[3] = _data->sensordata[_model->sensor_adr[_imu_quat_id] + 3];
 
+    counts_acc++;
+    counts_gyr++;
+    counts_acc%=122;
+    counts_gyr%=122;
+    // std::cout<<"acc: \n"<< GetAcc() <<std::endl;
+    // std::cout<<"gyro: \n"<< GetGyro() <<std::endl;
+    // std::cout<<"ruler: \n"<< getRoll()<<" "<< getPitch() <<" "<< getYaw() <<std::endl;
     // std::cout<<"quat: \n"<< GetQuat() <<std::endl;
 }
 #else
@@ -49,7 +57,7 @@ Imu::Imu(){
             _serial.close();
         }
 
-        recv_buffer.resize(33);
+        recv_buffer.resize(44);// 有个不认识的 0x53
 }
 void Imu::Imu_Update(){
     int FrameState = 0;
@@ -59,9 +67,9 @@ void Imu::Imu_Update(){
     uint8_t GYROData[11];
     uint8_t QUATData[11];
     int len = _serial.getReadBufferUsedLen();
-    if(len >=33){
-        _serial.readData(recv_buffer.data(),33);
-        for(uint8_t i=0;i<33;i++){
+    if(len >=44){
+        _serial.readData(recv_buffer.data(),44);
+        for(uint8_t i=0;i<44;i++){
             if(FrameState ==0){
                 if(recv_buffer.data()[i] == 0x55 && Bytenum==0){
                     CheckSum = recv_buffer.data()[i];
@@ -80,11 +88,17 @@ void Imu::Imu_Update(){
                     Bytenum = 2;
                     continue;
                 }
+                
                 else if(recv_buffer.data()[i] == 0x59 && Bytenum==1){
                     CheckSum += recv_buffer.data()[i];
                     FrameState = 3;
                     Bytenum = 2;
                     continue;
+                }
+                else if(recv_buffer.data()[i] == 0x53 && Bytenum == 1){
+                    CheckSum += recv_buffer.data()[i];
+                    FrameState = 4;
+                    Bytenum = 2;
                 }
                
             }
@@ -97,13 +111,19 @@ void Imu::Imu_Update(){
                 }
                 else{
                     if(recv_buffer.data()[i] == (CheckSum & 0xff)){
-                        accelerometer[0] = (float)((int16_t)((uint16_t)ACCData[1] << 8 | ACCData[0])) / 32768.0 * 16.0*9.81;
-                        accelerometer[1] = (float)((int16_t)((uint16_t)ACCData[3] << 8 | ACCData[2])) / 32768.0 * 16.0*9.81;
-                        accelerometer[2] = (float)((int16_t)((uint16_t)ACCData[5] << 8 | ACCData[4])) / 32768.0 * 16.0*9.81;
+                        accelerometer[0] = (float)((int16_t)((uint16_t)ACCData[1] << 8 | ACCData[0])) / 32768.0 * 16.0*9.81 - bias_accx;
+                        accelerometer[1] = (float)((int16_t)((uint16_t)ACCData[3] << 8 | ACCData[2])) / 32768.0 * 16.0*9.81 - bias_accy;
+                        accelerometer[2] = (float)((int16_t)((uint16_t)ACCData[5] << 8 | ACCData[4])) / 32768.0 * 16.0*9.81 - bias_accz;
+                        counts_acc++;
+                        counts_acc%=122;
+                        // std::cout<<"accelerometerx: "<< accelerometer[0] <<std::endl;
+                        // std::cout<<"accelerometery: "<< accelerometer[1] <<std::endl;
+                        // std::cout<<"accelerometerz: "<< accelerometer[2] <<std::endl;
                     }
                     CheckSum = 0;
                     Bytenum = 0;
                     FrameState = 0;
+                    
                 }
             }
             // gyro 
@@ -115,13 +135,32 @@ void Imu::Imu_Update(){
                 }
                 else{
                     if(recv_buffer.data()[i] == (CheckSum & 0xff)){
-                        gyroscope[0] = (float)(((int16_t)((uint16_t)GYROData[1] << 8 | GYROData[0]))) / 32768.0 * 2000.0/180*M_PI;
-                        gyroscope[1] = (float)(((int16_t)((uint16_t)GYROData[3] << 8 | GYROData[2]))) / 32768.0 * 2000.0/180*M_PI;
-                        gyroscope[2] = (float)(((int16_t)((uint16_t)GYROData[5] << 8 | GYROData[4]))) / 32768.0 * 2000.0/180*M_PI;
+                        gyroscope[0] = (float)(((int16_t)((uint16_t)GYROData[1] << 8 | GYROData[0]))) / 32768.0 * 2000.0/180.0*M_PI;
+                        gyroscope[1] = (float)(((int16_t)((uint16_t)GYROData[3] << 8 | GYROData[2]))) / 32768.0 * 2000.0/180.0*M_PI;
+                        gyroscope[2] = (float)(((int16_t)((uint16_t)GYROData[5] << 8 | GYROData[4]))) / 32768.0 * 2000.0/180.0*M_PI;
+                        // std::cout << "GYROData: "
+                        // << std::hex << std::uppercase << std::setfill('0')
+                        // << std::setw(2) << static_cast<int>(GYROData[0]) << " "
+                        // << std::setw(2) << static_cast<int>(GYROData[1]) << "  "
+                        // << std::setw(2) << static_cast<int>(GYROData[2]) << " "
+                        // << std::setw(2) << static_cast<int>(GYROData[3]) << "  "
+                        // << std::setw(2) << static_cast<int>(GYROData[4]) << " "
+                        // << std::setw(2) << static_cast<int>(GYROData[5])
+                        // << std::dec << std::setfill(' ')  // 切回十进制，避免影响后续输出
+                        // << std::endl;
+
+                        // std::cout<<"gyroscopex: "<< gyroscope[0] <<std::endl;
+                        // std::cout<<"gyroscopey: "<< gyroscope[1] <<std::endl;
+                        // std::cout<<"gyroscopez: "<< gyroscope[2] <<std::endl;
+                        counts_gyr++;
+                        counts_gyr%=122;
                     }
+
                     CheckSum = 0;
                     Bytenum = 0;
                     FrameState = 0;
+                    
+
                 }
             }
             // quat 
@@ -143,6 +182,17 @@ void Imu::Imu_Update(){
                     FrameState = 0;
                 }
             } 
+            else if(FrameState == 4){
+                if(Bytenum < 10){
+                    CheckSum += recv_buffer.data()[i];
+                    Bytenum += 1;
+                }
+                else{
+                    CheckSum = 0;
+                    Bytenum = 0;
+                    FrameState = 0;
+                }
+            }
         }
        
     }   
@@ -152,6 +202,35 @@ void Imu::Imu_Update(){
     // std::cout<<"ruler: \n"<< getRoll()<<" "<< getPitch() <<" "<< getYaw() <<std::endl;
 }
 #endif
+void Imu::Imu_GetBias(){
+    int counts = 120;
+    float acc_get[3],gyr_get[3];
+    while(counts_acc<=counts && counts_gyr<=counts){
+        usleep(20 *1000);
+        Imu_Update();
+        acc_get[0]+=accelerometer[0];
+        acc_get[1]+=accelerometer[1];
+        acc_get[2]+=accelerometer[2];
+
+        gyr_get[0]+=gyroscope[0];
+        gyr_get[1]+=gyroscope[1];
+        gyr_get[2]+=gyroscope[2];
+        std::cout<<"cunts: "<< counts_acc <<std::endl;
+        
+
+    }
+    bias_accx = acc_get[0] / counts;
+    bias_accy = acc_get[1] / counts;
+    bias_accz = acc_get[2] / counts -9.81;
+
+    bias_gyrx = gyr_get[0] / counts;
+    bias_gyry = gyr_get[1] / counts;
+    bias_gyrz = gyr_get[2] / counts;
+
+    std::cout<<"acc_bias: "<< bias_accx <<" "<< bias_accy <<" "<< bias_accz <<" "<<"\n"
+             <<"gyr_bias: "<< bias_gyrx <<" "<< bias_gyry <<" "<< bias_gyrz <<" "<<std::endl;
+}
+
 void Imu::Imu_Initial(){
     this->quaternion[0] = 1;
     this->quaternion[1] = 0;
@@ -159,61 +238,61 @@ void Imu::Imu_Initial(){
     this->quaternion[3] = 0;
 }
 
-Eigen::Matrix<double,3,3> Imu::GetRotMat(){
-    Eigen::Matrix<double, 4, 1> quat;
+Eigen::Matrix<float,3,3> Imu::GetRotMat(){
+    Eigen::Matrix<float, 4, 1> quat;
     quat << quaternion[0],quaternion[1],quaternion[2],quaternion[3];
     return Quat2RotMat(quat);
 }
 
-Eigen::Matrix<double,3,1> Imu::GetAcc(){
-    Eigen::Matrix<double,3,1> a;
+Eigen::Matrix<float,3,1> Imu::GetAcc(){
+    Eigen::Matrix<float,3,1> a;
     a<< accelerometer[0],accelerometer[1],accelerometer[2];
     return a;
 }
 
-Eigen::Matrix<double,3,1> Imu::GetGyro(){
-    Eigen::Matrix<double,3,1> gryo;
+Eigen::Matrix<float,3,1> Imu::GetGyro(){
+    Eigen::Matrix<float,3,1> gryo;
     gryo<< gyroscope[0],gyroscope[1],gyroscope[2];
     return gryo;
 }
 
-Eigen::Matrix<double,4,1> Imu::GetQuat(){
-    Eigen::Matrix<double,4,1> q;
+Eigen::Matrix<float,4,1> Imu::GetQuat(){
+    Eigen::Matrix<float,4,1> q;
     q<< quaternion[0],quaternion[1],quaternion[2],quaternion[3];
     return q;
 }
-Eigen::Matrix<double,3,1> Imu::getAccGlobal(){
+Eigen::Matrix<float,3,1> Imu::getAccGlobal(){
         return GetRotMat() * GetAcc();
 }
 
-Eigen::Matrix<double,3,1> Imu::getGyroGlobal(){
+Eigen::Matrix<float,3,1> Imu::getGyroGlobal(){
     return GetRotMat() * GetGyro();
 }
 
-double Imu::getYaw(){
+float Imu::getYaw(){
     return rotMatToRPY(GetRotMat())(2);
 }
 
-double Imu::getDYaw(){
+float Imu::getDYaw(){
     return getGyroGlobal()(2);
 }
 
-double Imu::getRoll(){
-    double roll=0;
-    double w = quaternion[0];
-    double x = quaternion[1];
-    double y = quaternion[2];
-    double z = quaternion[3];
+float Imu::getRoll(){
+    float roll=0;
+    float w = quaternion[0];
+    float x = quaternion[1];
+    float y = quaternion[2];
+    float z = quaternion[3];
 
     roll = atan2(2*(w*x + y*z),1-2*(x*x+y*y));
     return roll;
 }
-double Imu::getPitch(){
-    double pitch=0;
-    double w = quaternion[0];
-    double x = quaternion[1];
-    double y = quaternion[2];
-    double z = quaternion[3];
+float Imu::getPitch(){
+    float pitch=0;
+    float w = quaternion[0];
+    float x = quaternion[1];
+    float y = quaternion[2];
+    float z = quaternion[3];
 
     pitch = asin(2*(w*y-z*x)) ;
     return pitch;

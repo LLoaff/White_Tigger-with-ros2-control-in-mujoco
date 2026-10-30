@@ -16,13 +16,13 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
     #else
         _gaitHeight = 0.04;
         _vxLim << -0.4, 0.4;
-        _vyLim << -0.4, 0.4;
-        _wyawLim << -0.5, 0.5;
+        _vyLim << -0.2, 0.2;
+        _wyawLim << -0.7, 0.7;
 
         _KpSwing = Vec3(400, 400, 400).asDiagonal();
         _KdSwing = Vec3(7, 7, 7).asDiagonal();
     #endif
-
+    
     
     // 向网端发送param数据
     // _fstate_ctrl->_analyze._param._KpSwing = _KpSwing;
@@ -35,7 +35,7 @@ void Trotting_State_MPC::enter(){
     #ifdef USE_GO1_MODEL
         _pcd(2) = 0.32;
     #else
-        _pcd(2) = 0.2;
+        _pcd(2) = _height_;
     #endif
 
     _vCmdBody.setZero();
@@ -57,10 +57,11 @@ void Trotting_State_MPC::enter(){
         0.5,        
         0.5,        
         Vec4(0, 0.5, 0.5, 0),
-        (double)getSystemTime()
+        getTimeSecond()
     );
 #endif
     _gait->restart();
+    _mpc->reset();
     std::cout<<"trotting"<<std::endl;
 }
 
@@ -75,15 +76,25 @@ void Trotting_State_MPC::run(){
     _yaw = _lowstate->_imu.getYaw();
     _dYaw = _lowstate->_imu.getDYaw();
    /* 遥控 */
-    _userValue(0) = _fstate_ctrl->user_cmd->_vx ;
-    _userValue(1) = _fstate_ctrl->user_cmd->_vy;
+    // _userValue(0) = _fstate_ctrl->user_cmd->_vx ;
+    // _userValue(1) = _fstate_ctrl->user_cmd->_vy;
+    // _userValue(2) = 0;
+    // _userValue(3) = _fstate_ctrl->user_cmd->_wz;
+    _userValue(0) = _fstate_ctrl->user_cmd->_ly ;
+    _userValue(1) = _fstate_ctrl->user_cmd->_lx;
     _userValue(2) = 0;
-    _userValue(3) = _fstate_ctrl->user_cmd->_wz;
+    _userValue(3) = -_fstate_ctrl->user_cmd->_rx;
 
     getUserCmd(); // 计算 期望速度
     calcCmd();    // 计算位移、转动角度，获取全局速度
+    const bool isStepping = checkStepOrNot();
 
-    _gait->setGait(_vCmdBody.segment(0,2), _wCmdGlobal(2), _gaitHeight);
+    if(isStepping){
+        _fstate_ctrl->setStartWave();
+    }else{
+        _fstate_ctrl->setAllStance();
+    }
+    _gait->setGait(_vCmdGlobal.segment(0,2), _wCmdGlobal(2), _gaitHeight);
     _gait->run(_posFeetGlobalGoal, _velFeetGlobalGoal, _fstate_ctrl->_period, _fstate_ctrl->_stancePhaseRatio); // 生成 body 坐标系下的足端目标
     // std::cout<<"_posFeetGlobalGoal:\n"<< _posFeetGlobalGoal <<std::endl; // Z为正数 0.04
     // std::cout<<"_velFeetGlobalGoal:\n"<< _velFeetGlobalGoal <<std::endl;
@@ -94,27 +105,22 @@ void Trotting_State_MPC::run(){
     calcQQd(); // 计算机身坐标系下 足端坐标、速度
 
     // std::cout<<"_dq:\n"<< _qdGoal<< "\n"<<std::endl;
-    const bool isStepping = checkStepOrNot();
-
-    if(isStepping){
-        _fstate_ctrl->setStartWave();
-    }else{
-        _fstate_ctrl->setAllStance();
-    }
+    
 
     // std::cout<<"_posFeet2BGoal:\n"<< _posFeet2BGoal <<std::endl;
 
     _fstate_ctrl->_ioros->SetTau(_tau);
     _fstate_ctrl->_ioros->SetQ(vec34ToVec12 (_qGoal));
     _fstate_ctrl->_ioros->SetDq(vec34ToVec12 (_qdGoal));
+    // std::cout<<"_contact:\n"<< (*_contact) <<std::endl;
 
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){
-            // _fstate_ctrl->_ioros->setSwingGain(i);
-            _fstate_ctrl->_ioros->setZeroGain(i);
+            _fstate_ctrl->_ioros->setSwingGain(i);
+            // _fstate_ctrl->_ioros->setZeroGain(i);
         }else{
-            // _fstate_ctrl->_ioros->setStableGain(i);
-            _fstate_ctrl->_ioros->setZeroGain(i);
+            _fstate_ctrl->_ioros->setStableGain(i);
+            // _fstate_ctrl->_ioros->setZeroGain(i);
         }
     }
 }
@@ -200,7 +206,7 @@ void Trotting_State_MPC::calcTau(){
     _q = vec34ToVec12(_fstate_ctrl->_ioros->getQ());
     _tau = getTau(_q, _forceFeetBody);
     // std::cout<<"_pcd\n"<<_pcd<<std::endl;
-    std::cout<<"_forceFeetBody\n"<<_forceFeetBody<<std::endl;
+    // std::cout<<"_forceFeetBody\n"<<_forceFeetBody<<std::endl;
 }
 
 void Trotting_State_MPC::calcQQd(){

@@ -1,7 +1,7 @@
 #include "math/Reversal_solution.h"
 #include <algorithm>
 #include <cmath>
-inline double clamp(double val, double min_val, double max_val) {
+inline float clamp(float val, float min_val, float max_val) {
     if (val < min_val) return min_val;
     if (val > max_val) return max_val;
     return val;
@@ -33,7 +33,7 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      */
     bool limited = false;
 
-    const double side = isRight ? -1.0 : 1.0;
+    const float side = isRight ? -1.0 : 1.0;
 
     if (!pHip.allFinite()) {
         pHip(0) = 0.0;
@@ -51,7 +51,7 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      * 这可以防止落脚点因为速度、转向或估计误差，
      * 跑到身体前方或后方太远。
      */
-    constexpr double xMax = 0.08;
+    constexpr float xMax = 0.08;
 
     pHip(0) = clamp(pHip(0), -xMax, xMax);
 
@@ -66,12 +66,12 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      *
      * py² + pz² >= labad²
      */
-    constexpr double radialMargin = 0.005;
+    constexpr float radialMargin = 0.005;
 
-    const double radialMinimum =
+    const float radialMinimum =
         _labad_ + radialMargin;
 
-    double radialYZ =
+    float radialYZ =
         std::sqrt(
             pHip(1) * pHip(1) +
             pHip(2) * pHip(2)
@@ -79,7 +79,7 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
 
     if (radialYZ < radialMinimum) {
         if (radialYZ > 1e-9) {
-            const double scale =
+            const float scale =
                 radialMinimum / radialYZ;
 
             pHip(1) *= scale;
@@ -96,18 +96,18 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
     /*
      * 根据你原来 q1_ik() 的公式计算侧摆关节角。
      */
-    const double signedL1 =
+    const float signedL1 =
         isRight ? -_labad_ : _labad_;
 
-    const double yzInside =
+    const float yzInside =
         pHip(1) * pHip(1) +
         pHip(2) * pHip(2) -
         _labad_ * _labad_;
 
-    const double L =
-        std::sqrt(std::max(0.0, yzInside));
+    const float L =
+        std::sqrt(std::max( (float)0, yzInside));
 
-    double q1 = std::atan2(
+    float q1 = std::atan2(
         pHip(2) * signedL1 + pHip(1) * L,
         pHip(1) * signedL1 - pHip(2) * L
     );
@@ -117,9 +117,9 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      * 这里先使用更保守的 ±0.45 rad，
      * 防止足端跑到机身内部或横向伸得太远。
      */
-    constexpr double q1SafeLimit = 0.45;
+    constexpr float q1SafeLimit = 0.45;
 
-    const double limitedQ1 =
+    const float limitedQ1 =
         clamp(q1, -q1SafeLimit, q1SafeLimit);
 
     if (std::fabs(limitedQ1 - q1) > 1e-9) {
@@ -134,7 +134,7 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      *
      * 这和你 q2_ik() 里的 a1 定义完全一致。
      */
-    double a1 =
+    float a1 =
         pHip(1) * std::sin(q1) -
         pHip(2) * std::cos(q1);
 
@@ -145,7 +145,7 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      * 摆腿最高点大约是 0.15m；
      * 所以 0.10m 是比较保守的最低值。
      */
-    constexpr double downwardMinimum = 0.10;
+    constexpr float downwardMinimum = 0.10;
 
     if (a1 < downwardMinimum) {
         a1 = downwardMinimum;
@@ -157,24 +157,24 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      *
      * b = sqrt(x² + a1²)
      */
-    double b =
+    float b =
         std::sqrt(
             pHip(0) * pHip(0) +
             a1 * a1
         );
 
-    constexpr double foldMargin = 0.015;
-    constexpr double extensionMargin = 0.015;
+    constexpr float foldMargin = 0.015;
+    constexpr float extensionMargin = 0.015;
 
-    const double bMinimum =
+    const float bMinimum =
         std::fabs(_lhip_ - _lknee_) +
         foldMargin;
 
-    const double bMaximum =
+    const float bMaximum =
         _lhip_ + _lknee_ -
         extensionMargin;
 
-    const double limitedB =
+    const float limitedB =
         clamp(b, bMinimum, bMaximum);
 
     /*
@@ -186,7 +186,7 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
      */
     if (std::fabs(limitedB - b) > 1e-9) {
         if (b > 1e-9) {
-            const double scale =
+            const float scale =
                 limitedB / b;
 
             pHip(0) *= scale;
@@ -223,15 +223,15 @@ bool limitFootTargetBody(int legId, Vec3& pBody){
 
     return limited;
 }
-double q1_ik(double py, double pz, double l1){
-    double q1;
-    double L = sqrt(pow(py,2)+pow(pz,2)-pow(l1,2));
+float q1_ik(float py, float pz, float l1){
+    float q1;
+    float L = sqrt(pow(py,2)+pow(pz,2)-pow(l1,2));
     q1 = atan2(pz*l1+py*L, py*l1-pz*L);
     return q1;
 }
 
-double q3_ik(double b3z, double b4z, double b){
-    double q3, temp;
+float q3_ik(float b3z, float b4z, float b){
+    float q3, temp;
     temp = (pow(b3z, 2) + pow(b4z, 2) - pow(b, 2))/(2*fabs(b3z*b4z));
     if(temp>1) temp = 1;
     if(temp<-1) temp = -1;
@@ -240,8 +240,8 @@ double q3_ik(double b3z, double b4z, double b){
     return q3;
 }
 
-double q2_ik(double q1, double q3, double px, double py, double pz, double b3z, double b4z){
-    double q2, a1, a2, m1, m2;
+float q2_ik(float q1, float q3, float px, float py, float pz, float b3z, float b4z){
+    float q2, a1, a2, m1, m2;
     
     a1 = py*sin(q1) - pz*cos(q1);
     a2 = px;
@@ -251,16 +251,16 @@ double q2_ik(double q1, double q3, double px, double py, double pz, double b3z, 
     return q2;
 }
 
-Eigen::Matrix<double,3,1> Reversal_Solution_Update(uint8_t group , double x , double y , double z){
-    Eigen::Matrix<double,3,1> pEe2H;
+Eigen::Matrix<float,3,1> Reversal_Solution_Update(uint8_t group , float x , float y , float z){
+    Eigen::Matrix<float,3,1> pEe2H;
     pEe2H(0) = x;
     pEe2H(1) = y;
     pEe2H(2) = z;
 
-    double q1, q2, q3;
-    Eigen::Matrix<double,3,1> qResult;
-    double px, py, pz;
-    double b2y, b3z, b4z, a, b, c;
+    float q1, q2, q3;
+    Eigen::Matrix<float,3,1> qResult;
+    float px, py, pz;
+    float b2y, b3z, b4z, a, b, c;
 
     px = pEe2H(0);
     py = pEe2H(1);
@@ -285,10 +285,10 @@ Eigen::Matrix<double,3,1> Reversal_Solution_Update(uint8_t group , double x , do
     return qResult;
 }
 
-Eigen::Matrix<double,3,1> Reversal_Update_B(uint8_t group , double x , double y , double z){
-    Eigen::Matrix<double,3,1> pEe2B;
-    double length = _length_;
-    double weigh = _weigh_;
+Eigen::Matrix<float,3,1> Reversal_Update_B(uint8_t group , float x , float y , float z){
+    Eigen::Matrix<float,3,1> pEe2B;
+    float length = _length_;
+    float weigh = _weigh_;
 
     if(group == 0){
         weigh = -weigh;
@@ -305,10 +305,10 @@ Eigen::Matrix<double,3,1> Reversal_Update_B(uint8_t group , double x , double y 
     pEe2B(1) = y - weigh;
     pEe2B(2) = z;
 
-    double q1, q2, q3;
-    Eigen::Matrix<double,3,1> qResult;
-    double px, py, pz;
-    double b2y, b3z, b4z, a, b, c;
+    float q1, q2, q3;
+    Eigen::Matrix<float,3,1> qResult;
+    float px, py, pz;
+    float b2y, b3z, b4z, a, b, c;
 
     px = pEe2B(0);
     py = pEe2B(1);
@@ -335,7 +335,7 @@ Eigen::Matrix<double,3,1> Reversal_Update_B(uint8_t group , double x , double y 
 
 Vec12 Reversal_GetQ(const Vec34 &vecP, FrameType frame){
     Vec12 q;
-    Eigen::Matrix<double,3,4> vecp = vecP;
+    Eigen::Matrix<float,3,4> vecp = vecP;
     if(frame == FrameType::BODY){
         for(int i(0); i < 4; ++i){
             q.segment(3*i, 3) = Reversal_Update_B(i,vecp(0,i),vecp(1,i),vecp(2,i));
@@ -357,14 +357,14 @@ Vec3 calcQd(int legid,Vec3 pEe, Vec3 vEe, FrameType frame){
          q = Reversal_Update_B(legid,pEe(0),pEe(1),pEe(2));
     }
     const Mat3 J = calcJaco(legid, q);
-    constexpr double damping = 0.02;
+    constexpr float damping = 0.02;
     const Mat3 regularized =
         J * J.transpose()
         + damping * damping * Mat3::Identity();
     Vec3 qd =
         J.transpose()
         * regularized.ldlt().solve(vEe);
-    constexpr double qdLimit = 20.0;
+    constexpr float qdLimit = 20.0;
     for(int i = 0; i < 3; ++i){
         if(!std::isfinite(qd(i))){
             qd(i) = 0.0;

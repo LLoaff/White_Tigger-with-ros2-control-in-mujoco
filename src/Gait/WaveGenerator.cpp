@@ -1,7 +1,7 @@
 #include "Gait/WaveGenerator.h"
 
                                   // 0.5              0.5                 0 ,0.5 ,0.5,0 
-WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias,double current_time)
+WaveGenerator::WaveGenerator(float period, float stancePhaseRatio, Vec4 bias,double current_time)
 : _period(period), _stRatio(stancePhaseRatio), _bias(bias){
     if ((_stRatio >= 1) || (_stRatio <= 0))
     {
@@ -27,7 +27,7 @@ WaveGenerator::WaveGenerator(double period, double stancePhaseRatio, Vec4 bias,d
     _statusPast = WaveStatus::SWING_ALL;
 }
 
-void WaveGenerator::reset(double period, double stancePhaseRatio, Vec4 bias,double current_time) {
+void WaveGenerator::reset(float period, float stancePhaseRatio, Vec4 bias,double current_time) {
     if ((stancePhaseRatio >= 1) || (stancePhaseRatio <= 0)) {
         std::cout << "[ERROR] The stancePhaseRatio of WaveGenerator should between (0, 1)" << std::endl;
         return; 
@@ -109,7 +109,7 @@ float WaveGenerator::getT(){
 
 void WaveGenerator::calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,double current_time){
     if (status == WaveStatus::WAVE_ALL){
-        // _passT = (double)(getSystemTime() - _startT) * 1e-6; 
+        // _passT = (float)(getSystemTime() - _startT) * 1e-6; 
         _passT = current_time - _startT; 
 
         for (int i(0); i < 4; ++i){
@@ -192,7 +192,7 @@ int * WaveGenerator::getMpcTable(WaveStatus status){
             // 索引腿
             for(int leg_index = 0;leg_index<4;leg_index++){
                 int iter = (_iteration  + iteration_idex) % _nIterations;
-                Vec4 progress = (iter - _offsets).cast<double>();
+                Vec4 progress = (iter - _offsets).cast<float>();
                 // 如果有负数，就加一个周期
                 if(progress[leg_index] < 0) progress[leg_index] +=_nIterations;
 
@@ -203,6 +203,10 @@ int * WaveGenerator::getMpcTable(WaveStatus status){
                     _mpc_table[4*iteration_idex+leg_index] = 0; // 摆动状态
                 }
             }
+        }
+        for(int leg = 0; leg < 4; ++leg)
+        {
+            _mpc_table[leg] = _contact(leg);
         }
     }
     

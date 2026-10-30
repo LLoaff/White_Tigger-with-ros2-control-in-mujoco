@@ -5,7 +5,7 @@
 Passive_State::Passive_State(ControlComponent * passive_ctrl_comp):FSMState(passive_ctrl_comp,FSMStateName::PASSIVE,"Passive"){}
 
 void Passive_State::enter(){
-    Eigen::Matrix<double,3,1> d;
+    Eigen::Matrix<float,3,1> d;
     d<< 0.8 , 0.8 , 0.8;
     for(int i=0;i<4;i++)
     {
@@ -22,8 +22,10 @@ void Passive_State::enter(){
 void Passive_State::run(){
 //    std::cout<<"q0: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[0]<<" q1: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[1]<<
 //    " q2: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[2]<<" q3: "<<_fstate_ctrl->_ioros->_state._imu.quaternion[3]<<std::endl;     
-//    std::cout<<"q: \n"<< _fstate_ctrl->_ioros->getQ12() <<std::endl;     
-
+//    std::cout<<"q: \n"<< _fstate_ctrl->_ioros->getQ12() <<std::endl;   
+//    std::cout<<"roll: \n"<< _fstate_ctrl->_ioros->_state->_imu.getRoll() <<std::endl;     
+//    std::cout<<"pitch: \n"<< _fstate_ctrl->_ioros->_state->_imu.getPitch() <<std::endl;     
+//    std::cout<<"yaw: \n"<< _fstate_ctrl->_ioros->_state->_imu.getYaw() <<std::endl;     
 }
 void Passive_State::exit(){
 }

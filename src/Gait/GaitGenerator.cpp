@@ -18,10 +18,10 @@ void GaitGenerator::restart(){
     _firstRun = true;
     _vxyGoal.setZero();
     // _phasePast.setZero();
-    // _contactPast.setOnes();
+    _contactPast.setOnes();
 }
 
-void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stancePhaseRatio){
+void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,float period,float stancePhaseRatio){
     if(_firstRun){
         _startP = _est->getFeetPos();
         _firstRun = false; 
@@ -46,7 +46,7 @@ void GaitGenerator::run(Vec34 &feetPos, Vec34 &feetVel,double period,double stan
             feetVel.col(i) = getFootVel(i);
         }
     }
-    std::cout<<"_endP:\n"<< _endP<<std::endl;
+    // std::cout<<"_endP:\n"<< _endP<<std::endl;
     // std::cout<<"_dYawGoal:\n"<< _dYawGoal<<std::endl;
     // std::cout<<"_endP0x:\n"<< _endP(0,0) - _est->getPosition()(0)<<std::endl;
     // std::cout<<"_endP0y:\n"<< _endP(1,0) - _est->getPosition()(1)<<std::endl;
@@ -68,19 +68,26 @@ Vec34 GaitGenerator::getEndpos(){
 
 Vec3 GaitGenerator::getFootPos(int i){
     Vec3 footPos;
-    footPos(0) = cycloidXYPosition(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
-    footPos(1) = cycloidXYPosition(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
-    footPos(2) =  cycloidZPosition(_startP.col(i)(2), _gaitHeight, (*_phase)(i));
-    // footPos(2) =(1.0 - (*_phase)(i)) * _startP(2, i)+ (*_phase)(i) * _endP(2, i)+ _gaitHeight * (1.0 - cos(2.0 * M_PI * (*_phase)(i))) / 2.0;
+    const float phase = (*_phase)(i);
+
+    const float phasePI = 2.0f * M_PI * phase;
+
+    footPos(0) = cycloidXYPosition(_startP.col(i)(0), _endP.col(i)(0), phase);
+    footPos(1) = cycloidXYPosition(_startP.col(i)(1), _endP.col(i)(1), phase);
+    // footPos(2) =  cycloidZPosition(_startP.col(i)(2), _gaitHeight, phase);
+    footPos(2) =(1.0 - phase) * _startP(2, i)+ phase * _endP(2, i)+ _gaitHeight * (1.0 - std::cos(phasePI)) / 2.0;
     return footPos;
 }
 
 Vec3 GaitGenerator::getFootVel(int i){
     Vec3 footVel;
-    footVel(0) = cycloidXYVelocity(_startP.col(i)(0), _endP.col(i)(0), (*_phase)(i));
-    footVel(1) = cycloidXYVelocity(_startP.col(i)(1), _endP.col(i)(1), (*_phase)(i));
-    footVel(2) =  cycloidZVelocity(_gaitHeight, (*_phase)(i));
-    // footVel(2) =(_endP(2, i) - _startP(2, i)) / _waveG->getTswing()+ _gaitHeight * M_PI* sin(2.0 * M_PI * (*_phase)(i))/ _waveG->getTswing();
+    const float phase = (*_phase)(i);
+    const float phasePI = 2.0f * M_PI * phase;
+    const float Tsw = _waveG->getTswing();
+    footVel(0) = cycloidXYVelocity(_startP.col(i)(0), _endP.col(i)(0), phase);
+    footVel(1) = cycloidXYVelocity(_startP.col(i)(1), _endP.col(i)(1), phase);
+    // footVel(2) =  cycloidZVelocity(_gaitHeight, phase);
+    footVel(2) =(_endP(2, i) - _startP(2, i)) / Tsw+ _gaitHeight * M_PI* sin(phasePI)/ Tsw;
     return footVel;
 }
 

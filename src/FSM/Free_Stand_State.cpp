@@ -14,7 +14,7 @@ Free_Stand_State::Free_Stand_State(ControlComponent * free_stand_ctrl_comp):FSMS
 
 void Free_Stand_State::enter(){
 
-    Eigen::Matrix<double,3,1> dq,kp,b_kp,kd,tau;
+    Eigen::Matrix<float,3,1> dq,kp,b_kp,kd,tau;
     kp<< 2.0 , 2.0 , 3.5;
     b_kp<<2.0,2.0,4.2;
     kd<< 0.05 , 0.05 , 0.08;
@@ -47,7 +47,7 @@ void Free_Stand_State::run(){
     float ry = _fstate_ctrl->user_cmd->_ry;
     float rx = _fstate_ctrl->user_cmd->_rx;
     
-    Eigen::Matrix<double,3,4> q_s = Cal_PosinB(invNormalize(lx,_rowMin,_rowMax),invNormalize(ly,_pitchMin,_pitchMax),
+    Eigen::Matrix<float,3,4> q_s = Cal_PosinB(invNormalize(lx,_rowMin,_rowMax),invNormalize(ly,_pitchMin,_pitchMax),
                                             invNormalize(rx,_yawMin,_yawMax),invNormalize(ry,_heightMin,_heightMax));
     
     CalQ(q_s);                               
@@ -71,7 +71,7 @@ FSMStateName Free_Stand_State::CheckChange(){
             return FSMStateName::SIT_DOWN;
         return FSMStateName::FREE_STAND;
 }
-Eigen::Matrix<double,3,4> Free_Stand_State::Cal_PosinB(double roll,double pitch,double yaw,double height){
+Eigen::Matrix<float,3,4> Free_Stand_State::Cal_PosinB(float roll,float pitch,float yaw,float height){
    // printf("roll:%.3f pitch:%.3f yaw:%.3f h:%3f\n",roll,pitch,yaw,height);
     Eigen::Matrix<float,3,1> p1b = -_pb1_pos_b.cast<float>();
     p1b(2)+=height;
@@ -89,11 +89,11 @@ Eigen::Matrix<double,3,4> Free_Stand_State::Cal_PosinB(double roll,double pitch,
     }
     // printf("x:%.3f y:%.3f z:%.3f \n",roll,pitch,yaw);
 
-    return vecpb.cast<double>();
+    return vecpb.cast<float>();
 }
 
-void Free_Stand_State::CalQ(Eigen::Matrix<double,3,4> pos){
-    Eigen::Matrix<double,3,4> cmd_q;
+void Free_Stand_State::CalQ(Eigen::Matrix<float,3,4> pos){
+    Eigen::Matrix<float,3,4> cmd_q;
 
     for(int i(0);i<4;++i){
         float length = _length_;

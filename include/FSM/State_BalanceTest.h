@@ -22,7 +22,7 @@ private:
 
     RotMat _Rd, _RdInit;
     Vec3 _pcd, _pcdInit;
-    double _kpw;
+    float _kpw;
     Mat3 _Kpp, _Kdp, _Kdw;
     Vec3 _ddPcd, _dWbd;
 

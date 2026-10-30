@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="generated_robot">
+  <compiler angle="radian" eulerseq="xyz" autolimits="true" balanceinertia="true" boundinertia="1e-8" />
+  <asset>
+    <mesh name="part_001_solid_001" file="meshes/part_001_solid_001.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_006_solid_006" file="meshes/part_006_solid_006.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_007_solid_007" file="meshes/part_007_solid_007.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_012_solid_012" file="meshes/part_012_solid_012.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_010_solid_010" file="meshes/part_010_solid_010.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_008_solid_008" file="meshes/part_008_solid_008.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_009_solid_009" file="meshes/part_009_solid_009.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_011_solid_011" file="meshes/part_011_solid_011.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_015_solid_015" file="meshes/part_015_solid_015.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_002_solid_002" file="meshes/part_002_solid_002.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_003_solid_003" file="meshes/part_003_solid_003.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_014_solid_014" file="meshes/part_014_solid_014.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_016_solid_016" file="meshes/part_016_solid_016.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_004_solid_004" file="meshes/part_004_solid_004.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_005_solid_005" file="meshes/part_005_solid_005.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_013_solid_013" file="meshes/part_013_solid_013.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_017_solid_017" file="meshes/part_017_solid_017.stl" scale="0.001 0.001 0.001" />
+    <texture name="texplane" type="2d" builtin="checker" rgb1="0.1 0.2 0.3" rgb2="0.2 0.3 0.4" width="300" height="300" />
+    <material name="matplane" reflectance="0.2" texture="texplane" texrepeat="5 5" texuniform="true" />
+    <material name="bodymat" rgba="0.85 0.35 0.75 1" />
+    <material name="legmat" rgba="0.55 0.75 1.0 1" />
+    <material name="jointmat" rgba="0.1 0.8 0.2 1" />
+    <material name="footmat" rgba="0.05 0.05 0.05 1" />
+  </asset>
+  <option gravity="0 0 -9.81"/>
+  <worldbody>
+    <light directional="true" diffuse="0.6 0.6 0.7" specular="0.2 0.2 0.3" pos="0 0 5.0" dir="0 0 -1" castshadow="false" />
+    <light directional="true" diffuse="0.8 0.8 0.9" specular="0.3 0.3 0.4" pos="0 0 4" dir="0 0 -1" />
+    <geom name="ground" type="plane" pos="0 0 0" size="100 100 0.001" material="matplane" friction="0.8 0.005 0.0001" solref="0.0005 2" solimp="0.95 0.99 0.001" condim="3" priority="1"/>
+    <camera name="fixed" pos="0 -3.0 0.83" xyaxes="1 0 0 0 0 1" />
+    <camera name="track" mode="trackcom" pos="0 -3.0 0.83" xyaxes="1 0 0 0 0 1" />
+    <body name="robot_zup" pos="0 0 0.4" euler="1.5707963 0 0">
+      <freejoint name="robot_zup" />  
+      <body name="root" pos="0 0 0">
+        <site name="imu_sensor" size="0.01" pos="0 0 0" euler="-1.5707963 0 0"/>
+        <inertial pos="0 0 0" mass="3.9" quat="1 0 0 0" diaginertia="0.021292524 0.028421616 0.013511741" />
+        <geom name="base_link_visual_1" type="mesh" mesh="part_001_solid_001" pos="0 0 0" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+        <geom name="base_link_primitive_1" type="box" pos="0 -2.1675923e-19 0.00097619678" euler="-1.5707963 0 -1.5707963" size="0.113 0.09 0.05" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+        <body name="fr_hip_Link" pos="-0.04 -0.01 0.118">
+          <joint name="fr_hip_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+          <inertial pos="-0.023050145 0 0.057426144" mass="0.62" quat="0.97815746 3.4601073e-09 0.20786532 7.0156366e-10" diaginertia="0.0004287175 0.0009104621 0.00075853389" />
+          <geom name="fr_hip_link_visual_1" type="mesh" mesh="part_006_solid_006" pos="0.04 0.01 -0.118" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="fr_hip_link_visual_2" type="mesh" mesh="part_007_solid_007" pos="0.04 0.01 -0.118" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="fr_hip_link_primitive_1" type="cylinder" pos="-0.026003414 0 0.0485" euler="0 -1.5707963 0" size="0.043 0.051" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+          <body name="fr_thigh_Link" pos="-0.081 0 0.066" euler="1.5707963 1.5707963 0">
+            <joint name="fr_thigh_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+            <inertial pos="-0.065685495 -0.005256966 -0.0085" mass="0.12" quat="0.99991559 0 0 0.012993164" diaginertia="2.1448382e-05 0.00050298646 0.00051865469" />
+            <geom name="fr_thigh_link_visual_1" type="mesh" mesh="part_012_solid_012" pos="0.01 -0.184 0.121" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+            <geom name="fr_thigh_link_primitive_1" type="box" pos="-0.093437138 -0.0089447786 -0.0085" euler="-3.1415927 0 -0.018770729" size="0.1225 0.0195 0.0085" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            <body name="fr_calf_Link" pos="-0.209 0 -0.017">
+              <joint name="fr_calf_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-2.9321531 0" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+              <inertial pos="-0.10641066 0.00083241689 0.0085" mass="0.08" quat="0.99999401 0 0 0.0034604537" diaginertia="4.8014479e-06 0.0003961948 0.00039938291" />
+              <geom name="fr_calf_link_visual_1" type="mesh" mesh="part_010_solid_010" pos="0.219 -0.184 0.138" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+              <geom name="fr_calf_link_primitive_1" type="box" pos="-0.1 0.00065 0.0085" euler="-3.1415927 0 -0.0098865715" size="0.085 0.0175 0.0055" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+              <geom name="fr_calf_link_primitive_2" type="sphere" pos="-0.19 9e-05 0.009" euler="-3.1415927 0 -0.0098865715" size="0.017" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            </body>
+          </body>
+        </body>
+        <body name="fl_hip_Link" pos="0.04 -0.01 0.118">
+          <joint name="fl_hip_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+          <inertial pos="0.023050145 0 0.057426144" mass="0.62" quat="0.97815746 3.4601044e-09 -0.20786532 -7.0156348e-10" diaginertia="0.0004287175 0.0009104621 0.00075853389" />
+          <geom name="fl_hip_link_visual_1" type="mesh" mesh="part_008_solid_008" pos="-0.04 0.01 -0.118" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="fl_hip_link_visual_2" type="mesh" mesh="part_009_solid_009" pos="-0.04 0.01 -0.118" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="fl_hip_link_primitive_1" type="cylinder" pos="0.028 0 0.0485" euler="-3.1415927 1.5707963 0" size="0.043 0.051" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+          <body name="fl_thigh_Link" pos="0.081 0 0.066" euler="1.5707963 1.5707963 0">
+            <joint name="fl_thigh_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+            <inertial pos="-0.065685495 -0.005256966 0.0085" mass="0.12" quat="0.99991559 0 0 0.012993164" diaginertia="2.1448382e-05 0.00050298646 0.00051865469" />
+            <geom name="fl_thigh_link_visual_1" type="mesh" mesh="part_011_solid_011" pos="0.01 -0.184 -0.121" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+            <geom name="fl_thigh_link_primitive_1" type="box" pos="-0.093572081 -0.0017566225 0.0085" euler="-3.1415927 0 -0.018770729" size="0.1225 0.0195 0.0085" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            <body name="fl_calf_Link" pos="-0.209 0 0">
+              <joint name="fl_calf_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-2.9670597 0" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+              <inertial pos="-0.10641066 0.00083241689 0.0085" mass="0.08" quat="0.99999401 0 0 0.0034604537" diaginertia="4.8014479e-06 0.0003961948 0.00039938291" />
+              <geom name="fl_calf_link_visual_1" type="mesh" mesh="part_015_solid_015" pos="0.219 -0.184 -0.121" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+              <geom name="fl_calf_link_primitive_1" type="box" pos="-0.1 0.00065 0.0085" euler="-3.1415927 0 -0.0098865715" size="0.085 0.0175 0.0055" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+              <geom name="fl_calf_link_primitive_2" type="sphere" pos="-0.19 9e-05 0.009" euler="-3.1415927 0 -0.0098865715" size="0.017" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            </body>
+          </body>
+        </body>
+        <body name="bl_hip_Link" pos="0.04 -0.01 -0.1355">
+          <joint name="bl_hip_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+          <inertial pos="0.023050145 0 -0.039926144" mass="0.62" quat="0.97815746 -3.4601073e-09 0.20786532 -7.0156366e-10" diaginertia="0.0004287175 0.0009104621 0.00075853389" />
+          <geom name="bl_hip_link_visual_1" type="mesh" mesh="part_002_solid_002" pos="-0.04 0.01 0.1355" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="bl_hip_link_visual_2" type="mesh" mesh="part_003_solid_003" pos="-0.04 0.01 0.1355" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="bl_hip_link_primitive_1" type="cylinder" pos="0.028 0 -0.031" euler="0 1.5707963 0" size="0.043 0.051" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+          <body name="bl_thigh_Link" pos="0.081 0 -0.0485" euler="1.5707963 1.5707963 0">
+            <joint name="bl_thigh_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+            <inertial pos="-0.065685495 -0.005256966 0.0085" mass="0.12" quat="0.99991559 0 0 0.012993164" diaginertia="2.1448382e-05 0.00050298646 0.00051865469" />
+            <geom name="bl_thigh_link_visual_1" type="mesh" mesh="part_014_solid_014" pos="0.01 0.184 -0.121" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+            <geom name="bl_thigh_link_primitive_1" type="box" pos="-0.093572081 -0.0017566225 0.0085" euler="-3.1415927 0 -0.018770729" size="0.1225 0.0195 0.0085" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            <body name="bl_calf_Link" pos="-0.209 0 0.017">
+              <joint name="bl_calf_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-2.9670597 0" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+              <inertial pos="-0.10641066 0.00083241689 -0.0085" mass="0.08" quat="0.99999401 0 0 0.0034604537" diaginertia="4.8014479e-06 0.0003961948 0.00039938291" />
+              <geom name="bl_calf_link_visual_1" type="mesh" mesh="part_016_solid_016" pos="0.219 0.184 -0.138" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+              <geom name="bl_calf_link_primitive_1" type="box" pos="-0.1 0.00065 -0.0085" euler="-3.1415927 0 -0.0098865715" size="0.085 0.0175 0.0055" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+              <geom name="bl_calf_link_primitive_2" type="sphere" pos="-0.19 9e-05 -0.009" euler="-3.1415927 0 -0.0098865715" size="0.017" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            </body>
+          </body>
+        </body>
+        <body name="br_hip_Link" pos="-0.04 -0.01 -0.1355">
+          <joint name="br_hip_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+          <inertial pos="-0.023050145 0 -0.039926144" mass="0.62" quat="0.97815746 -3.4601044e-09 -0.20786532 7.0156348e-10" diaginertia="0.0004287175 0.0009104621 0.00075853389" />
+          <geom name="br_hip_link_visual_1" type="mesh" mesh="part_004_solid_004" pos="0.04 0.01 0.1355" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="br_hip_link_visual_2" type="mesh" mesh="part_005_solid_005" pos="0.04 0.01 0.1355" euler="0 0 0" group="2" contype="0" conaffinity="0" />
+          <geom name="br_hip_link_primitive_1" type="cylinder" pos="-0.028 0 -0.031" euler="-3.1415927 -1.5707963 0" size="0.043 0.051" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+          <body name="br_thigh_Link" pos="-0.081 0 -0.0485" euler="1.5707963 1.5707963 0">
+            <joint name="br_thigh_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.57 1.57" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+            <inertial pos="-0.065685495 -0.005256966 -0.0085" mass="0.12" quat="0.99991559 0 0 0.012993164" diaginertia="2.1448382e-05 0.00050298646 0.00051865469" />
+            <geom name="br_thigh_link_visual_1" type="mesh" mesh="part_013_solid_013" pos="0.01 0.184 0.121" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+            <geom name="br_thigh_link_primitive_1" type="box" pos="-0.093572081 -0.0017566225 -0.0085" euler="-3.1415927 0 -0.018770729" size="0.1225 0.0195 0.0085" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            <body name="br_calf_Link" pos="-0.209 0 -0.017">
+              <joint name="br_calf_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-2.9670597 0" limited="true" actuatorfrcrange="-10 10" actuatorfrclimited="true" damping="1"/>
+              <inertial pos="-0.10641066 0.00083241689 0.0085" mass="0.08" quat="0.99999401 0 0 0.0034604537" diaginertia="4.8014479e-06 0.0003961948 0.00039938291" />
+              <geom name="br_calf_link_visual_1" type="mesh" mesh="part_017_solid_017" pos="0.219 0.184 0.138" euler="-1.5707963 0 -1.5707963" group="2" contype="0" conaffinity="0" />
+              <geom name="br_calf_link_primitive_1" type="box" pos="-0.1 0.00065 0.0085" euler="-3.1415927 0 -0.0098865715" size="0.085 0.0175 0.0055" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+              <geom name="br_calf_link_primitive_2" type="sphere" pos="-0.19 9e-05 0.009" euler="-3.1415927 0 -0.0098865715" size="0.017" group="3" rgba="0.1 0.8 0.4 0.35" contype="1" conaffinity="1" />
+            </body>
+          </body>
+        </body>
+      </body>
+      
+    </body>
+
+    <body name="estimator_box"
+        mocap="true"
+        pos="0 0 0.4"
+        quat="1 0 0 0">
+        <geom name="estimator_box_geom"
+              type="box"
+              size="0.12 0.075 0.045"
+              rgba="0.1 1.0 0.1 0.35"
+              contype="0"
+              conaffinity="0"
+              density="0"
+              group="2"/>
+      </body>
+  </worldbody>
+  <keyframe>
+    <key name="init_pose"
+         qpos="0 0 0.2 0.7071 0.7071 0 0 -0.288 1.31 -2.288 0.25 1.31 -2.288 -0.25 1.31 -2.288 0.25 1.31 -2.288" />
+  </keyframe>
+  <contact>
+    <exclude body1="root" body2="fr_hip_Link" />
+    <exclude body1="root" body2="fl_hip_Link" />
+    <exclude body1="root" body2="br_hip_Link" />
+    <exclude body1="root" body2="bl_hip_Link" />
+    <exclude body1="fr_hip_Link" body2="fr_thigh_Link" />
+    <exclude body1="fl_hip_Link" body2="fl_thigh_Link" />
+    <exclude body1="br_hip_Link" body2="br_thigh_Link" />
+    <exclude body1="bl_hip_Link" body2="bl_thigh_Link" />
+    <exclude body1="fr_thigh_Link" body2="fr_calf_Link" />
+    <exclude body1="fl_thigh_Link" body2="fl_calf_Link" />
+    <exclude body1="br_thigh_Link" body2="br_calf_Link" />
+    <exclude body1="bl_thigh_Link" body2="bl_calf_Link" />
+    <exclude body1="fr_hip_Link" body2="fr_calf_Link" />
+    <exclude body1="fl_hip_Link" body2="fl_calf_Link" />
+    <exclude body1="br_hip_Link" body2="br_calf_Link" />
+    <exclude body1="bl_hip_Link" body2="bl_calf_Link" />
+  </contact>
+  <actuator>
+    <motor name="fr_hip_joint" joint="fr_hip_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="fr_thigh_joint" joint="fr_thigh_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="fr_calf_joint" joint="fr_calf_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="fl_hip_joint" joint="fl_hip_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="fl_thigh_joint" joint="fl_thigh_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="fl_calf_joint" joint="fl_calf_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="br_hip_joint" joint="br_hip_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="br_thigh_joint" joint="br_thigh_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="br_calf_joint" joint="br_calf_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="bl_hip_joint" joint="bl_hip_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="bl_thigh_joint" joint="bl_thigh_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+    <motor name="bl_calf_joint" joint="bl_calf_joint" ctrllimited="true" ctrlrange="-80 80" gear="1" />
+  </actuator>
+
+  <sensor>
+    <actuatorpos name="fr_hip_joint_p" actuator="fr_hip_joint" />
+    <actuatorvel name="fr_hip_joint_v" actuator="fr_hip_joint" />
+    <actuatorfrc name="fr_hip_joint_f" actuator="fr_hip_joint" noise="0.00" />
+    <actuatorpos name="fr_thigh_joint_p" actuator="fr_thigh_joint" />
+    <actuatorvel name="fr_thigh_joint_v" actuator="fr_thigh_joint" />
+    <actuatorfrc name="fr_thigh_joint_f" actuator="fr_thigh_joint" noise="0.00" />
+    <actuatorpos name="fr_calf_joint_p" actuator="fr_calf_joint" />
+    <actuatorvel name="fr_calf_joint_v" actuator="fr_calf_joint" />
+    <actuatorfrc name="fr_calf_joint_f" actuator="fr_calf_joint" noise="0.00" />
+    <actuatorpos name="fl_hip_joint_p" actuator="fl_hip_joint" />
+    <actuatorvel name="fl_hip_joint_v" actuator="fl_hip_joint" />
+    <actuatorfrc name="fl_hip_joint_f" actuator="fl_hip_joint" noise="0.00" />
+    <actuatorpos name="fl_thigh_joint_p" actuator="fl_thigh_joint" />
+    <actuatorvel name="fl_thigh_joint_v" actuator="fl_thigh_joint" />
+    <actuatorfrc name="fl_thigh_joint_f" actuator="fl_thigh_joint" noise="0.00" />
+    <actuatorpos name="fl_calf_joint_p" actuator="fl_calf_joint" />
+    <actuatorvel name="fl_calf_joint_v" actuator="fl_calf_joint" />
+    <actuatorfrc name="fl_calf_joint_f" actuator="fl_calf_joint" noise="0.00" />
+    <actuatorpos name="br_hip_joint_p" actuator="br_hip_joint" />
+    <actuatorvel name="br_hip_joint_v" actuator="br_hip_joint" />
+    <actuatorfrc name="br_hip_joint_f" actuator="br_hip_joint" noise="0.00" />
+    <actuatorpos name="br_thigh_joint_p" actuator="br_thigh_joint" />
+    <actuatorvel name="br_thigh_joint_v" actuator="br_thigh_joint" />
+    <actuatorfrc name="br_thigh_joint_f" actuator="br_thigh_joint" noise="0.00" />
+    <actuatorpos name="br_calf_joint_p" actuator="br_calf_joint" />
+    <actuatorvel name="br_calf_joint_v" actuator="br_calf_joint" />
+    <actuatorfrc name="br_calf_joint_f" actuator="br_calf_joint" noise="0.00" />
+    <actuatorpos name="bl_hip_joint_p" actuator="bl_hip_joint" />
+    <actuatorvel name="bl_hip_joint_v" actuator="bl_hip_joint" />
+    <actuatorfrc name="bl_hip_joint_f" actuator="bl_hip_joint" noise="0.00" />
+    <actuatorpos name="bl_thigh_joint_p" actuator="bl_thigh_joint" />
+    <actuatorvel name="bl_thigh_joint_v" actuator="bl_thigh_joint" />
+    <actuatorfrc name="bl_thigh_joint_f" actuator="bl_thigh_joint" noise="0.00" />
+    <actuatorpos name="bl_calf_joint_p" actuator="bl_calf_joint" />
+    <actuatorvel name="bl_calf_joint_v" actuator="bl_calf_joint" />
+    <actuatorfrc name="bl_calf_joint_f" actuator="bl_calf_joint" noise="0.00" />
+    <framequat name="imu_quat" objtype="site" noise="0.00" objname="imu_sensor" />
+    <gyro name="imu_gyro" site="imu_sensor" noise="0.00" cutoff="34.9" />
+    <accelerometer name="imu_acc" site="imu_sensor" noise="0.00" />
+  </sensor>
+</mujoco>

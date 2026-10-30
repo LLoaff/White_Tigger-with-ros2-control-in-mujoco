@@ -18,7 +18,7 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
         _KpSwing = Vec3(400, 400, 400).asDiagonal();
         _KdSwing = Vec3(10, 10, 10).asDiagonal();
     #else
-        _gaitHeight = 0.04;
+        _gaitHeight = 0.03;
         // _vxLim << -0.05, 0.05;
         // _vyLim << -0.05, 0.05;
         // _wyawLim << -0.25, 0.25;
@@ -26,13 +26,24 @@ _est(ctrlComp->_estimator),_phase(ctrlComp->_phase),_contact(ctrlComp->_contact)
         _vyLim << -0.2, 0.2;
         _wyawLim << -0.3, 0.3;
 
-        _Kpp = Vec3(35, 35, 35).asDiagonal();
-        _Kdp = Vec3(5, 5, 5).asDiagonal();
-        _kpw = 780;
-        _Kdw = Vec3(35, 35, 35).asDiagonal();
+        // _Kpp = Vec3(35, 65, 65).asDiagonal();
+        // _Kdp = Vec3(15, 15, 15).asDiagonal();
 
-        _KpSwing = Vec3(220, 220, 220).asDiagonal();
-        _KdSwing = Vec3(4,4,4).asDiagonal();
+        // _kpw = 220;
+        // _Kdw = Vec3(25, 25, 25).asDiagonal();
+
+        // _KpSwing = Vec3(150, 150, 150).asDiagonal();
+        // _KdSwing = Vec3(5,5,5).asDiagonal();
+
+        /*real robot*/
+        _Kpp = Vec3(25, 45, 45).asDiagonal();
+        _Kdp = Vec3(15, 15, 15).asDiagonal();
+
+        _kpw = 110;
+        _Kdw = Vec3(25, 25, 25).asDiagonal();
+
+        _KpSwing = Vec3(80, 80, 80).asDiagonal();
+        _KdSwing = Vec3(6, 6, 6).asDiagonal();
 
     #endif
     
@@ -112,10 +123,12 @@ void Trotting_State::run(){
     _userValue(1) = _fstate_ctrl->user_cmd->_lx;
     _userValue(2) = 0;
     _userValue(3) = _fstate_ctrl->user_cmd->_rx;
+
     // _userValue(0) = _fstate_ctrl->user_cmd->_vx;
     // _userValue(1) = _fstate_ctrl->user_cmd->_vy;
     // _userValue(2) = 0;
     // _userValue(3) = _fstate_ctrl->user_cmd->_wz ;
+    // std::cout<<"_userValue:\n"<< _userValue<<std::endl;
     
     getUserCmd(); // 计算 期望速度
     calcCmd();    // 计算位移、转动角度，获取全局速度
@@ -134,8 +147,12 @@ void Trotting_State::run(){
 
     if(isStepping){
         _fstate_ctrl->setStartWave();
+    // std::cout<<"Wave"<< "\n"<<std::endl;
+
     }else{
         _fstate_ctrl->setAllStance();
+    // std::cout<<"Stance"<< "\n"<<std::endl;
+
     }
 
     // std::cout<<"_posFeet2BGoal:\n"<< _posFeet2BGoal <<std::endl;
@@ -143,7 +160,7 @@ void Trotting_State::run(){
     _fstate_ctrl->_ioros->SetTau(_tau);
     _fstate_ctrl->_ioros->SetQ(vec34ToVec12 (_qGoal));
     _fstate_ctrl->_ioros->SetDq(vec34ToVec12 (_qdGoal));
-
+    // std::cout<<"_contact:\n"<< (*_contact) <<std::endl;
     for(int i(0); i<4; ++i){
         if((*_contact)(i) == 0){
             _fstate_ctrl->_ioros->setSwingGain(i);
@@ -166,9 +183,9 @@ bool Trotting_State::checkStepOrNot(){
     //         isStepping = false;
     //     }
     // }else{
-    //     if( (fabs(_vCmdBody(0)) > 0.03) ||
-    //         (fabs(_vCmdBody(1)) > 0.03) ||
-    //         (fabs(_dYawCmd) > 0.05) ){
+    //     if( (fabs(_vCmdBody(0)) > 0.02) ||
+    //         (fabs(_vCmdBody(1)) > 0.02) ||
+    //         (fabs(_dYawCmd) > 0.03) ){
     //         isStepping = true;
     //     }
     // }
@@ -263,7 +280,7 @@ void Trotting_State::calcTau(){
     _q = vec34ToVec12(_fstate_ctrl->_ioros->getQ());
     _tau = getTau(_q, _forceFeetBody);
     // std::cout<<"_pcd\n"<<_pcd<<std::endl;
-    // std::cout<<"_posError\n"<<_posError<<std::endl;
+    std::cout<<"_posError\n"<<_posError<<std::endl;
     // std::cout<<"_velError\n"<<_velError<<std::endl;
 
     // std::cout<<"_tau\n"<<_tau<<std::endl;

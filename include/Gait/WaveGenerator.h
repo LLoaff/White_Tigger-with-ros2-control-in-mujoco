@@ -9,7 +9,7 @@
 /*generate linear wave, [0, 1]*/
 class WaveGenerator{
 public:
-    WaveGenerator(double period, double stancePhaseRatio, Vec4 bias,double current_time);// period:步态周期 stancePhaseRatio：触地系数 bias：偏移时间b与p的比值
+    WaveGenerator(float period, float stancePhaseRatio, Vec4 bias,double current_time);// period:步态周期 stancePhaseRatio：触地系数 bias：偏移时间b与p的比值
     void calcContactPhase(Vec4 &phaseResult, VecInt4 &contactResult, WaveStatus status,double current_time);//计算相位和接触状态
     float getTstance();// 返回触地时长
     float getTswing(); // 返回腾空时长
@@ -17,15 +17,15 @@ public:
     Vec4 getContactState();
     Vec4 getSwingState();
     int* getMpcTable(WaveStatus status);
-    void reset(double period, double stancePhaseRatio, Vec4 bias,double current_time);
+    void reset(float period, float stancePhaseRatio, Vec4 bias,double current_time);
     void setIterations(int iterationsPerMPC, int currentIteration);
     void set_nIterations(int nIterations);
     void set_leg_periods(Eigen::Array<int, 4, 1> leg_periods);
 private:
     void calcWave(Vec4 &phase, VecInt4 &contact, WaveStatus status,double current_time);
 
-    double _period;                 // 周期 P
-    double _stRatio;                // 触地系数 r
+    float _period;                 // 周期 P
+    float _stRatio;                // 触地系数 r
     Vec4 _bias;                     // 偏移系数
 
     Vec4 _normalT;                  // [0, 1)  归一化时间 :一个步态周期 0.5 秒，当实际时间过了 0.25 秒时，_normalT = 0.5
@@ -35,7 +35,7 @@ private:
     WaveStatus _statusPast;            
 
     double _passT;                  // unit: second 从 初始化类开始到调用calcWave经过了的时间
-    long long _startT;              // unit: us   记录类初始化的时间
+    double _startT;              // unit: us   记录类初始化的时间
 
     float _duty_cycle;              // 触地时间
     int* _mpc_table;

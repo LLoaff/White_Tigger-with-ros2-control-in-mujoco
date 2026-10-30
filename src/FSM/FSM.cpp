@@ -27,7 +27,14 @@ void FSM::run(){
     // std::cout<<"FSM::run: "<<std::endl;
 #ifndef USE_SIM
     _start_time = getSystemTime();
+    static int isfirst = 1;
+    if(isfirst){
+        usleep(1000*1000);
+        _fsm_ctrl->_ioros->_state->_imu.Imu_GetBias();
+        isfirst = 0;
+    }
 #endif
+
     CheckSafety();
     if(!_fsm_ctrl->_Safety){
         _fsm_ctrl->_ioros->SetZeroDq();
@@ -37,8 +44,11 @@ void FSM::run(){
         std::cout<<"Safety is false, robot is falling!"<<std::endl;
     }
     _fsm_ctrl->_ioros->Update();        // 对电机发送命令
-    _fsm_ctrl->runWaveGen();
     _fsm_ctrl->_ioros->_state->_imu.Imu_Update();
+
+    _fsm_ctrl->runWaveGen();
+    // long long testtime = getSystemTime();
+
     _fsm_ctrl->_estimator->run();
     
 #ifdef USE_SIM 
@@ -71,6 +81,8 @@ void FSM::run(){
         _mode = FSMMode::NORMAL;
         _current_state->run();
     }
+    // std::cout<<"testtime: "<< getSystemTime() - testtime <<std::endl;
+
 #ifndef USE_SIM
     absoluteWait(_start_time, (long long)(_fsm_ctrl->dt * 1000000));       // dt 需初始化时手动赋值
 #endif

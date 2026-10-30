@@ -19,6 +19,7 @@ public:
 
     void runWaveGen();
     void setAllStance();
+
     void setAllSwing();
     void setStartWave();
     void Estimator_Init();
@@ -29,11 +30,11 @@ public:
     QuadrupedRobot *robotModel;
     data_analyze _analyze;
 
-    double dt;
-    double _period;
-    double _stancePhaseRatio;
+    float dt;
+    float _period;
+    float _stancePhaseRatio;
     Eigen::Matrix<int,4,1> * _contact;
-    Eigen::Matrix<double, 4, 1>* _phase;
+    Eigen::Matrix<float, 4, 1>* _phase;
     WaveGenerator *waveGen;
 
     mjModel* _mjmodel;
@@ -62,11 +63,11 @@ public:
     QuadrupedRobot *robotModel;
     // data_analyze _analyze;
 
-    double dt;
-    double _period;
-    double _stancePhaseRatio;
+    float dt;
+    float _period;
+    float _stancePhaseRatio;
     Eigen::Matrix<int,4,1> * _contact;
-    Eigen::Matrix<double, 4, 1>* _phase;
+    Eigen::Matrix<float, 4, 1>* _phase;
     WaveGenerator *waveGen;
 
     LowCmd * _ioros;

@@ -1,6 +1,6 @@
 #include "WBC/mujocoEstimator.h"
 
-M_Estimator::M_Estimator(LowState* lowstate,mjModel *model,mjData* mjdata,double* boxpos)
+M_Estimator::M_Estimator(LowState* lowstate,mjModel *model,mjData* mjdata,float* boxpos)
 :_mjmodel(model),_mjdata(mjdata),_lowstate(lowstate),_box_pos(boxpos){
     X.setZero();
     _root_id = mj_name2id(_mjmodel,mjOBJ_BODY,"root");
@@ -35,36 +35,36 @@ M_Estimator::~M_Estimator(){
 
 }
 
-Eigen::Matrix<double, 3, 1> M_Estimator::getPosition(){
+Eigen::Matrix<float, 3, 1> M_Estimator::getPosition(){
     return X.block(0, 0, 3, 1);
 }
 
-Eigen::Matrix<double, 3, 1> M_Estimator::getVelocity(){
+Eigen::Matrix<float, 3, 1> M_Estimator::getVelocity(){
     return X.block(3, 0, 3, 1);
 }
 
-Eigen::Matrix<double, 3, 1>  M_Estimator::getFootPos(int i){
-    return  getPosition() + _lowstate->_imu.GetRotMat().cast<double>() * GetFeetPos2BODY(*_lowstate, i, FrameType::BODY);
+Eigen::Matrix<float, 3, 1>  M_Estimator::getFootPos(int i){
+    return  getPosition() + _lowstate->_imu.GetRotMat().cast<float>() * GetFeetPos2BODY(*_lowstate, i, FrameType::BODY);
 }
 
-Eigen::Matrix<double, 3, 4> M_Estimator::getFeetPos(){
-    Eigen::Matrix<double, 3, 4> feetPos;
+Eigen::Matrix<float, 3, 4> M_Estimator::getFeetPos(){
+    Eigen::Matrix<float, 3, 4> feetPos;
     for(int i(0); i < 4; ++i){
         feetPos.col(i) = getFootPos(i);
     }
     return feetPos;
 }
 
-Eigen::Matrix<double, 3, 4> M_Estimator::getFeetVel(){
-    Eigen::Matrix<double, 3, 4> feetVel = GetFeetSpeed2BODY(*_lowstate, FrameType::GLOBAL);
+Eigen::Matrix<float, 3, 4> M_Estimator::getFeetVel(){
+    Eigen::Matrix<float, 3, 4> feetVel = GetFeetSpeed2BODY(*_lowstate, FrameType::GLOBAL);
     for(int i(0); i < 4; ++i){
         feetVel.col(i) += getVelocity();
     }
     return feetVel;
 }
 
-Eigen::Matrix<double, 3, 4> M_Estimator::getPosFeet2BGlobal(){
-    return Eigen::Matrix<double, 3, 4>::Zero();
+Eigen::Matrix<float, 3, 4> M_Estimator::getPosFeet2BGlobal(){
+    return Eigen::Matrix<float, 3, 4>::Zero();
 }
 
 void M_Estimator::updateBoxPos(){

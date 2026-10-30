@@ -1,0 +1,1385 @@
+{
+  "robot_name": "generated_robot",
+  "coordinate_schema_version": 3,
+  "coordinate_frame": "z_up_x_forward",
+  "links": [
+    {
+      "link_id": "link_001",
+      "name": "base_link",
+      "part_ids": [
+        "part_001"
+      ],
+      "mass": 3.9,
+      "inertia": {
+        "ixx": 0.021292524485532264,
+        "iyy": 0.02842161648078056,
+        "izz": 0.013511740966312812,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": 0
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 3.9,
+        "com_xyz_cad": [
+          -3.0243816923378237e-15,
+          -6.678842903912693e-16,
+          -3.4024294038800515e-15
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.021292524485532264,
+          "iyy": 0.02842161648078056,
+          "izz": 0.013511740966312812,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": 0
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.00420102206047718
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "45fcc53e-f51a-49b6-af48-9b32b775933d",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                226,
+                180,
+                100
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                0,
+                -2.1675922803367203e-16,
+                0.9761967786015617
+              ],
+              "rpy_rad": [
+                0,
+                -1.5707963267948966,
+                -1.5707963267948966
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_002",
+      "name": "fr_hip_link",
+      "part_ids": [
+        "part_006",
+        "part_007"
+      ],
+      "mass": 0.62,
+      "inertia": {
+        "ixx": 0.00048325733957505873,
+        "iyy": 0.0009104620990559155,
+        "izz": 0.0007039940573961607,
+        "ixy": -8.369557520995774e-13,
+        "ixz": 0.00012252974513836281,
+        "iyz": 1.4497271222033147e-12
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.62,
+        "com_xyz_cad": [
+          -63.05014507045535,
+          -10.000000019226814,
+          175.4261440999605
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.00048325733957505873,
+          "iyy": 0.0009104620990559155,
+          "izz": 0.0007039940573961607,
+          "ixy": -8.369557520995774e-13,
+          "ixz": 0.00012252974513836281,
+          "iyz": 1.4497271222033147e-12
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.0003849710699881254
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "f1897f9b-1546-49cd-b184-03bea34faa2c",
+            "name": "圆柱体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "cylinder",
+              "radius_mm": 43,
+              "length_mm": 102
+            },
+            "pose": {
+              "xyz_mm": [
+                -26.003413918611344,
+                0,
+                48.5
+              ],
+              "rpy_rad": [
+                0,
+                -1.5707963267948966,
+                0
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_003",
+      "name": "fr_thigh_link",
+      "part_ids": [
+        "part_012"
+      ],
+      "mass": 0.12,
+      "inertia": {
+        "ixx": 0.0005186546923553198,
+        "iyy": 0.000021773504780318862,
+        "izz": 0.0005026613401251807,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.000012508125091677049
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.12,
+        "com_xyz_cad": [
+          -129.50000000000026,
+          -75.68549521949095,
+          178.74303403976853
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.0005186546923553198,
+          "iyy": 0.000021773504780318862,
+          "izz": 0.0005026613401251807,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.000012508125091677049
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.00013508731934060652
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "d4edb319-5dcf-4abc-a189-8092fdf899cb",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                245,
+                39,
+                17
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -93.43713837055752,
+                -8.94477856250447,
+                -8.499999999999986
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.1783779409021353e-16,
+                0.01877072900814142
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_004",
+      "name": "fr_calf_link",
+      "part_ids": [
+        "part_010"
+      ],
+      "mass": 0.08,
+      "inertia": {
+        "ixx": 0.0003993829140542937,
+        "iyy": 0.000004820194984384574,
+        "izz": 0.00039617605240323093,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.0000027087160637007113
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.08,
+        "com_xyz_cad": [
+          -129.50000000000114,
+          -325.4106574699541,
+          184.83241689068723
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.0003993829140542937,
+          "iyy": 0.000004820194984384574,
+          "izz": 0.00039617605240323093,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.0000027087160637007113
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.00004766894601371288
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "06c83986-9d1c-4ebd-b6fa-8f6dfbd0bd83",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                170,
+                35,
+                11
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -100,
+                0.65,
+                8.499999999999998
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          },
+          {
+            "id": "5cbd3728-96b6-423e-93d5-aaa1141e9b48",
+            "name": "球体 2",
+            "enabled": true,
+            "geometry": {
+              "type": "sphere",
+              "radius_mm": 17
+            },
+            "pose": {
+              "xyz_mm": [
+                -190,
+                0.09,
+                8.999999999999998
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_005",
+      "name": "fl_hip_link",
+      "part_ids": [
+        "part_008",
+        "part_009"
+      ],
+      "mass": 0.62,
+      "inertia": {
+        "ixx": 0.0004832573395750179,
+        "iyy": 0.0009104620990558725,
+        "izz": 0.0007039940573961575,
+        "ixy": 8.369554159969039e-13,
+        "ixz": -0.00012252974513834777,
+        "iyz": 1.4497260466747597e-12
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.62,
+        "com_xyz_cad": [
+          63.050145070455436,
+          -10.000000019226814,
+          175.42614409996082
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.0004832573395750179,
+          "iyy": 0.0009104620990558725,
+          "izz": 0.0007039940573961575,
+          "ixy": 8.369554159969039e-13,
+          "ixz": -0.00012252974513834777,
+          "iyz": 1.4497260466747597e-12
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.0003849710699881247
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "0f27933e-75f8-4da3-9e73-9dbcb8791a8d",
+            "name": "圆柱体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "cylinder",
+              "radius_mm": 43,
+              "length_mm": 102
+            },
+            "pose": {
+              "xyz_mm": [
+                28,
+                0,
+                48.5
+              ],
+              "rpy_rad": [
+                0,
+                -1.5707963267948966,
+                -3.141592653589793
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_006",
+      "name": "fl_thigh_link",
+      "part_ids": [
+        "part_011"
+      ],
+      "mass": 0.12,
+      "inertia": {
+        "ixx": 0.0005186546923553264,
+        "iyy": 0.000021773504780332188,
+        "izz": 0.0005026613401251849,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.000012508125091666224
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.12,
+        "com_xyz_cad": [
+          129.50000000000003,
+          -75.68549521949029,
+          178.74303403976813
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.0005186546923553264,
+          "iyy": 0.000021773504780332188,
+          "izz": 0.0005026613401251849,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.000012508125091666224
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.0001350873193406064
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "8182a23b-eec6-4f77-85db-747b058596e1",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                245,
+                39,
+                17
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -93.57208114918082,
+                -1.7566224924382823,
+                8.500000000000014
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.1783779409021353e-16,
+                0.01877072900814142
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_007",
+      "name": "fl_calf_link",
+      "part_ids": [
+        "part_015"
+      ],
+      "mass": 0.08,
+      "inertia": {
+        "ixx": 0.00039938291405448026,
+        "iyy": 0.000004820194984418436,
+        "izz": 0.00039617605240339416,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.000002708716063625216
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.08,
+        "com_xyz_cad": [
+          129.49999999999824,
+          -325.4106574699362,
+          184.83241689068373
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.00039938291405448026,
+          "iyy": 0.000004820194984418436,
+          "izz": 0.00039617605240339416,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.000002708716063625216
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.00004766894601371725
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "c49a039d-7ce5-4352-ace8-d2a6989b19cd",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                170,
+                35,
+                11
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -100,
+                0.65,
+                8.5
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          },
+          {
+            "id": "aa7dab91-ab30-4826-b1ca-a5eaab3959bf",
+            "name": "球体 2",
+            "enabled": true,
+            "geometry": {
+              "type": "sphere",
+              "radius_mm": 17
+            },
+            "pose": {
+              "xyz_mm": [
+                -190,
+                0.09,
+                9
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_008",
+      "name": "bl_hip_link",
+      "part_ids": [
+        "part_002",
+        "part_003"
+      ],
+      "mass": 0.62,
+      "inertia": {
+        "ixx": 0.00048325733957505873,
+        "iyy": 0.0009104620990559155,
+        "izz": 0.0007039940573961607,
+        "ixy": 8.369557520995774e-13,
+        "ixz": 0.00012252974513836281,
+        "iyz": -1.4497271222033147e-12
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.62,
+        "com_xyz_cad": [
+          63.05014507045535,
+          -10.000000019226814,
+          -175.4261440999605
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.00048325733957505873,
+          "iyy": 0.0009104620990559155,
+          "izz": 0.0007039940573961607,
+          "ixy": 8.369557520995774e-13,
+          "ixz": 0.00012252974513836281,
+          "iyz": -1.4497271222033147e-12
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.0003849710699881254
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "a348ac33-cb8d-413a-9d9b-41fde8c328a9",
+            "name": "圆柱体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "cylinder",
+              "radius_mm": 43,
+              "length_mm": 102
+            },
+            "pose": {
+              "xyz_mm": [
+                28,
+                0,
+                -31
+              ],
+              "rpy_rad": [
+                0,
+                1.5707963267948966,
+                0
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_009",
+      "name": "bl_thigh_link",
+      "part_ids": [
+        "part_014"
+      ],
+      "mass": 0.12,
+      "inertia": {
+        "ixx": 0.000518654692355339,
+        "iyy": 0.00002177350478033885,
+        "izz": 0.0005026613401251807,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.000012508125091671013
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.12,
+        "com_xyz_cad": [
+          129.49999999999994,
+          -75.6854952194905,
+          -189.2569659602317
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.000518654692355339,
+          "iyy": 0.00002177350478033885,
+          "izz": 0.0005026613401251807,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.000012508125091671013
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.00013508731934060706
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "58092437-5385-42b2-9b84-12874058906d",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                245,
+                39,
+                17
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -93.57208114918082,
+                -1.7566224924382823,
+                8.500000000000043
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.1783779409021353e-16,
+                0.01877072900814142
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_010",
+      "name": "bl_calf_link",
+      "part_ids": [
+        "part_016"
+      ],
+      "mass": 0.08,
+      "inertia": {
+        "ixx": 0.0003993829140543648,
+        "iyy": 0.000004820194984413995,
+        "izz": 0.0003961760524032809,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.0000027087160636779515
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.08,
+        "com_xyz_cad": [
+          129.49999999999866,
+          -325.4106574699445,
+          -183.16758310931067
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.0003993829140543648,
+          "iyy": 0.000004820194984413995,
+          "izz": 0.0003961760524032809,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.0000027087160636779515
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.00004766894601371695
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "d5c03051-aff9-4583-a384-833595699f19",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                170,
+                35,
+                11
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -100,
+                0.65,
+                -8.5
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          },
+          {
+            "id": "59148d5a-5b78-459e-bb95-47ce8ec328d5",
+            "name": "球体 2",
+            "enabled": true,
+            "geometry": {
+              "type": "sphere",
+              "radius_mm": 17
+            },
+            "pose": {
+              "xyz_mm": [
+                -190,
+                0.09,
+                -9
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_011",
+      "name": "br_hip_link",
+      "part_ids": [
+        "part_004",
+        "part_005"
+      ],
+      "mass": 0.62,
+      "inertia": {
+        "ixx": 0.0004832573395750179,
+        "iyy": 0.0009104620990558725,
+        "izz": 0.0007039940573961575,
+        "ixy": -8.369554159969039e-13,
+        "ixz": -0.00012252974513834777,
+        "iyz": -1.4497260466747597e-12
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.62,
+        "com_xyz_cad": [
+          -63.050145070455436,
+          -10.000000019226814,
+          -175.42614409996082
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.0004832573395750179,
+          "iyy": 0.0009104620990558725,
+          "izz": 0.0007039940573961575,
+          "ixy": -8.369554159969039e-13,
+          "ixz": -0.00012252974513834777,
+          "iyz": -1.4497260466747597e-12
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.0003849710699881247
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "297b780e-93f3-4fb5-86d3-6dbf2a5641e1",
+            "name": "圆柱体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "cylinder",
+              "radius_mm": 43,
+              "length_mm": 102
+            },
+            "pose": {
+              "xyz_mm": [
+                -28,
+                0,
+                -31
+              ],
+              "rpy_rad": [
+                0,
+                1.5707963267948966,
+                3.141592653589793
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_012",
+      "name": "br_thigh_link",
+      "part_ids": [
+        "part_013"
+      ],
+      "mass": 0.12,
+      "inertia": {
+        "ixx": 0.0005186546923553207,
+        "iyy": 0.000021773504780331354,
+        "izz": 0.0005026613401251703,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.000012508125091674967
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.12,
+        "com_xyz_cad": [
+          -129.50000000000045,
+          -75.68549521948916,
+          -189.25696596023255
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.0005186546923553207,
+          "iyy": 0.000021773504780331354,
+          "izz": 0.0005026613401251703,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.000012508125091674967
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.00013508731934060476
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "a1541aa7-3c07-4526-9b94-dea71ee673c1",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                245,
+                39,
+                17
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -93.57208114918082,
+                -1.7566224924382823,
+                -8.499999999999957
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.1783779409021353e-16,
+                0.01877072900814142
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "link_id": "link_013",
+      "name": "br_calf_link",
+      "part_ids": [
+        "part_017"
+      ],
+      "mass": 0.08,
+      "inertia": {
+        "ixx": 0.00039938291405436924,
+        "iyy": 0.00000482019498441344,
+        "izz": 0.0003961760524032909,
+        "ixy": 0,
+        "ixz": 0,
+        "iyz": -0.00000270871606366907
+      },
+      "visual_meshes": [],
+      "collision_meshes": [],
+      "sites": [],
+      "mass_properties": {
+        "source": "geometry",
+        "mass": 0.08,
+        "com_xyz_cad": [
+          -129.5000000000003,
+          -325.4106574699458,
+          -183.16758310931405
+        ],
+        "inertia_com_cad": {
+          "ixx": 0.00039938291405436924,
+          "iyy": 0.00000482019498441344,
+          "izz": 0.0003961760524032909,
+          "ixy": 0,
+          "ixz": 0,
+          "iyz": -0.00000270871606366907
+        },
+        "quality": "exact_mesh",
+        "units": "kg_m2",
+        "volume_m3": 0.000047668946013713334
+      },
+      "collision": {
+        "schema_version": 1,
+        "mode": "custom",
+        "shapes": [
+          {
+            "id": "64c50a53-dd56-4ac5-ab43-cac64f466f4a",
+            "name": "盒体 1",
+            "enabled": true,
+            "geometry": {
+              "type": "box",
+              "size_mm": [
+                170,
+                35,
+                11
+              ]
+            },
+            "pose": {
+              "xyz_mm": [
+                -100,
+                0.65,
+                8.500000000000004
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          },
+          {
+            "id": "873579bf-77ca-4607-b4eb-3bb1020cb7ec",
+            "name": "球体 2",
+            "enabled": true,
+            "geometry": {
+              "type": "sphere",
+              "radius_mm": 17
+            },
+            "pose": {
+              "xyz_mm": [
+                -190,
+                0.09,
+                9
+              ],
+              "rpy_rad": [
+                -3.141592653589793,
+                2.198385291203351e-16,
+                0.009886571480779045
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "joints": [
+    {
+      "joint_id": "fr_hip_joint",
+      "name": "fr_hip_joint",
+      "type": "revolute",
+      "parent": "base_link",
+      "child": "fr_hip_link",
+      "origin": {
+        "xyz": [
+          -40,
+          -10,
+          118
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ]
+      },
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "fr_thigh_joint",
+      "name": "fr_thigh_joint",
+      "type": "revolute",
+      "parent": "fr_hip_link",
+      "child": "fr_thigh_link",
+      "origin": {
+        "xyz": [
+          -121,
+          -10,
+          184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "fr_calf_joint",
+      "name": "fr_calf_joint",
+      "type": "revolute",
+      "parent": "fr_thigh_link",
+      "child": "fr_calf_link",
+      "origin": {
+        "xyz": [
+          -138,
+          -219,
+          184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -2.9321531433504737,
+        "upper": 0,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "fl_hip_joint",
+      "name": "fl_hip_joint",
+      "type": "revolute",
+      "parent": "base_link",
+      "child": "fl_hip_link",
+      "origin": {
+        "xyz": [
+          40,
+          -10,
+          118
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ]
+      },
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "fl_thigh_joint",
+      "name": "fl_thigh_joint",
+      "type": "revolute",
+      "parent": "fl_hip_link",
+      "child": "fl_thigh_link",
+      "origin": {
+        "xyz": [
+          121,
+          -10,
+          184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "fl_calf_joint",
+      "name": "fl_calf_joint",
+      "type": "revolute",
+      "parent": "fl_thigh_link",
+      "child": "fl_calf_link",
+      "origin": {
+        "xyz": [
+          121,
+          -219,
+          184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -2.9670597283903604,
+        "upper": 0,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "bl_hip_joint",
+      "name": "bl_hip_joint",
+      "type": "revolute",
+      "parent": "base_link",
+      "child": "bl_hip_link",
+      "origin": {
+        "xyz": [
+          40,
+          -10,
+          -135.5
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ]
+      },
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "bl_thigh_joint",
+      "name": "bl_thigh_joint",
+      "type": "revolute",
+      "parent": "bl_hip_link",
+      "child": "bl_thigh_link",
+      "origin": {
+        "xyz": [
+          121,
+          -10,
+          -184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "bl_calf_joint",
+      "name": "bl_calf_joint",
+      "type": "revolute",
+      "parent": "bl_thigh_link",
+      "child": "bl_calf_link",
+      "origin": {
+        "xyz": [
+          138,
+          -219,
+          -184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -2.9670597283903604,
+        "upper": 0,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "br_hip_joint",
+      "name": "br_hip_joint",
+      "type": "revolute",
+      "parent": "base_link",
+      "child": "br_hip_link",
+      "origin": {
+        "xyz": [
+          -40,
+          -10,
+          -135.5
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ]
+      },
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "br_thigh_joint",
+      "name": "br_thigh_joint",
+      "type": "revolute",
+      "parent": "br_hip_link",
+      "child": "br_thigh_link",
+      "origin": {
+        "xyz": [
+          -121,
+          -10,
+          -184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -1.57,
+        "upper": 1.57,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    },
+    {
+      "joint_id": "br_calf_joint",
+      "name": "br_calf_joint",
+      "type": "revolute",
+      "parent": "br_thigh_link",
+      "child": "br_calf_link",
+      "origin": {
+        "xyz": [
+          -138,
+          -219,
+          -184
+        ],
+        "rpy": [
+          1.5707963267948966,
+          0,
+          1.5707963267948966
+        ]
+      },
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "limit": {
+        "lower": -2.9670597283903604,
+        "upper": 0,
+        "effort": 10,
+        "velocity": 5
+      },
+      "actuation": "auto",
+      "frame_orientation_mode": "axis_aligned"
+    }
+  ],
+  "base_origin_mode": "cad_original",
+  "base_origin_xyz": [
+    0,
+    0,
+    0
+  ]
+}

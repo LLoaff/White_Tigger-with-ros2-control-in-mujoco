@@ -50,9 +50,9 @@ json diagonalToJson(const Mat3& matrix)
 
 Mat3 jsonToDiagonal(const json& value)
 {
-    return Vec3(value.at(0).get<double>(),
-                value.at(1).get<double>(),
-                value.at(2).get<double>()).asDiagonal();
+    return Vec3(value.at(0).get<float>(),
+                value.at(1).get<float>(),
+                value.at(2).get<float>()).asDiagonal();
 }
 }
 
@@ -60,8 +60,8 @@ data_analyze::data_analyze(): _lastSendTime(-1.0)
 {
 }
 
-void data_analyze::sendComPos(double sim_time, const Eigen::Vector3d& pcom, const Eigen::Vector3d& rpy) {
-    constexpr double sendInterval = 0.02;  // 50 Hz telemetry
+void data_analyze::sendComPos(float sim_time, const Eigen::Vector3d& pcom, const Eigen::Vector3d& rpy) {
+    constexpr float sendInterval = 0.02;  // 50 Hz telemetry
     if (_lastSendTime >= 0.0 && sim_time >= _lastSendTime && sim_time - _lastSendTime < sendInterval) {
         return;
     }
@@ -128,7 +128,7 @@ bool data_analyze::getParamData(param& data)
         param next;
         next._Kpp = jsonToDiagonal(trotting.at("Kpp"));
         next._Kdp = jsonToDiagonal(trotting.at("Kdp"));
-        next._kpw = trotting.at("kpw").get<double>();
+        next._kpw = trotting.at("kpw").get<float>();
         next._Kdw = jsonToDiagonal(trotting.at("Kdw"));
         next._KpSwing = jsonToDiagonal(trotting.at("KpSwing"));
         next._KdSwing = jsonToDiagonal(trotting.at("KdSwing"));

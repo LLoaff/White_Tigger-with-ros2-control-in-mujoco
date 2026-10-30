@@ -12,67 +12,69 @@ typedef uint64_t u64;
 /******** Vector ********/
 /************************/
 // 2x1 Vector
-using Vec2 = typename Eigen::Matrix<double, 2, 1>;
+using Vec2 = typename Eigen::Matrix<float, 2, 1>;
 
 // 3x1 Vector
-using Vec3 = typename Eigen::Matrix<double, 3, 1>;
+using Vec3 = typename Eigen::Matrix<float, 3, 1>;
 
 // 4x1 Vector
-using Vec4 = typename Eigen::Matrix<double, 4, 1>;
+using Vec4 = typename Eigen::Matrix<float, 4, 1>;
 
 // 6x1 Vector
-using Vec6 = typename Eigen::Matrix<double, 6, 1>;
+using Vec6 = typename Eigen::Matrix<float, 6, 1>;
 
 // Quaternion
-using Quat = typename Eigen::Matrix<double, 4, 1>;
+using Quat = typename Eigen::Matrix<float, 4, 1>;
 
 // 4x1 Integer Vector
 using VecInt4 = typename Eigen::Matrix<int, 4, 1>;
 
 // 12x1 Vector
-using Vec12 = typename Eigen::Matrix<double, 12, 1>;
+using Vec12 = typename Eigen::Matrix<float, 12, 1>;
 
 // 18x1 Vector
-using Vec18 = typename Eigen::Matrix<double, 18, 1>;
+using Vec18 = typename Eigen::Matrix<float, 18, 1>;
 
 // Dynamic Length Vector
-using VecX = typename Eigen::Matrix<double, Eigen::Dynamic, 1>;
+using VecX = typename Eigen::Matrix<float, Eigen::Dynamic, 1>;
 
 /************************/
 /******** Matrix ********/
 /************************/
 // Rotation Matrix
-using RotMat = typename Eigen::Matrix<double, 3, 3>;
+using RotMat = typename Eigen::Matrix<float, 3, 3>;
 
 // Homogenous Matrix
-using HomoMat = typename Eigen::Matrix<double, 4, 4>;
+using HomoMat = typename Eigen::Matrix<float, 4, 4>;
 
 // 2x2 Matrix
-using Mat2 = typename Eigen::Matrix<double, 2, 2>;
+using Mat2 = typename Eigen::Matrix<float, 2, 2>;
 
 // 3x3 Matrix
-using Mat3 = typename Eigen::Matrix<double, 3, 3>;
+using Mat3 = typename Eigen::Matrix<float, 3, 3>;
 
 // 3x3 Identity Matrix
-#define I3 Eigen::MatrixXd::Identity(3, 3)
+// #define I3 Eigen::MatrixXd::Identity(3, 3)
+#define I3  Eigen::Matrix3f::Identity()
 
 // 3x4 Matrix, each column is a 3x1 vector
-using Vec34 = typename Eigen::Matrix<double, 3, 4>;
+using Vec34 = typename Eigen::Matrix<float, 3, 4>;
 
 // 6x6 Matrix
-using Mat6 = typename Eigen::Matrix<double, 6, 6>;
+using Mat6 = typename Eigen::Matrix<float, 6, 6>;
 
 // 12x12 Matrix
-using Mat12 = typename Eigen::Matrix<double, 12, 12>;
+using Mat12 = typename Eigen::Matrix<float, 12, 12>;
 
 // 12x12 Identity Matrix
-#define I12 Eigen::MatrixXd::Identity(12, 12)
+// #define I12 Eigen::MatrixXd::Identity(12, 12)
+#define I12 Eigen::Matrix<float, 12, 12>::Identity()
 
 // 18x18 Identity Matrix
-#define I18 Eigen::MatrixXd::Identity(18, 18)
-
+// #define I18 Eigen::MatrixXd::Identity(18, 18)
+#define I18 Eigen::Matrix<float, 18, 18>::Identity()
 // Dynamic Size Matrix
-using MatX = typename Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>;
+using MatX = typename Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic>;
 template <typename T>
 using vectorAligned = typename std::vector<T, Eigen::aligned_allocator<T>>;
 

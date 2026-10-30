@@ -237,8 +237,8 @@
     <actuatorpos name="bl_calf_joint_p" actuator="bl_calf_joint" />
     <actuatorvel name="bl_calf_joint_v" actuator="bl_calf_joint" />
     <actuatorfrc name="bl_calf_joint_f" actuator="bl_calf_joint" noise="0.00" />
-    <framequat name="imu_quat" objtype="site" noise="0.00" objname="imu_sensor" />
-    <gyro name="imu_gyro" site="imu_sensor" noise="0.00" cutoff="34.9" />
-    <accelerometer name="imu_acc" site="imu_sensor"/>
+    <framequat name="imu_quat" objtype="site" noise="0.1" objname="imu_sensor" />
+    <gyro name="imu_gyro" site="imu_sensor" noise="0.1" cutoff="34.9" />
+    <accelerometer name="imu_acc" site="imu_sensor" noise="0.1"/>
   </sensor>
 </mujoco>

@@ -8,9 +8,9 @@ ControlComponent::ControlComponent(mjModel *model, mjData *data):_mjmodel(model)
         return;
     }
     _contact = new Eigen::Matrix<int,4,1>();
-    _phase = new Eigen::Matrix<double,4,1>();
+    _phase = new Eigen::Matrix<float,4,1>();
     *_contact = Eigen::Matrix<int,4,1>(0,0,0,0);
-    *_phase = Eigen::Matrix<double,4,1>(0.5,0.5,0.5,0.5);
+    *_phase = Eigen::Matrix<float,4,1>(0.5,0.5,0.5,0.5);
     robotModel = new QuadrupedRobot();     
 
     _ioros = new LowCmd(model,data);
@@ -27,9 +27,9 @@ void ControlComponent::runWaveGen(){
 ControlComponent::ControlComponent(){
 
     _contact = new Eigen::Matrix<int,4,1>();
-    _phase = new Eigen::Matrix<double,4,1>();
+    _phase = new Eigen::Matrix<float,4,1>();
     *_contact = Eigen::Matrix<int,4,1>(0,0,0,0);
-    *_phase = Eigen::Matrix<double,4,1>(0.5,0.5,0.5,0.5);
+    *_phase = Eigen::Matrix<float,4,1>(0.5,0.5,0.5,0.5);
     robotModel = new QuadrupedRobot();     
 
     _ioros = new LowCmd();

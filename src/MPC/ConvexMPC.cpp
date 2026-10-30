@@ -33,7 +33,7 @@ void ConvexMPC::initSparseMPC(){
         _Ibody<<0.03316,0.0,0.0,
                 0.0,0.14005,0.0,
                 0.0,0.0,0.16444;
-        _mass = 6.408;
+        _mass = 6.8;
     #endif
 
     
@@ -85,7 +85,7 @@ void ConvexMPC::updateMPCIfNeeded(int *mpcTable,Vec3 _vCmdGlobal,Vec3 _wCmdGloba
     #ifdef USE_GO1_MODEL
         _body_height = 0.32;
     #else
-        _body_height = 0.2;
+        _body_height = 0.21;
     #endif
     
     float trajInitial[12] ={
@@ -204,7 +204,7 @@ void ConvexMPC::buildCT(){
     _bBlocks.clear();
 
     for(uint32_t i=0;i<horizonLength;i++){
-        Mat3 Ryaw = rotz(_rpy0[2]);
+        Mat3 Ryaw = rotz(_rpy0[2]).transpose();
 
         //  转动惯量计算
         Mat3 Iworld = Ryaw.transpose() * _Ibody * Ryaw;
@@ -255,7 +255,7 @@ void ConvexMPC::buildDT(){
 }
 
 void ConvexMPC::c2d(u32 trajIdx, u32 bBlockStartIdx, u32 block_count){
-    Eigen::Matrix<double, 24, 24> AB, expmm;
+    Eigen::Matrix<float, 24, 24> AB, expmm;
     AB.setZero();
     AB.block(0,0,12,12) = _aMat[trajIdx];
 
@@ -364,7 +364,7 @@ void ConvexMPC::addForceConstraints(){
     }
 }
 void ConvexMPC::addFrictionConstraints(){
-    double muInv = 1. / _mu;
+    float muInv = 1. / _mu;
     for(u32 i = 0; i < _bBlockCount; i++) {
         // four friction constraints
         u32 constraint_idx = addConstraint(4);
@@ -477,7 +477,7 @@ u32 ConvexMPC::addConstraint(u32 size){
     _constraintCount += size;
     return rv;
 }
-void ConvexMPC::addConstraintTriple(double value, u32 row, u32 col){
+void ConvexMPC::addConstraintTriple(float value, u32 row, u32 col){
     assert(col < 12 * _trajectoryLength + 3 * _bBlockCount);
     assert(row < _constraintCount);
     if(value != 0) {

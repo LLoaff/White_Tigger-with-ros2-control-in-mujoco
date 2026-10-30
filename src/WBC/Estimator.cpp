@@ -1,11 +1,11 @@
 #include"WBC/Estimator.h"
 
-Estimator::Estimator(LowState* lowstate,Eigen::Matrix<int, 4, 1>* contact,Eigen::Matrix<double, 4, 1> * phase,double dt):
+Estimator::Estimator(LowState* lowstate,Eigen::Matrix<int, 4, 1>* contact,Eigen::Matrix<float, 4, 1> * phase,float dt):
 _lowState(lowstate),_contact(contact),_phase(phase),_dt(dt){
 
     for(int i(0); i<_Qdig.rows(); ++i){
     if(i < 3){
-        _Qdig(i) = 0.0003;
+        _Qdig(i) = 0.0006;
     }
     else if(i < 6){
         _Qdig(i) = 0.0003;
@@ -77,10 +77,12 @@ void Estimator::init(){
                0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 0.000 , 1.0;
 
     /* A1 Worked */
-    _Cu <<   268.573,  -43.819, -147.211,
-            -43.819 ,  92.949 ,  58.082,
-            -147.211,   58.082,  302.120;
-
+    // _Cu <<   268.573,  -43.819, -147.211,
+    //         -43.819 ,  92.949 ,  58.082,
+    //         -147.211,   58.082,  302.120;
+    _Cu <<   1.12116e-05,  -5.92841e-07, 2.0849e-07,
+            -5.92841e-07 ,  1.04929e-05 ,  -1.30982e-07,
+            2.0849e-07,   -1.30982e-07,  1.03534e-05;
     _QInit = _Qdig.asDiagonal();
     _QInit +=  _B * _Cu * _B.transpose();
 
@@ -107,7 +109,7 @@ void Estimator::run(){
             _R(24+i, 24+i) = _largeVariance;
         }
         else{
-            _trust = windowFunc((*_phase)(i), 0.2);
+            _trust = windowFunc((*_phase)(i),(float)0.2);
             _Q.block(6+3*i, 6+3*i, 3, 3) = (1 + (1-_trust)*_largeVariance) * _QInit.block(6+3*i, 6+3*i, 3, 3);
             _R.block(12+3*i, 12+3*i, 3, 3) = (1 + (1-_trust)*_largeVariance) * _RInit.block(12+3*i, 12+3*i, 3, 3);
             _R(24+i, 24+i) = (1 + (1-_trust)*_largeVariance) * _RInit(24+i, 24+i);
@@ -139,36 +141,37 @@ void Estimator::run(){
     // _vxFilter->addValue(_xhat(3));
     // _vyFilter->addValue(_xhat(4));
     // _vzFilter->addValue(_xhat(5));
-
+    // _uCheck->Measure(_u);
+    // _RCheck->Measure(_y);
     // cout<<"pcom: "<< _xhat.segment(0, 3)<<endl;
     // cout<<"vcom: "<< _xhat.segment(3, 3)<<endl;
 }
 
-Eigen::Matrix<double, 3, 1>  Estimator::getPosition(){
+Eigen::Matrix<float, 3, 1>  Estimator::getPosition(){
     return _xhat.segment(0, 3);
 }
-Eigen::Matrix<double, 3, 1>  Estimator::getVelocity(){
+Eigen::Matrix<float, 3, 1>  Estimator::getVelocity(){
     return _xhat.segment(3, 3);
 }
-Eigen::Matrix<double, 3, 1>  Estimator::getFootPos(int i){
+Eigen::Matrix<float, 3, 1>  Estimator::getFootPos(int i){
     return  getPosition() + _lowState->_imu.GetRotMat() * GetFeetPos2BODY(*_lowState, i, FrameType::BODY);
 }
-Eigen::Matrix<double, 3, 4> Estimator::getFeetPos(){
-    Eigen::Matrix<double, 3, 4> feetPos;
+Eigen::Matrix<float, 3, 4> Estimator::getFeetPos(){
+    Eigen::Matrix<float, 3, 4> feetPos;
     for(int i(0); i < 4; ++i){
         feetPos.col(i) = getFootPos(i);
     }
     return feetPos;
 }
-Eigen::Matrix<double, 3, 4> Estimator::getFeetVel(){
-    Eigen::Matrix<double, 3, 4> feetVel = GetFeetSpeed2BODY(*_lowState, FrameType::GLOBAL);
+Eigen::Matrix<float, 3, 4> Estimator::getFeetVel(){
+    Eigen::Matrix<float, 3, 4> feetVel = GetFeetSpeed2BODY(*_lowState, FrameType::GLOBAL);
     for(int i(0); i < 4; ++i){
         feetVel.col(i) += getVelocity();
     }
     return feetVel;
 }
-Eigen::Matrix<double, 3, 4> Estimator::getPosFeet2BGlobal(){
-    Eigen::Matrix<double, 3, 4> feet2BPos;
+Eigen::Matrix<float, 3, 4> Estimator::getPosFeet2BGlobal(){
+    Eigen::Matrix<float, 3, 4> feet2BPos;
     for(int i(0); i < 4; ++i){
          feet2BPos.col(i) = getFootPos(i) - getPosition();
     }

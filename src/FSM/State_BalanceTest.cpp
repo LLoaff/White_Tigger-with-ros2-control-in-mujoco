@@ -23,8 +23,8 @@ State_BalanceTest::State_BalanceTest(ControlComponent *ctrlComp)
         _kpw = 200;
         _Kdw = Vec3(30, 30, 30).asDiagonal();
     #else
-        _Kpp = Vec3(45, 45, 45).asDiagonal();
-        _Kdp = Vec3(5, 5, 5).asDiagonal();
+        _Kpp = Vec3(35, 95, 125).asDiagonal();
+        _Kdp = Vec3(15, 15, 15).asDiagonal();
 
         _kpw = 420;
         _Kdw = Vec3(35, 35, 35).asDiagonal();
@@ -43,15 +43,15 @@ void State_BalanceTest::enter(){
 
 void State_BalanceTest::run(){
 
-    _userValue(0) = -_fstate_ctrl->user_cmd->_lx ;// 实际是质心偏移位移
-    _userValue(1) = -_fstate_ctrl->user_cmd->_ly;
+    _userValue(0) = _fstate_ctrl->user_cmd->_ly ;// 实际是质心偏移位移
+    _userValue(1) = -_fstate_ctrl->user_cmd->_lx;
     _userValue(2) = 0;
-    _userValue(3) = _fstate_ctrl->user_cmd->_rx;
+    _userValue(3) = _fstate_ctrl->user_cmd->_ry;
     // std::cout<<"_userValue: \n"<<_userValue<<std::endl;
-    _pcd(0) = _pcdInit(0) + invNormalize(_userValue(1), _xMin, _xMax);
-    _pcd(1) = _pcdInit(1) - invNormalize(_userValue(0), _yMin, _yMax);
+    _pcd(0) = _pcdInit(0) + invNormalize(_userValue(0), _xMin, _xMax);
+    _pcd(1) = _pcdInit(1) - invNormalize(_userValue(1), _yMin, _yMax);
     _pcd(2) = _pcdInit(2) + invNormalize(_userValue(3), _zMin, _zMax);
-
+    
     float yaw = invNormalize(_userValue(2), _yawMin, _yawMax);
     _Rd = Rpy2RotMat(0, 0, yaw)*_RdInit;
 
@@ -65,6 +65,12 @@ void State_BalanceTest::run(){
     _fstate_ctrl->_ioros->setStableGain();
     _fstate_ctrl->_ioros->SetTau(_tau);
     _fstate_ctrl->_ioros->SetQ(_q);
+    std::cout<<"_pcd: \n"<<_pcd<<std::endl;
+    std::cout<<"_posBody: \n"<<_posBody<<std::endl;
+    // std::cout<<"_velBody: \n"<<_velBody<<std::endl;
+
+    // std::cout<<"_forceFeetGlobal: \n"<<_forceFeetGlobal<<std::endl;
+    // std::cout<<"_tau: \n"<<_tau<<std::endl;
 
 }
 

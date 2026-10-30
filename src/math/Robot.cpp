@@ -6,6 +6,10 @@ QuadrupedRobot::QuadrupedRobot(){
         _feetPosNormalStand <<0.1881,  0.1881, -0.1881, -0.1881,
                              -0.1300,  0.1300, -0.1300,  0.1300,
                              -0.3200, -0.3200, -0.3200, -0.3200;
+        _HipPos<< _length_, _length_, -_length_, -_length_,
+                  -_weigh_, _weigh_, -_weigh_, _weigh_,
+                  0.0, 0.0, 0.0, 0.0;
+        _Offset<< - _labad_ , _labad_ , - _labad_ , _labad_;
     #else
         _feetPosNormalStand << _length_, _length_, -_length_, -_length_,
                           -_weigh_ - _labad_ , _weigh_ + _labad_, -_weigh_ - _labad_, _weigh_ + _labad_,

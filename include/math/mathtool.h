@@ -22,14 +22,14 @@
 
     #define _lhip_    0.12    // l2
     #define _lknee_   0.1358  // l3
+    #define _height_  0.21    // hz
 
     // #define _lhip_    0.209    // l2: MIT Mini Cheetah thigh
     // #define _lknee_   0.195    // l3: MIT Mini Cheetah calf
+    // #define _height_  0.29    // hz
 
     #define _length_  0.1842  // hx
     #define _weigh_   0.04    // hy
-
-    #define _height_  0.21    // hz
 #endif
 
 
@@ -42,42 +42,42 @@ inline T1 invNormalize(const T0 value, const T1 min, const T2 max, const float m
 
 
 /*roll 转旋转矩阵*/
-inline Eigen::Matrix<double, 3, 3> rotx(const float &theta) {
+inline Eigen::Matrix<float, 3, 3> rotx(const float &theta) {
     float s = std::sin(theta);
     float c = std::cos(theta);
 
-    Eigen::Matrix<double, 3, 3> R;
+    Eigen::Matrix<float, 3, 3> R;
     R << 1, 0, 0, 0, c, -s, 0, s, c;
     return R;
 }
 
 /*yaw 转旋转矩阵*/
-inline Eigen::Matrix<double, 3, 3> rotz(const float &theta) {
+inline Eigen::Matrix<float, 3, 3> rotz(const float &theta) {
     float s = std::sin(theta);
     float c = std::cos(theta);
 
-    Eigen::Matrix<double, 3, 3> R;
+    Eigen::Matrix<float, 3, 3> R;
     R << c, -s, 0, s, c, 0, 0, 0, 1;
     return R;
 }
 
 /*pitch 转旋转矩阵*/
-inline Eigen::Matrix<double, 3, 3> roty(const float &theta) {
+inline Eigen::Matrix<float, 3, 3> roty(const float &theta) {
     float s = std::sin(theta);
     float c = std::cos(theta);
 
-    Eigen::Matrix<double, 3, 3> R;
+    Eigen::Matrix<float, 3, 3> R;
     R << c, 0, s, 0, 1, 0, -s, 0, c;
     return R;
 }
 /* 欧拉角转3x3旋转矩阵 */
-inline Eigen::Matrix<double, 3, 3> Rpy2RotMat(const float& row, const float& pitch, const float& yaw) {
-    Eigen::Matrix<double, 3, 3> m = rotz(yaw) * roty(pitch) * rotx(row);
+inline Eigen::Matrix<float, 3, 3> Rpy2RotMat(const float& row, const float& pitch, const float& yaw) {
+    Eigen::Matrix<float, 3, 3> m = rotz(yaw) * roty(pitch) * rotx(row);
     return m;
 }
 /* 旋转矩阵转欧拉角 */
-inline Eigen::Matrix<double, 3, 1> rotMatToRPY(const Eigen::Matrix<double, 3, 3>& R) {
-    Eigen::Matrix<double, 3, 1> rpy;
+inline Eigen::Matrix<float, 3, 1> rotMatToRPY(const Eigen::Matrix<float, 3, 3>& R) {
+    Eigen::Matrix<float, 3, 1> rpy;
     rpy(0) = atan2(R(2,1),R(2,2));
     rpy(1) = asin(-R(2,0));
     rpy(2) = atan2(R(1,0),R(0,0));
@@ -119,12 +119,12 @@ inline Eigen::Matrix<float, 3, 1> noHomoVec(Eigen::Matrix<float, 4, 1> v4){
 }
 
 /* 四元数转旋转矩阵 */
-inline Eigen::Matrix<double, 3, 3>Quat2RotMat(Eigen::Matrix<double, 4, 1> q){
-    double e0 = q(0);
-    double e1 = q(1);
-    double e2 = q(2);
-    double e3 = q(3);
-    Eigen::Matrix<double, 3, 3> R;
+inline Eigen::Matrix<float, 3, 3>Quat2RotMat(Eigen::Matrix<float, 4, 1> q){
+    float e0 = q(0);
+    float e1 = q(1);
+    float e2 = q(2);
+    float e3 = q(3);
+    Eigen::Matrix<float, 3, 3> R;
     R << 1 - 2 * (e2 * e2 + e3 * e3), 2 * (e1 * e2 - e0 * e3),
             2 * (e1 * e3 + e0 * e2), 2 * (e1 * e2 + e0 * e3),
             1 - 2 * (e1 * e1 + e3 * e3), 2 * (e2 * e3 - e0 * e1),
@@ -133,8 +133,8 @@ inline Eigen::Matrix<double, 3, 3>Quat2RotMat(Eigen::Matrix<double, 4, 1> q){
     return R;
 }
 //四元数转欧拉角
-inline Eigen::Matrix<double,3,1> Quat2Euler(Eigen::Matrix<double, 4, 1> q){
-    Eigen::Matrix<double,3,1> euler;
+inline Eigen::Matrix<float,3,1> Quat2Euler(Eigen::Matrix<float, 4, 1> q){
+    Eigen::Matrix<float,3,1> euler;
     float w = q[0];
     float x = q[1];
     float y = q[2];
@@ -158,16 +158,16 @@ inline Eigen::Matrix<double,3,1> Quat2Euler(Eigen::Matrix<double, 4, 1> q){
 }
 /*平衡所用旋转矩阵*/
 
-inline Eigen::Matrix<double, 3, 3> BalanceRPY(Eigen::Matrix<double, 4, 1> q){
-    Eigen::Matrix<double,3,1> rpy;
-    Eigen::Matrix<double, 3, 3> rotmat;
+inline Eigen::Matrix<float, 3, 3> BalanceRPY(Eigen::Matrix<float, 4, 1> q){
+    Eigen::Matrix<float,3,1> rpy;
+    Eigen::Matrix<float, 3, 3> rotmat;
     rpy=Quat2Euler(q);
     rotmat = roty(-rpy(1)) * rotx(-rpy(0));
     return rotmat;
 }
 
 template<typename T1, typename T2, typename T3>  
-inline void UpdateCovariance(T1 &cov, T2 expPast, T3 newValue, double n){
+inline void UpdateCovariance(T1 &cov, T2 expPast, T3 newValue, float n){
     if( (cov.rows()!=cov.cols()) || (cov.rows() != expPast.rows()) || (expPast.rows()!=newValue.rows())){
         std::cout << "The size of updateCovariance is error" << std::endl;
         exit(-1);
@@ -180,7 +180,7 @@ inline void UpdateCovariance(T1 &cov, T2 expPast, T3 newValue, double n){
 }
 
 template<typename T1, typename T2>
-inline void UpdateAverage(T1 &exp, T2 newValue, double n){
+inline void UpdateAverage(T1 &exp, T2 newValue, float n){
     if(exp.rows()!=newValue.rows()){
         std::cout << "The size of updateAverage is error" << std::endl;
         exit(-1);
@@ -193,14 +193,14 @@ inline void UpdateAverage(T1 &exp, T2 newValue, double n){
 }
 
 template<typename T1, typename T2, typename T3>
-inline void  UpdateAvgCov(T1 &cov, T2 &exp, T3 newValue, double n){
+inline void  UpdateAvgCov(T1 &cov, T2 &exp, T3 newValue, float n){
     UpdateCovariance(cov, exp, newValue, n);
     UpdateAverage(exp, newValue, n);
 
 }
 class AvgCov{
 public:
-    AvgCov(unsigned int size , std::string name,bool avfonly = false , unsigned int showperiod = 500,unsigned int waitcount=5000,double zoomfactor=1)
+    AvgCov(unsigned int size , std::string name,bool avfonly = false , unsigned int showperiod = 500,unsigned int waitcount=5000,float zoomfactor=1)
     : _size(size),_valuename(name),_avgonly(avfonly),_showperiod(showperiod),_waitcount(waitcount),_zoomfactor(zoomfactor){
     _exp.resize(size);
     _cov.resize(size,size);
@@ -209,7 +209,7 @@ public:
     _measurecount = 0;
     }
     // 传入的是Xn
-    void Measure(Eigen::Matrix<double, Eigen::Dynamic, 1> newvalue){
+    void Measure(Eigen::Matrix<float, Eigen::Dynamic, 1> newvalue){
         ++_measurecount;
         if(_measurecount > _waitcount){
             UpdateAvgCov(_cov, _exp, newvalue, _measurecount-_waitcount);
@@ -224,21 +224,21 @@ public:
     }
 
 private:
-    Eigen::Matrix<double, Eigen::Dynamic, 1>              _exp;     // 动态向量
-    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> _cov;     // 动态矩阵
-    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> _defaultweight;  // 默认宽度
+    Eigen::Matrix<float, Eigen::Dynamic, 1>              _exp;     // 动态向量
+    Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> _cov;     // 动态矩阵
+    Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> _defaultweight;  // 默认宽度
     bool _avgonly;                                                  // 决定是否输出协方差
     unsigned int _size;
     unsigned int _measurecount;
     unsigned int _showperiod;
     unsigned int _waitcount;
-    double _zoomfactor;                                             // 数值缩放因子
+    float _zoomfactor;                                             // 数值缩放因子
     std::string _valuename;
 };
 
 // 求反对称矩阵 ， 用于叉乘
-inline Eigen::Matrix<double, 3, 3> skew(const Eigen::Matrix<double, 3, 1>& v) {
-    Eigen::Matrix<double, 3, 3> m;
+inline Eigen::Matrix<float, 3, 3> skew(const Eigen::Matrix<float, 3, 1>& v) {
+    Eigen::Matrix<float, 3, 3> m;
         m << 0, -v(2), v(1),
             v(2), 0, -v(0),
             -v(1), v(0), 0;
@@ -266,16 +266,16 @@ inline T windowFunc(const T x, const T windowRatio, const T xRange=1.0, const T 
     }
 }
 
-inline Eigen::Matrix<double, 3, 4> vec12ToVec34(Eigen::Matrix<double, 12, 1> vec12){
-    Eigen::Matrix<double, 3, 4> vec34;
+inline Eigen::Matrix<float, 3, 4> vec12ToVec34(Eigen::Matrix<float, 12, 1> vec12){
+    Eigen::Matrix<float, 3, 4> vec34;
     for(int i(0); i < 4; ++i){
         vec34.col(i) = vec12.segment(3*i, 3);
     }
     return vec34;
 }
 
-inline Eigen::Matrix<double, 12, 1> vec34ToVec12(Eigen::Matrix<double, 3, 4> vec34){
-    Eigen::Matrix<double, 12, 1> vec12;
+inline Eigen::Matrix<float, 12, 1> vec34ToVec12(Eigen::Matrix<float, 3, 4> vec34){
+    Eigen::Matrix<float, 12, 1> vec12;
     for(int i(0); i < 4; ++i){
         vec12.segment(3*i, 3) = vec34.col(i);
     }
@@ -283,30 +283,30 @@ inline Eigen::Matrix<double, 12, 1> vec34ToVec12(Eigen::Matrix<double, 3, 4> vec
 }
 
 // 旋转矩阵转指数坐标 ******
-inline Eigen::Matrix<double, 3, 1> rotMatToExp(const Eigen::Matrix<double, 3, 3>& rm){
-    double cosValue = rm.trace()/2.0-1/2.0;
+inline Eigen::Matrix<float, 3, 1> rotMatToExp(const Eigen::Matrix<float, 3, 3>& rm){
+    float cosValue = rm.trace()/2.0-1/2.0;
     if(cosValue > 1.0f){
         cosValue = 1.0f;
     }else if(cosValue < -1.0f){
         cosValue = -1.0f;
     }
 
-    double angle = acos(cosValue);
-    Eigen::Matrix<double, 3, 1> exp;
+    float angle = acos(cosValue);
+    Eigen::Matrix<float, 3, 1> exp;
     if (fabs(angle) < 1e-5){
-        exp=Eigen::Matrix<double, 3, 1>(0,0,0);
+        exp=Eigen::Matrix<float, 3, 1>(0,0,0);
     }
     else if (fabs(angle - M_PI) < 1e-5){
-        exp = angle * Eigen::Matrix<double, 3, 1>(rm(0,0)+1, rm(0,1), rm(0,2)) / sqrt(2*(1+rm(0, 0)));
+        exp = angle * Eigen::Matrix<float, 3, 1>(rm(0,0)+1, rm(0,1), rm(0,2)) / sqrt(2*(1+rm(0, 0)));
     }
     else{
-        exp=angle/(2.0f*sin(angle))*Eigen::Matrix<double, 3, 1>(rm(2,1)-rm(1,2),rm(0,2)-rm(2,0),rm(1,0)-rm(0,1));
+        exp=angle/(2.0f*sin(angle))*Eigen::Matrix<float, 3, 1>(rm(2,1)-rm(1,2),rm(0,2)-rm(2,0),rm(1,0)-rm(0,1));
     }
     return exp;
 }
 
 template<typename T>
-inline T saturation(const T a, Eigen::Matrix<double,2,1> limits){
+inline T saturation(const T a, Eigen::Matrix<float,2,1> limits){
     T lowLim, highLim;
     if(limits(0) > limits(1)){
         lowLim = limits(1);

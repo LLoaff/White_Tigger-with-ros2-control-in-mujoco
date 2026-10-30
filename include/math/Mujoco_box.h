@@ -15,14 +15,14 @@ private:
     int box_body_id = -1;
     int box_mocap_id = -1;
 
-    // double estimate_x;
-    // double estimate_y;
-    // double estimate_z;
+    // float estimate_x;
+    // float estimate_y;
+    // float estimate_z;
 
-    // double estimate_qw;
-    // double estimate_qx;
-    // double estimate_qy;
-    // double estimate_qz;
+    // float estimate_qw;
+    // float estimate_qx;
+    // float estimate_qy;
+    // float estimate_qz;
 
     int _pos_index = -1;
     int _quat_index= -1;

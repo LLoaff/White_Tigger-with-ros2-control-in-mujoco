@@ -39,7 +39,7 @@ struct OsqpCSC {
 };
 
 struct SparseTriple {
-  double value;
+  float value;
   u32 r, c;
 };
 class ConvexMPC
@@ -50,7 +50,9 @@ public:
 
     void MPCrun(Vec3& world_pos_des,Vec3 _vCmdGlobal,Vec3 _wCmdGlobal,float yaw_des);
     Vec12 getResult();
-
+    void reset(){
+      iterationCounter = 0;
+    }
 private:
     ControlComponent* _comp;
     void initSparseMPC();
@@ -82,7 +84,7 @@ private:
     u32 getStateIndex(u32 trajIdx);
     u32 getControlIndex(u32 bBlockIdx);
     u32 addConstraint(u32 size);
-    void addConstraintTriple(double value, u32 row, u32 col);
+    void addConstraintTriple(float value, u32 row, u32 col);
 
 
     void sortAndSumTriples(std::vector<SparseTriple>& triples);
@@ -93,7 +95,7 @@ private:
     
     Mat3 _Ibody;
     Vec12 _weights;
-    double _mass, _maxForce, _mu, _alpha;
+    float _mass, _maxForce, _mu, _alpha;
     Vec3 _p0, _v0, _w0, _rpy0;
     Vec4 _q0;
     Vec12 _x0;
@@ -102,12 +104,12 @@ private:
     std::vector<ContactState> _contactTrajectory;
     vectorAligned<Vec12> _stateTrajectory;
     vectorAligned<Vec12> _sparseTrajectory;
-    std::vector<double> _dtTrajectory;
+    std::vector<float> _dtTrajectory;
 
   // intermediates
     vectorAligned<Mat12> _aMat;
     std::vector<BblockID> _bBlockIds;
-    vectorAligned<Eigen::Matrix<double,12,3>> _bBlocks;
+    vectorAligned<Eigen::Matrix<float,12,3>> _bBlocks;
     std::vector<u32> _contactCounts;
     std::vector<u32> _runningContactCounts;
 
@@ -136,8 +138,8 @@ private:
     float _dt;                 // 控制器运行周期
     float dtMPC;
 
-    double stand_traj[6];       // 站立姿态
-    double trajAll[12*36];
+    float stand_traj[6];       // 站立姿态
+    float trajAll[12*36];
 
     bool firstRun;
 };

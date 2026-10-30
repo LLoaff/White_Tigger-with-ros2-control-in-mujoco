@@ -17,13 +17,13 @@ start::start(mjModel *model, mjData *data):mjmodel(model),mjdata(data){
 start::start(){
     // pthread_create(&pthread,NULL,start::lets_start,this);
     ctrl = new ControlComponent();
-    ctrl->dt = 0.009;    
+    ctrl->dt = 0.006;    
     // ctrl->_period = 0.5;
     // ctrl->_stancePhaseRatio = 0.5;
     ctrl->_period = 0.5;
     ctrl->_stancePhaseRatio = 0.5;
     ctrl->waveGen = new WaveGenerator(ctrl->_period, ctrl->_stancePhaseRatio, 
-                                        Vec4(0, 0.5, 0.5, 0),0); // Trot
+                                        Vec4(0, 0.5, 0.5, 0),getTimeSecond()); // Trot
     ctrl->Estimator_Init();
     fsm = new FSM(ctrl);
 }
@@ -48,7 +48,8 @@ void start::reset(){
         ctrl->_period,
         ctrl->_stancePhaseRatio,
         Vec4(0, 0.5, 0.5, 0),
-        (double)getSystemTime()
+        // getSystemTime()
+        getTimeSecond()
     );
     fsm->initialize();
 }

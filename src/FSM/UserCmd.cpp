@@ -1,7 +1,6 @@
 #include "FSM/UserCmd.h"
 
 UserCmd::UserCmd(){
-    _lcm = new lcm::LCM();
 
     _joytrick_fd = open(JOYTRICK_DEVICE, O_RDONLY | O_CLOEXEC);
     if(_joytrick_fd<0){
@@ -12,13 +11,15 @@ UserCmd::UserCmd(){
             ioctl(_joytrick_fd,EVIOCGABS(axis),&axisInfo[axis]);
         }
     }
+
+    // _lcm = new lcm::LCM();
     
-    if(!_lcm->good())        {
-        std::cerr<<"LCM init failed!"<<std::endl;
-        exit(-1);
-    }
-    _lcm->subscribe("cmd_vel", &UserCmd::handleMessage, this);
-    std::cout<<"User Open Success!!!"<<std::endl;
+    // if(!_lcm->good())        {
+    //     std::cerr<<"LCM init failed!"<<std::endl;
+    //     exit(-1);
+    // }
+    // _lcm->subscribe("cmd_vel", &UserCmd::handleMessage, this);
+    // std::cout<<"User Open Success!!!"<<std::endl;
 
     pthread_create(&_thread,NULL,UserCmd::KeyBoardInit,this);
 }
@@ -58,7 +59,7 @@ void UserCmd::KeyBoardGet(){
                     break;
                 case JOYTRICK_B:
                     if(ev.value==1){
-                        _user_value = UserValue::BALANCE;
+                        _user_value = UserValue::TROTTING_MPC;
                     }
                     break;
                 case JOYTRICK_A:
@@ -165,6 +166,7 @@ UserValue UserCmd::GetUserValue()
     // default:
     //     break;
     // }
+    
     UserValue val = _user_value;
     return val;
 }

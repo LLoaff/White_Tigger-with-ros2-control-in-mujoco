@@ -1,8 +1,8 @@
 #include "WBC/BalanceCtrl.h"
 
 BalanceCtrl::BalanceCtrl(){
-    Eigen::Matrix<double, 6 , 1> s;
-    Eigen::Matrix<double, 12 , 1> w,u;
+    Eigen::Matrix<float, 6 , 1> s;
+    Eigen::Matrix<float, 12 , 1> w,u;
     #ifdef USE_GO1_MODEL
         _mass = 12;
         _pcb<< 0,0,0;
@@ -11,13 +11,21 @@ BalanceCtrl::BalanceCtrl(){
             0.0,0.2085,0.0,
             0.0,0.0,0.2265;
     #else
-        _mass = 6.9;
-        // _pcb<< 0,0,0;
-        _pcb<< -0.00154,0.00034,-0.00080;
+        _mass = 6.8;
+        _pcb<< 0,0,0;
+        // _pcb<< -0.00154,0.00034,-0.00080;
 
         _Ib<< 0.03571,0.0,0.0,
             0.0,0.15080,0.0,
             0.0,0.0,0.17707;
+
+        // _Ib<< 0.0395,0.0,0.0,
+        //     0.0,0.0803,0.0,
+        //     0.0,0.0,0.1061;
+
+        // _Ib<< 0.021292524,0.0,0.0,
+        //     0.0,0.028421616,0.0,
+        //     0.0,0.0, 0.013511741;
     #endif
 
     _g << 0, 0, -9.81;
@@ -42,8 +50,8 @@ BalanceCtrl::BalanceCtrl(){
                  0,  0, 1;
 }
 
-Eigen::Matrix<double, 3, 4> BalanceCtrl::calF(Eigen::Matrix<double, 3, 1> ddPcd, Eigen::Matrix<double, 3, 1> dWbd, 
-Eigen::Matrix<double, 3, 3> rotM, Eigen::Matrix<double, 3, 4> feetPos2B, Eigen::Matrix<int, 4, 1> contact){ 
+Eigen::Matrix<float, 3, 4> BalanceCtrl::calF(Eigen::Matrix<float, 3, 1> ddPcd, Eigen::Matrix<float, 3, 1> dWbd, 
+Eigen::Matrix<float, 3, 3> rotM, Eigen::Matrix<float, 3, 4> feetPos2B, Eigen::Matrix<int, 4, 1> contact){ 
     calMatrixA(feetPos2B, rotM, contact);
  
     calVectorBd(ddPcd, dWbd, rotM);
@@ -59,16 +67,16 @@ Eigen::Matrix<double, 3, 3> rotM, Eigen::Matrix<double, 3, 4> feetPos2B, Eigen::
     return vec12ToVec34(_F);
 }
 
-void BalanceCtrl::calMatrixA(Eigen::Matrix<double, 3, 4> feetPos2B, Eigen::Matrix<double, 3, 3> rotM, Eigen::Matrix<int, 4, 1> contact){
+void BalanceCtrl::calMatrixA(Eigen::Matrix<float, 3, 4> feetPos2B, Eigen::Matrix<float, 3, 3> rotM, Eigen::Matrix<int, 4, 1> contact){
     for(int i(0); i < 4; ++i){
 
-        _A.block(0, 3*i, 3, 3) = Eigen::MatrixXd::Identity(3, 3);
-
+        // _A.block(0, 3*i, 3, 3) = Eigen::MatrixXd::Identity(3, 3);
+        _A.block(0, 3*i, 3, 3) = Eigen::Matrix3f::Identity();
         _A.block(3, 3*i, 3, 3) = skew(feetPos2B.col(i) - rotM*_pcb);    // skew 生成反对称矩阵，用于叉乘
     }
 }   
 
-void BalanceCtrl::calVectorBd(Eigen::Matrix<double, 3, 1> ddPcd, Eigen::Matrix<double, 3, 1> dWbd, Eigen::Matrix<double, 3, 3> rotM){
+void BalanceCtrl::calVectorBd(Eigen::Matrix<float, 3, 1> ddPcd, Eigen::Matrix<float, 3, 1> dWbd, Eigen::Matrix<float, 3, 3> rotM){
     _bd.head(3) = _mass * (ddPcd - _g);
     _bd.tail(3) = (rotM * _Ib * rotM.transpose()) * dWbd;
 }
@@ -95,7 +103,8 @@ void BalanceCtrl::calConstraints(Eigen::Matrix<int, 4, 1> contact){
     int ciID = 0;
     for(int i(0); i<4; ++i){
         if(contact(i) == 1){
-            _CI.block(5*ciID, 3*i, 5, 3) = _fricMat;
+            // _CI.block(5*ciID, 3*i, 5, 3) = _fricMat;
+            _CI.block(5*ciID, 3*i, 5, 3) = _fricMat.cast<double>();
             ++ciID;
         }else{
             _CE.block(3*ceID, 3*i, 3, 3) =Eigen::MatrixXd::Identity(3, 3);

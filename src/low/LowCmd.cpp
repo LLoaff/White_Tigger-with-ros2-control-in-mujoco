@@ -269,14 +269,14 @@ void LowCmd::Update(){
         tmp_cmd[i].kp = _cmd[i].kp;
         tmp_cmd[i].kd = _cmd[i].kd;
         float out_tau = _cmd[i].tau + _cmd[i].kp*(tmp_cmd[i].q-tmp_cmd[i].q)+_cmd[i].kd*(tmp_cmd[i].dq-tmp_cmd[i].dq);
-        if (std::isnan(out_tau) || std::isinf(out_tau) || fabs(out_tau) > 9) {
-            printf("[ERROR] 电机%d 控制量非法! out_tau=%.6f\n", i, out_tau);
-            printf("  输入: q_des=%.6f, q_cur=%.6f, dq_des=%.6f, dq_cur=%.6f\n", 
-                tmp_cmd[i].q, tmp_cmd[i].q, tmp_cmd[i].dq, tmp_cmd[i].dq);
-            printf("  参数: kp=%.6f, kd=%.6f, tau_ff=%.6f\n", _cmd[i].kp, _cmd[i].kd, _cmd[i].tau);
-            _motor_cmd.control_mit(this->_state->_motor_data[i], 0, 0, 0, 0, 0);
-            return; // 避免发送非法控制量
-        }
+        // if (std::isnan(out_tau) || std::isinf(out_tau) || fabs(out_tau) > 9) {
+        //     printf("[ERROR] 电机%d 控制量非法! out_tau=%.6f\n", i, out_tau);
+        //     printf("  输入: q_des=%.6f, q_cur=%.6f, dq_des=%.6f, dq_cur=%.6f\n", 
+        //         tmp_cmd[i].q, tmp_cmd[i].q, tmp_cmd[i].dq, tmp_cmd[i].dq);
+        //     printf("  参数: kp=%.6f, kd=%.6f, tau_ff=%.6f\n", _cmd[i].kp, _cmd[i].kd, _cmd[i].tau);
+        //     _motor_cmd.control_mit(this->_state->_motor_data[i], 0, 0, 0, 0, 0);
+        //     return; // 避免发送非法控制量
+        // }
         switch (i){
             case 0:
                 tmp_cmd[i].q = (_cmd[i].q - _state->Angle_Initialization_Variable.fr_hip_joint)*REDUCTION;
@@ -410,7 +410,7 @@ void LowCmd::Update(){
     }
 }
 #endif
-void LowCmd::SetQ(Eigen::Matrix<double,12,1> q){
+void LowCmd::SetQ(Eigen::Matrix<float,12,1> q){
     for(int i(0); i<12; ++i){
         _cmd[i].q = q(i);
     }
@@ -421,21 +421,21 @@ void LowCmd::SetQ(int id,float q)       // 单独控制某一电机角度
     _cmd[id].q = q;
 }
 
-void LowCmd::SetQ(int leg_id , Eigen::Matrix<double,3,1> q)
+void LowCmd::SetQ(int leg_id , Eigen::Matrix<float,3,1> q)
 {  
     _cmd[3*leg_id +0 ].q = q(0);
     _cmd[3*leg_id +1 ].q = q(1);
     _cmd[3*leg_id +2 ].q = q(2); 
 }
 
-void LowCmd::SetDq(int leg_id,Eigen::Matrix<double,3,1> dq)
+void LowCmd::SetDq(int leg_id,Eigen::Matrix<float,3,1> dq)
 {
     _cmd[3*leg_id +0 ].dq = dq(0);
     _cmd[3*leg_id +1 ].dq = dq(1);
     _cmd[3*leg_id +2 ].dq = dq(2); 
 }
 
-void LowCmd::SetDq(Eigen::Matrix<double,12,1> dq)  
+void LowCmd::SetDq(Eigen::Matrix<float,12,1> dq)  
 {  
     for(int i=0;i<12;i++)
     {
@@ -443,14 +443,14 @@ void LowCmd::SetDq(Eigen::Matrix<double,12,1> dq)
     }
 }
 
-void LowCmd::SetP(int leg_id,Eigen::Matrix<double,3,1> p)
+void LowCmd::SetP(int leg_id,Eigen::Matrix<float,3,1> p)
 {
     _cmd[3*leg_id +0 ].kp = p(0);
     _cmd[3*leg_id +1 ].kp = p(1);
     _cmd[3*leg_id +2 ].kp = p(2); 
 }
 
-void LowCmd::SetP(Eigen::Matrix<double,12,1> p)  
+void LowCmd::SetP(Eigen::Matrix<float,12,1> p)  
 {  
     for(int i=0;i<12;i++)
     {
@@ -466,14 +466,14 @@ void LowCmd::SetZeroP(){
     }
 }
 
-void LowCmd::SetD(int leg_id,Eigen::Matrix<double,3,1> d)
+void LowCmd::SetD(int leg_id,Eigen::Matrix<float,3,1> d)
 {
     _cmd[3*leg_id +0 ].kd = d(0);
     _cmd[3*leg_id +1 ].kd = d(1);
     _cmd[3*leg_id +2 ].kd = d(2); 
 }
 
-void LowCmd::SetD(Eigen::Matrix<double,12,1> d)  
+void LowCmd::SetD(Eigen::Matrix<float,12,1> d)  
 {  
     for(int i=0;i<12;i++)
     {
@@ -489,7 +489,7 @@ void LowCmd::SetZeroD(){
     }
 }
 
-void LowCmd::SetTau(Eigen::Matrix<double,12,1> tau){
+void LowCmd::SetTau(Eigen::Matrix<float,12,1> tau){
     for(int i(0); i<12; ++i){
         if(std::isnan(tau(i))){
             printf("[ERROR] The setTau function meets Nan\n");
@@ -499,7 +499,7 @@ void LowCmd::SetTau(Eigen::Matrix<double,12,1> tau){
     }
 }
 
-void LowCmd::SetTau(int leg_id,Eigen::Matrix<double,3,1> tau){
+void LowCmd::SetTau(int leg_id,Eigen::Matrix<float,3,1> tau){
     _cmd[leg_id*3+0].tau = tau(0);
     _cmd[leg_id*3+1].tau = tau(1);
     _cmd[leg_id*3+2].tau = tau(2);
@@ -540,8 +540,8 @@ void LowCmd::SetFree()
     SetZeroTau();
 }
 
-Eigen::Matrix<double,3,4> LowCmd::getQ(){
-  Eigen::Matrix<double,3,4> qLegs;
+Eigen::Matrix<float,3,4> LowCmd::getQ(){
+  Eigen::Matrix<float,3,4> qLegs;
   for(int i(0); i < 4; ++i){
       qLegs.col(i)(0) = _state->_motor_state[3*i    ].q;
       qLegs.col(i)(1) = _state->_motor_state[3*i + 1].q;
@@ -550,8 +550,8 @@ Eigen::Matrix<double,3,4> LowCmd::getQ(){
   return qLegs;
 }
 
-Eigen::Matrix<double,12,1> LowCmd::getQ12(){
-  Eigen::Matrix<double,12,1> qLegs;
+Eigen::Matrix<float,12,1> LowCmd::getQ12(){
+  Eigen::Matrix<float,12,1> qLegs;
   for(int i(0); i < 4; ++i){
       qLegs(3*i  ) = _state->_motor_state[3*i  ].q;
       qLegs(3*i+1) = _state->_motor_state[3*i+1].q;
@@ -560,8 +560,8 @@ Eigen::Matrix<double,12,1> LowCmd::getQ12(){
   return qLegs;
 }
 
-Eigen::Matrix<double,12,1> LowCmd::getW12(){
-  Eigen::Matrix<double,12,1> w;
+Eigen::Matrix<float,12,1> LowCmd::getW12(){
+  Eigen::Matrix<float,12,1> w;
   for(int i(0); i < 4; ++i){
       w(3*i  ) = _state->_motor_state[3*i  ].dq ;
       w(3*i+1) = _state->_motor_state[3*i+1].dq ;
@@ -581,13 +581,13 @@ void LowCmd::setStableGain(int legID){
         _cmd[legID*3+2].kp = 7;
         _cmd[legID*3+2].kd = 2.0;
     #else
-        _cmd[legID*3+0].kp = 5;
+        _cmd[legID*3+0].kp = 4;
         _cmd[legID*3+0].kd = 1.5;
 
-        _cmd[legID*3+1].kp = 5;
+        _cmd[legID*3+1].kp = 4;
         _cmd[legID*3+1].kd = 1.5;
 
-        _cmd[legID*3+2].kp = 5;
+        _cmd[legID*3+2].kp = 4;
         _cmd[legID*3+2].kd = 1.5;
     #endif
 }
@@ -608,13 +608,13 @@ void LowCmd::setSwingGain(int legID){
         _cmd[legID*3+2].kp = 5.5;
         _cmd[legID*3+2].kd = 1;
     #else
-        _cmd[legID*3+0].kp = 4.5;
+        _cmd[legID*3+0].kp = 3.5;
         _cmd[legID*3+0].kd = 1;
 
-        _cmd[legID*3+1].kp = 4.5;
+        _cmd[legID*3+1].kp = 3.5;
         _cmd[legID*3+1].kd = 1;
 
-        _cmd[legID*3+2].kp = 4.5;
+        _cmd[legID*3+2].kp = 3.5;
         _cmd[legID*3+2].kd = 1;
     #endif
 }
@@ -648,8 +648,8 @@ void LowCmd::setZeroGain(int legID){
     _cmd[legID*3+2].kp = 0;
     _cmd[legID*3+2].kd = 0;
 }
-Eigen::Matrix<double,12,1> LowCmd::getInitialQ12(){
-    Eigen::Matrix<double,12,1> initialQ;
+Eigen::Matrix<float,12,1> LowCmd::getInitialQ12(){
+    Eigen::Matrix<float,12,1> initialQ;
     initialQ(0) = _state->Angle_Initialization_Variable.fr_hip_joint;
     initialQ(1) = _state->Angle_Initialization_Variable.fr_thigh_joint;
     initialQ(2) = _state->Angle_Initialization_Variable.fr_calf_joint;
